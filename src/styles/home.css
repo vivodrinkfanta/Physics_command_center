@@ -66,8 +66,10 @@
   margin: 0;
   font-size: clamp(3.25rem, 6.2vw, 6.4rem);
   font-weight: 510;
-  letter-spacing: -0.058em;
-  line-height: 0.94;
+  font-kerning: normal;
+  letter-spacing: var(--display-letter-spacing);
+  line-height: var(--display-line-height);
+  text-wrap: balance;
 }
 
 .home-hero h1 span {

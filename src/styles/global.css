@@ -393,8 +393,10 @@ a {
   max-width: 740px;
   font-size: clamp(2.6rem, 6vw, 5.9rem);
   font-weight: 520;
-  letter-spacing: -0.055em;
-  line-height: 0.96;
+  font-kerning: normal;
+  letter-spacing: var(--display-letter-spacing);
+  line-height: var(--display-line-height);
+  text-wrap: balance;
 }
 
 .foundation-view h1 span {
