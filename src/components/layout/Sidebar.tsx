@@ -65,7 +65,7 @@ export function Sidebar() {
         </div>
       </section>
 
-      <p className="build-label">Build 02 · Homepage</p>
+      <p className="build-label">Build 03 · Topic atlas</p>
     </div>
   )
 }

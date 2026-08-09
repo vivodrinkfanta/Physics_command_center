@@ -22,7 +22,7 @@ const topics = [
     description: 'Position, velocity and acceleration through time.',
     equation: 'v = u + at',
     icon: Gauge,
-    slug: 'motion',
+    slug: 'kinematics',
     available: true,
   },
   {

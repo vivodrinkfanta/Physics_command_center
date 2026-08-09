@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { AppShell } from './components/layout/AppShell'
+import { ExplorePage } from './pages/ExplorePage'
 import { HomePage } from './pages/HomePage'
 import { WorkspacePlaceholder } from './pages/WorkspacePlaceholder'
 
@@ -8,7 +9,7 @@ export default function App() {
     <Routes>
       <Route element={<AppShell />}>
         <Route index element={<HomePage />} />
-        <Route path="explore" element={<WorkspacePlaceholder section="Explore" />} />
+        <Route path="explore" element={<ExplorePage />} />
         <Route path="formulas" element={<WorkspacePlaceholder section="Formula Library" />} />
         <Route path="simulations" element={<WorkspacePlaceholder section="Simulations" />} />
         <Route path="practice" element={<WorkspacePlaceholder section="Practice" />} />
