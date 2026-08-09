@@ -4,14 +4,14 @@ import {
   Boxes,
   ChevronRight,
   FlaskConical,
-  Gauge,
   Orbit,
+  House,
 } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
 import { LabMark } from '../brand/LabMark'
 
 const navigation = [
-  { label: 'Workspace', path: '/', icon: Gauge, end: true },
+  { label: 'Home', path: '/', icon: House, end: true },
   { label: 'Explore', path: '/explore', icon: Orbit },
   { label: 'Formula Library', path: '/formulas', icon: BookOpen },
   { label: 'Simulations', path: '/simulations', icon: Boxes },
@@ -65,8 +65,7 @@ export function Sidebar() {
         </div>
       </section>
 
-      <p className="build-label">Build 01 · Foundation</p>
+      <p className="build-label">Build 02 · Homepage</p>
     </div>
   )
 }
-

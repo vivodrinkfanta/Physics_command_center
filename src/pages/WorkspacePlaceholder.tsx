@@ -5,8 +5,6 @@ interface WorkspacePlaceholderProps {
 }
 
 export function WorkspacePlaceholder({ section }: WorkspacePlaceholderProps) {
-  const isWorkspace = section === 'Workspace'
-
   return (
     <section className="foundation-view" aria-labelledby="foundation-title">
       <div className="foundation-view__grid" aria-hidden="true" />
@@ -22,38 +20,27 @@ export function WorkspacePlaceholder({ section }: WorkspacePlaceholderProps) {
       <div className="foundation-view__content">
         <p className="eyebrow">
           <Crosshair aria-hidden="true" size={14} />
-          {isWorkspace ? 'Application shell' : `${section} module`}
+          {section} module
         </p>
         <h1 id="foundation-title">
-          {isWorkspace ? (
-            <>
-              Laboratory framework
-              <br />
-              <span>ready for instruments.</span>
-            </>
-          ) : (
-            <>
-              {section}
-              <br />
-              <span>awaiting module build.</span>
-            </>
-          )}
+          {section}
+          <br />
+          <span>awaiting module build.</span>
         </h1>
         <p className="foundation-view__description">
-          {isWorkspace
-            ? 'The responsive workspace, navigation, routes, and visual system are now in place. Scientific tools will be installed one focused module at a time.'
-            : `This route is connected to the application shell. The dedicated ${section.toLowerCase()} experience belongs to a later build step.`}
+          This route is connected to the application shell. The dedicated {section.toLowerCase()}{' '}
+          experience belongs to a later build step.
         </p>
 
         <div className="foundation-readout" aria-label="Build status">
           <div>
             <span>Current phase</span>
-            <strong>01 / Shell</strong>
+            <strong>02 / Homepage</strong>
           </div>
           <MoveRight aria-hidden="true" size={20} />
           <div>
             <span>Next instrument</span>
-            <strong>Homepage</strong>
+            <strong>Topic navigation</strong>
           </div>
           <div className="foundation-readout__state">
             <span>State</span>
@@ -94,4 +81,3 @@ export function WorkspacePlaceholder({ section }: WorkspacePlaceholderProps) {
     </section>
   )
 }
-

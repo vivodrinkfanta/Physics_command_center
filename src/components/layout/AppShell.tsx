@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Menu, Search, X } from 'lucide-react'
-import { Outlet, useLocation } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { Sidebar } from './Sidebar'
 
 const pageNames: Record<string, string> = {
-  '/': 'Workspace',
+  '/': 'Home',
   '/explore': 'Explore',
   '/formulas': 'Formula Library',
   '/simulations': 'Simulations',
@@ -14,7 +14,17 @@ const pageNames: Record<string, string> = {
 export function AppShell() {
   const [isNavigationOpen, setIsNavigationOpen] = useState(false)
   const location = useLocation()
+  const navigate = useNavigate()
   const pageName = pageNames[location.pathname] ?? 'Workspace'
+
+  const openHomepageSearch = () => {
+    if (location.pathname === '/') {
+      window.dispatchEvent(new Event('physics-lab:focus-search'))
+      return
+    }
+
+    navigate('/?focus=search')
+  }
 
   useEffect(() => {
     setIsNavigationOpen(false)
@@ -66,8 +76,8 @@ export function AppShell() {
           <button
             className="search-trigger"
             type="button"
-            aria-label="Search is coming in the Formula Library build"
-            title="Search arrives with the Formula Library"
+            aria-label="Open homepage physics search"
+            onClick={openHomepageSearch}
           >
             <Search aria-hidden="true" size={16} strokeWidth={1.8} />
             <span>Search physics</span>
@@ -108,4 +118,3 @@ export function AppShell() {
     </div>
   )
 }
-
