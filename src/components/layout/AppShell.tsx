@@ -15,7 +15,9 @@ export function AppShell() {
   const [isNavigationOpen, setIsNavigationOpen] = useState(false)
   const location = useLocation()
   const navigate = useNavigate()
-  const pageName = pageNames[location.pathname] ?? 'Workspace'
+  const pageName =
+    pageNames[location.pathname] ??
+    (location.pathname.startsWith('/formulas/') ? 'Formula Inspector' : 'Workspace')
 
   const openHomepageSearch = () => {
     if (location.pathname === '/') {

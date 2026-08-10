@@ -11,9 +11,20 @@
 }
 
 .math-expression__variable {
+  border-radius: 0.16em;
   color: inherit;
   font: inherit;
   font-style: italic;
+  transition: background 140ms ease, color 140ms ease, opacity 140ms ease;
+}
+
+.math-expression__variable--active {
+  background: rgba(120, 214, 189, 0.14);
+  color: var(--color-accent-strong);
+}
+
+.math-expression__variable--muted {
+  opacity: 0.34;
 }
 
 .math-expression__operator,

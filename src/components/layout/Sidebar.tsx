@@ -65,7 +65,7 @@ export function Sidebar() {
         </div>
       </section>
 
-      <p className="build-label">Build 04 · Formula core</p>
+      <p className="build-label">Build 05 · Formula Library</p>
     </div>
   )
 }
