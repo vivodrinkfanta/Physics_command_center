@@ -40,8 +40,8 @@ jobs:
       - name: Run physics tests
         run: pnpm test
 
-      - name: Build production site
-        run: pnpm build
+      - name: Build GitHub Pages site
+        run: pnpm build:github-pages
 
       - name: Add single-page route fallback
         run: cp dist/index.html dist/404.html
