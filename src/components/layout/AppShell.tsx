@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Menu, Search, X } from 'lucide-react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { mechanicsFormulas } from '../../data/formulas'
 import { Sidebar } from './Sidebar'
 
 const pageNames: Record<string, string> = {
@@ -13,24 +14,48 @@ const pageNames: Record<string, string> = {
 
 export function AppShell() {
   const [isNavigationOpen, setIsNavigationOpen] = useState(false)
+  const hasMounted = useRef(false)
   const location = useLocation()
   const navigate = useNavigate()
+  const selectedFormula = mechanicsFormulas.find(
+    (formula) => `/formulas/${formula.id}` === location.pathname,
+  )
   const pageName =
     pageNames[location.pathname] ??
+    selectedFormula?.name ??
     (location.pathname.startsWith('/formulas/') ? 'Formula Inspector' : 'Workspace')
 
-  const openHomepageSearch = () => {
+  const openHomepageSearch = useCallback(() => {
     if (location.pathname === '/') {
       window.dispatchEvent(new Event('physics-lab:focus-search'))
       return
     }
 
     navigate('/?focus=search')
-  }
+  }, [location.pathname, navigate])
 
   useEffect(() => {
     setIsNavigationOpen(false)
-  }, [location.pathname])
+    document.title =
+      location.pathname === '/'
+        ? 'Physics Lab · Interactive Mechanics'
+        : `${pageName} · Physics Lab`
+
+    if (hasMounted.current) document.getElementById('main-content')?.focus()
+    else hasMounted.current = true
+  }, [location.pathname, pageName])
+
+  useEffect(() => {
+    const handleSearchShortcut = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault()
+        openHomepageSearch()
+      }
+    }
+
+    window.addEventListener('keydown', handleSearchShortcut)
+    return () => window.removeEventListener('keydown', handleSearchShortcut)
+  }, [openHomepageSearch])
 
   useEffect(() => {
     if (!isNavigationOpen) return
@@ -93,6 +118,9 @@ export function AppShell() {
       </header>
 
       <main className="main-workspace" id="main-content" tabIndex={-1}>
+        <p aria-live="polite" className="route-announcer">
+          {pageName}
+        </p>
         <Outlet />
       </main>
 

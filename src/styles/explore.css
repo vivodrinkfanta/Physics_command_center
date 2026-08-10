@@ -429,6 +429,21 @@
   padding: clamp(22px, 3.5vw, 38px);
 }
 
+.equation-observatory__open {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  width: max-content;
+  margin-top: 17px;
+  color: var(--color-accent);
+  font-size: 0.66rem;
+  text-decoration: none;
+}
+
+.equation-observatory__open:hover {
+  color: var(--color-accent-strong);
+}
+
 .equation-observatory__label,
 .equation-observatory__dimension > span {
   color: var(--color-text-dim);

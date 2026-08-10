@@ -2,6 +2,7 @@ import type {
   FormulaExpression as FormulaExpressionValue,
   PhysicsVariableId,
 } from '../../types/formula'
+import { getVariableDefinition } from '../../data/variables'
 
 interface FormulaExpressionProps {
   className?: string
@@ -25,6 +26,11 @@ export function FormulaExpression({
       {expression.tokens.map((token, index) =>
         token.kind === 'variable' ? (
           <var
+            aria-label={
+              token.variableId
+                ? `${getVariableDefinition(token.variableId).name}, ${token.text}`
+                : undefined
+            }
             className={`math-expression__variable${
               highlightVariableId
                 ? token.variableId === highlightVariableId

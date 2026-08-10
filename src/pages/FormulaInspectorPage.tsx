@@ -39,7 +39,8 @@ function ExplainPanel({ formula }: { formula: FormulaRecord }) {
         <h2>{formula.description}</h2>
         <p>
           The equation describes a relationship between measured quantities, not a rule tied to
-          one specific object. Its sign and direction depend on the coordinate system you choose.
+          one specific object. Use each quantity with the scalar, vector, or component meaning and
+          assumptions listed for this model.
         </p>
       </section>
       <section className="learning-panel">
@@ -178,6 +179,14 @@ export function FormulaInspectorPage() {
     else next.set('tab', tab)
     setSearchParams(next, { replace: true })
   }
+  const moveTabFocus = (currentIndex: number, offset: number) => {
+    const nextIndex = (currentIndex + offset + inspectorTabs.length) % inspectorTabs.length
+    const nextTab = inspectorTabs[nextIndex]
+    selectTab(nextTab.id)
+    window.requestAnimationFrame(() =>
+      document.getElementById(`inspector-tab-${nextTab.id}`)?.focus(),
+    )
+  }
 
   return (
     <div className="formula-inspector">
@@ -208,6 +217,7 @@ export function FormulaInspectorPage() {
       <div className="formula-inspector__variables" aria-label="Formula variable register">
         {variableDefinitions.map((variable) => (
           <button
+            aria-pressed={highlightedVariable === variable.id}
             className={highlightedVariable === variable.id ? 'is-active' : ''}
             key={variable.id}
             onBlur={() => setHighlightedVariable(null)}
@@ -222,13 +232,34 @@ export function FormulaInspectorPage() {
         ))}
       </div>
 
-      <nav className="inspector-tabs" aria-label="Formula Inspector modes">
+      <nav className="inspector-tabs" aria-label="Formula Inspector modes" role="tablist">
         {inspectorTabs.map(({ icon: Icon, id, label }) => (
           <button
             aria-current={activeTab === id ? 'page' : undefined}
+            aria-controls="formula-inspector-panel"
+            aria-selected={activeTab === id}
             className={activeTab === id ? 'is-active' : ''}
+            id={`inspector-tab-${id}`}
             key={id}
             onClick={() => selectTab(id)}
+            onKeyDown={(event) => {
+              const currentIndex = inspectorTabs.findIndex((tab) => tab.id === id)
+              if (event.key === 'ArrowRight') {
+                event.preventDefault()
+                moveTabFocus(currentIndex, 1)
+              }
+              if (event.key === 'ArrowLeft') {
+                event.preventDefault()
+                moveTabFocus(currentIndex, -1)
+              }
+              if (event.key === 'Home' || event.key === 'End') {
+                event.preventDefault()
+                const targetIndex = event.key === 'Home' ? 0 : inspectorTabs.length - 1
+                moveTabFocus(targetIndex, 0)
+              }
+            }}
+            role="tab"
+            tabIndex={activeTab === id ? 0 : -1}
             type="button"
           >
             <Icon aria-hidden="true" size={15} /> {label}
@@ -237,7 +268,12 @@ export function FormulaInspectorPage() {
         ))}
       </nav>
 
-      <main className="formula-inspector__content">
+      <main
+        aria-labelledby={`inspector-tab-${activeTab}`}
+        className="formula-inspector__content"
+        id="formula-inspector-panel"
+        role="tabpanel"
+      >
         {activeTab === 'simulate' &&
           (isNewtonBenchmark ? (
             <NewtonSecondLawLab

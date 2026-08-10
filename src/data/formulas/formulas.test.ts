@@ -79,5 +79,8 @@ describe('formula data architecture', () => {
     expect(searchFormulas('formula connecting mass velocity and momentum')[0].id).toBe(
       'linear-momentum',
     )
+    expect(searchFormulas('formula connecting mass, velocity, and momentum')[0].id).toBe(
+      'linear-momentum',
+    )
   })
 })

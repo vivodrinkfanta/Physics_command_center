@@ -47,6 +47,7 @@ export function FormulaCard({ formula }: FormulaCardProps) {
         {variables.map((variable) => (
           <button
             aria-label={`${variable.symbol}: ${variable.name}, SI unit ${variable.siUnit.symbol}`}
+            aria-pressed={highlightedVariable === variable.id}
             className={`variable-chip${
               highlightedVariable === variable.id ? ' variable-chip--active' : ''
             }`}

@@ -29,6 +29,7 @@ export function searchFormulas(query: string) {
 
   const ignoredTerms = new Set(['and', 'connecting', 'formula', 'the', 'to', 'with'])
   const queryTerms = normalizedQuery
+    .replace(/[^\p{L}\p{N}]+/gu, ' ')
     .split(/\s+/)
     .filter((term) => term.length > 1 && !ignoredTerms.has(term))
 

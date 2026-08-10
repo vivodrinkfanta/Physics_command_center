@@ -1,4 +1,5 @@
 import { ArrowRight, Check, Crosshair, FlaskConical, Network, Ruler } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { topicIcons } from './topicIcons'
 import { FormulaExpression } from '../math/FormulaExpression'
 import { getFormulaById } from '../../data/formulas'
@@ -44,6 +45,13 @@ export function TopicDetail({ onSelect, relatedTopics, topic }: TopicDetailProps
             expression={featuredFormula.expression}
           />
           <p>{featuredFormula.name}</p>
+          <Link
+            className="equation-observatory__open"
+            to={`/formulas/${featuredFormula.id}`}
+          >
+            Open Formula Inspector
+            <ArrowRight aria-hidden="true" size={14} />
+          </Link>
         </div>
         <div className="equation-observatory__dimension">
           <span>

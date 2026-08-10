@@ -4,7 +4,7 @@ import { ExplorePage } from './pages/ExplorePage'
 import { FormulaInspectorPage } from './pages/FormulaInspectorPage'
 import { FormulaLibraryPage } from './pages/FormulaLibraryPage'
 import { HomePage } from './pages/HomePage'
-import { WorkspacePlaceholder } from './pages/WorkspacePlaceholder'
+import { ModuleIndexPage } from './pages/ModuleIndexPage'
 
 export default function App() {
   return (
@@ -14,8 +14,8 @@ export default function App() {
         <Route path="explore" element={<ExplorePage />} />
         <Route path="formulas" element={<FormulaLibraryPage />} />
         <Route path="formulas/:formulaId" element={<FormulaInspectorPage />} />
-        <Route path="simulations" element={<WorkspacePlaceholder section="Simulations" />} />
-        <Route path="practice" element={<WorkspacePlaceholder section="Practice" />} />
+        <Route path="simulations" element={<ModuleIndexPage mode="simulations" />} />
+        <Route path="practice" element={<ModuleIndexPage mode="practice" />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>
