@@ -85,6 +85,7 @@ export interface FormulaVariableReference {
 
 export interface FormulaRearrangement {
   expression: FormulaExpression
+  operation: string
   solveFor: PhysicsVariableId
 }
 

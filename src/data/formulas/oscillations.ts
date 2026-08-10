@@ -33,6 +33,7 @@ export const oscillationFormulas: FormulaRecord[] = [
     rearrangements: [
       {
         solveFor: 'spring-constant',
+        operation: 'Divide both sides by negative displacement.',
         expression: expression('k = −F/x', [
           variable('k', 'spring-constant'),
           operator('='),
@@ -44,6 +45,7 @@ export const oscillationFormulas: FormulaRecord[] = [
       },
       {
         solveFor: 'spring-displacement',
+        operation: 'Divide both sides by negative spring constant.',
         expression: expression('x = −F/k', [
           variable('x', 'spring-displacement'),
           operator('='),

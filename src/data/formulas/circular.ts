@@ -33,6 +33,7 @@ export const circularMotionFormulas: FormulaRecord[] = [
     rearrangements: [
       {
         solveFor: 'radius',
+        operation: 'Multiply by radius, then divide by centripetal acceleration.',
         expression: expression('r = v²/a꜀', [
           variable('r', 'radius'),
           operator('='),
@@ -43,6 +44,7 @@ export const circularMotionFormulas: FormulaRecord[] = [
       },
       {
         solveFor: 'speed',
+        operation: 'Multiply by radius, then take the positive square root for speed.',
         expression: expression('v = √(a꜀r)', [
           variable('v', 'speed'),
           operator('='),

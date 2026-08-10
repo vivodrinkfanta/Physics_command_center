@@ -32,6 +32,7 @@ export const energyFormulas: FormulaRecord[] = [
     rearrangements: [
       {
         solveFor: 'mass',
+        operation: 'Multiply by two, then divide by speed squared.',
         expression: expression('m = 2Eₖ/v²', [
           variable('m', 'mass'),
           operator('='),
@@ -43,6 +44,7 @@ export const energyFormulas: FormulaRecord[] = [
       },
       {
         solveFor: 'speed',
+        operation: 'Multiply by two, divide by mass, then take the non-negative square root.',
         expression: expression('v = √(2Eₖ/m)', [
           variable('v', 'speed'),
           operator('='),
@@ -127,7 +129,40 @@ export const energyFormulas: FormulaRecord[] = [
     constants: [],
     rearrangements: [
       {
+        solveFor: 'mass',
+        operation: 'Divide both sides by gravitational field strength and height change.',
+        expression: expression('m = ΔEₚ/(gΔh)', [
+          variable('m', 'mass'),
+          operator('='),
+          operator('Δ'),
+          variable('Eₚ', 'gravitational-potential-energy'),
+          operator('/'),
+          operator('('),
+          variable('g', 'gravitational-field-strength'),
+          operator('Δ'),
+          variable('h', 'height'),
+          operator(')'),
+        ]),
+      },
+      {
+        solveFor: 'gravitational-field-strength',
+        operation: 'Divide both sides by mass and height change.',
+        expression: expression('g = ΔEₚ/(mΔh)', [
+          variable('g', 'gravitational-field-strength'),
+          operator('='),
+          operator('Δ'),
+          variable('Eₚ', 'gravitational-potential-energy'),
+          operator('/'),
+          operator('('),
+          variable('m', 'mass'),
+          operator('Δ'),
+          variable('h', 'height'),
+          operator(')'),
+        ]),
+      },
+      {
         solveFor: 'height',
+        operation: 'Divide both sides by mass and gravitational field strength.',
         expression: expression('Δh = ΔEₚ/(mg)', [
           operator('Δ'),
           variable('h', 'height'),

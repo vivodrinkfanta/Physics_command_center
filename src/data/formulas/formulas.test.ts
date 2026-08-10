@@ -24,10 +24,21 @@ describe('formula data architecture', () => {
       )
       formula.rearrangements.forEach((rearrangement) => {
         expect(declaredVariables.has(rearrangement.solveFor)).toBe(true)
+        expect(rearrangement.operation.length).toBeGreaterThan(12)
         expressionVariableIds(rearrangement.expression).forEach((variableId) =>
           expect(declaredVariables.has(variableId), `${formula.id}: ${variableId}`).toBe(true),
         )
       })
+
+      const referenceVariable = formula.variables.find((variable) => variable.role === 'output')
+      expect(referenceVariable, `${formula.id}: reference output`).toBeDefined()
+      const solvableVariables = new Set([
+        referenceVariable?.id,
+        ...formula.rearrangements.map((rearrangement) => rearrangement.solveFor),
+      ])
+      expect(solvableVariables, `${formula.id}: every variable has an algebraic form`).toEqual(
+        declaredVariables,
+      )
     })
   })
 
@@ -40,8 +51,13 @@ describe('formula data architecture', () => {
         const definition = variableCatalog[variableReference.id]
         expect(definition.siUnit.symbol.length).toBeGreaterThan(0)
         expect(definition.acceptedUnits.length).toBeGreaterThan(0)
+        expect(definition.acceptedUnits[0].symbol).toBe(definition.siUnit.symbol)
+        expect(definition.acceptedUnits[0].dimension).toBe(definition.siUnit.dimension)
         definition.acceptedUnits.forEach((acceptedUnit) =>
           expect(acceptedUnit.scaleToSI).toBeGreaterThan(0),
+        )
+        definition.acceptedUnits.forEach((acceptedUnit) =>
+          expect(acceptedUnit.dimension).toBe(definition.siUnit.dimension),
         )
         if (variableReference.control) {
           expect(variableReference.control.step).toBeGreaterThan(0)

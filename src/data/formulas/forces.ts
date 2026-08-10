@@ -33,6 +33,7 @@ export const forceFormulas: FormulaRecord[] = [
     rearrangements: [
       {
         solveFor: 'acceleration',
+        operation: 'Divide both sides by mass.',
         expression: expression('a = ΣF/m', [
           variable('a', 'acceleration'),
           operator('='),
@@ -44,6 +45,7 @@ export const forceFormulas: FormulaRecord[] = [
       },
       {
         solveFor: 'mass',
+        operation: 'Divide by acceleration, then exchange the two sides.',
         expression: expression('m = ΣF/a', [
           variable('m', 'mass'),
           operator('='),

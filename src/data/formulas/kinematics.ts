@@ -39,6 +39,7 @@ export const kinematicsFormulas: FormulaRecord[] = [
     rearrangements: [
       {
         solveFor: 'initial-velocity',
+        operation: 'Subtract the velocity change, at, from both sides.',
         expression: expression('u = v − at', [
           variable('u', 'initial-velocity'),
           operator('='),
@@ -50,6 +51,7 @@ export const kinematicsFormulas: FormulaRecord[] = [
       },
       {
         solveFor: 'acceleration',
+        operation: 'Subtract initial velocity, then divide by time.',
         expression: expression('a = (v − u)/t', [
           variable('a', 'acceleration'),
           operator('='),
@@ -64,6 +66,7 @@ export const kinematicsFormulas: FormulaRecord[] = [
       },
       {
         solveFor: 'time',
+        operation: 'Subtract initial velocity, then divide by acceleration.',
         expression: expression('t = (v − u)/a', [
           variable('t', 'time'),
           operator('='),
@@ -159,6 +162,7 @@ export const kinematicsFormulas: FormulaRecord[] = [
     rearrangements: [
       {
         solveFor: 'initial-vertical-position',
+        operation: 'Subtract the velocity term, then add the gravitational displacement term.',
         expression: expression('y₀ = y − v₀ᵧt + ½gt²', [
           variable('y₀', 'initial-vertical-position'),
           operator('='),
@@ -169,6 +173,70 @@ export const kinematicsFormulas: FormulaRecord[] = [
           operator('+'),
           number('½'),
           variable('g', 'gravitational-field-strength'),
+          variable('t²', 'time'),
+        ]),
+      },
+      {
+        solveFor: 'initial-vertical-velocity',
+        operation: 'Subtract initial position, add the gravity term, then divide by time.',
+        expression: expression('v₀ᵧ = (y − y₀ + ½gt²)/t', [
+          variable('v₀ᵧ', 'initial-vertical-velocity'),
+          operator('='),
+          grouping('('),
+          variable('y', 'vertical-position'),
+          operator('−'),
+          variable('y₀', 'initial-vertical-position'),
+          operator('+'),
+          number('½'),
+          variable('g', 'gravitational-field-strength'),
+          variable('t²', 'time'),
+          grouping(')'),
+          operator('/'),
+          variable('t', 'time'),
+        ]),
+      },
+      {
+        solveFor: 'time',
+        operation: 'Write a quadratic in time and use the quadratic formula; physical conditions select the valid root.',
+        expression: expression('t = [v₀ᵧ ± √(v₀ᵧ² − 2g(y − y₀))]/g', [
+          variable('t', 'time'),
+          operator('='),
+          grouping('['),
+          variable('v₀ᵧ', 'initial-vertical-velocity'),
+          operator('±'),
+          operator('√'),
+          grouping('('),
+          variable('v₀ᵧ²', 'initial-vertical-velocity'),
+          operator('−'),
+          number('2'),
+          variable('g', 'gravitational-field-strength'),
+          grouping('('),
+          variable('y', 'vertical-position'),
+          operator('−'),
+          variable('y₀', 'initial-vertical-position'),
+          grouping(')'),
+          grouping(')'),
+          grouping(']'),
+          operator('/'),
+          variable('g', 'gravitational-field-strength'),
+        ]),
+      },
+      {
+        solveFor: 'gravitational-field-strength',
+        operation: 'Move the position terms, multiply by two, then divide by time squared.',
+        expression: expression('g = 2(y₀ + v₀ᵧt − y)/t²', [
+          variable('g', 'gravitational-field-strength'),
+          operator('='),
+          number('2'),
+          grouping('('),
+          variable('y₀', 'initial-vertical-position'),
+          operator('+'),
+          variable('v₀ᵧ', 'initial-vertical-velocity'),
+          variable('t', 'time'),
+          operator('−'),
+          variable('y', 'vertical-position'),
+          grouping(')'),
+          operator('/'),
           variable('t²', 'time'),
         ]),
       },

@@ -7,12 +7,15 @@ import {
   FlaskConical,
   GraduationCap,
   Network,
+  Ruler,
 } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { Link, Navigate, useParams, useSearchParams } from 'react-router-dom'
+import { EquationRearranger } from '../components/inspector/EquationRearranger'
 import { NewtonGraphs } from '../components/inspector/NewtonGraphs'
 import { NewtonPractice } from '../components/inspector/NewtonPractice'
 import { NewtonSecondLawLab } from '../components/inspector/NewtonSecondLawLab'
+import { UnitConverterPanel } from '../components/inspector/UnitConverterPanel'
 import { FormulaExpression } from '../components/math/FormulaExpression'
 import { mechanicsFormulas } from '../data/formulas'
 import { getVariableDefinition } from '../data/variables'
@@ -23,6 +26,7 @@ const inspectorTabs = [
   { id: 'simulate', label: 'Simulate', icon: Boxes },
   { id: 'explain', label: 'Explain', icon: BookOpen },
   { id: 'rearrange', label: 'Rearrange', icon: Calculator },
+  { id: 'units', label: 'Units', icon: Ruler },
   { id: 'graph', label: 'Graph', icon: BarChart3 },
   { id: 'example', label: 'Example', icon: GraduationCap },
   { id: 'practice', label: 'Practice', icon: FlaskConical },
@@ -57,41 +61,6 @@ function ExplainPanel({ formula }: { formula: FormulaRecord }) {
         <strong>Dimensionally consistent</strong>
       </section>
     </div>
-  )
-}
-
-function RearrangePanel({
-  formula,
-  highlightedVariable,
-  onHighlightVariable,
-}: {
-  formula: FormulaRecord
-  highlightedVariable: PhysicsVariableId | null
-  onHighlightVariable: (variableId: PhysicsVariableId | null) => void
-}) {
-  return (
-    <section className="rearrangement-panel" aria-labelledby="rearrangement-title">
-      <header>
-        <span>Stored algebraic forms</span>
-        <h2 id="rearrangement-title">Choose the quantity you need to isolate.</h2>
-      </header>
-      <div>
-        {formula.rearrangements.map((rearrangement) => {
-          const variable = getVariableDefinition(rearrangement.solveFor)
-          return (
-            <article key={rearrangement.solveFor}>
-              <span>Solve for {variable.name}</span>
-              <FormulaExpression
-                expression={rearrangement.expression}
-                highlightVariableId={highlightedVariable}
-                onVariableHighlight={onHighlightVariable}
-              />
-              <small>{variable.symbol} · {variable.siUnit.symbol}</small>
-            </article>
-          )
-        })}
-      </div>
-    </section>
   )
 }
 
@@ -287,9 +256,17 @@ export function FormulaInspectorPage() {
           ))}
         {activeTab === 'explain' && <ExplainPanel formula={formula} />}
         {activeTab === 'rearrange' && (
-          <RearrangePanel
+          <EquationRearranger
+            key={formula.id}
             formula={formula}
             highlightedVariable={highlightedVariable}
+            onHighlightVariable={setHighlightedVariable}
+          />
+        )}
+        {activeTab === 'units' && (
+          <UnitConverterPanel
+            key={formula.id}
+            formula={formula}
             onHighlightVariable={setHighlightedVariable}
           />
         )}

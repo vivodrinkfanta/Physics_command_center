@@ -31,6 +31,7 @@ export const momentumFormulas: FormulaRecord[] = [
     rearrangements: [
       {
         solveFor: 'mass',
+        operation: 'Divide both sides by velocity.',
         expression: expression('m = p/v', [
           variable('m', 'mass'),
           operator('='),
@@ -41,6 +42,7 @@ export const momentumFormulas: FormulaRecord[] = [
       },
       {
         solveFor: 'velocity',
+        operation: 'Divide both sides by mass.',
         expression: expression('v = p/m', [
           variable('v', 'velocity'),
           operator('='),
