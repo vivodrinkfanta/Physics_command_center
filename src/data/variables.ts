@@ -1,0 +1,226 @@
+import type {
+  AcceptedUnit,
+  PhysicsVariableDefinition,
+  PhysicsVariableId,
+} from '../types/formula'
+
+const unit = (
+  name: string,
+  symbol: string,
+  dimension: string,
+  scaleToSI = 1,
+  offsetToSI = 0,
+): AcceptedUnit => ({ name, symbol, dimension, scaleToSI, offsetToSI })
+
+const metre = unit('metre', 'm', 'L')
+const metrePerSecond = unit('metre per second', 'm/s', 'L·T⁻¹')
+const metrePerSecondSquared = unit('metre per second squared', 'm/s²', 'L·T⁻²')
+const second = unit('second', 's', 'T')
+const kilogram = unit('kilogram', 'kg', 'M')
+const newton = unit('newton', 'N', 'M·L·T⁻²')
+const joule = unit('joule', 'J', 'M·L²·T⁻²')
+
+export const variableCatalog: Record<PhysicsVariableId, PhysicsVariableDefinition> = {
+  'final-velocity': {
+    id: 'final-velocity',
+    symbol: 'v',
+    name: 'final velocity',
+    description: 'Velocity at the end of the chosen time interval.',
+    nature: 'component',
+    siUnit: metrePerSecond,
+    acceptedUnits: [metrePerSecond, unit('kilometre per hour', 'km/h', 'L·T⁻¹', 1 / 3.6)],
+  },
+  'initial-velocity': {
+    id: 'initial-velocity',
+    symbol: 'u',
+    name: 'initial velocity',
+    description: 'Velocity at the beginning of the chosen time interval.',
+    nature: 'component',
+    siUnit: metrePerSecond,
+    acceptedUnits: [metrePerSecond, unit('kilometre per hour', 'km/h', 'L·T⁻¹', 1 / 3.6)],
+  },
+  acceleration: {
+    id: 'acceleration',
+    symbol: 'a',
+    name: 'acceleration',
+    description: 'Rate at which velocity changes with time.',
+    nature: 'component',
+    siUnit: metrePerSecondSquared,
+    acceptedUnits: [metrePerSecondSquared],
+  },
+  time: {
+    id: 'time',
+    symbol: 't',
+    name: 'time',
+    description: 'Duration of the modeled interval.',
+    nature: 'scalar',
+    siUnit: second,
+    acceptedUnits: [second, unit('millisecond', 'ms', 'T', 0.001), unit('minute', 'min', 'T', 60)],
+  },
+  'resultant-force': {
+    id: 'resultant-force',
+    symbol: 'ΣF',
+    name: 'resultant force',
+    description: 'Vector sum of all external forces acting on the system.',
+    nature: 'vector',
+    siUnit: newton,
+    acceptedUnits: [newton, unit('kilonewton', 'kN', 'M·L·T⁻²', 1000)],
+  },
+  mass: {
+    id: 'mass',
+    symbol: 'm',
+    name: 'mass',
+    description: 'Measure of inertia for the modeled object or system.',
+    nature: 'scalar',
+    siUnit: kilogram,
+    acceptedUnits: [kilogram, unit('gram', 'g', 'M', 0.001)],
+  },
+  'kinetic-energy': {
+    id: 'kinetic-energy',
+    symbol: 'Eₖ',
+    name: 'kinetic energy',
+    description: 'Energy associated with translational motion.',
+    nature: 'scalar',
+    siUnit: joule,
+    acceptedUnits: [joule, unit('kilojoule', 'kJ', 'M·L²·T⁻²', 1000)],
+  },
+  'gravitational-potential-energy': {
+    id: 'gravitational-potential-energy',
+    symbol: 'Eₚ',
+    name: 'gravitational potential energy',
+    description: 'Energy change associated with position in a gravitational field.',
+    nature: 'scalar',
+    siUnit: joule,
+    acceptedUnits: [joule, unit('kilojoule', 'kJ', 'M·L²·T⁻²', 1000)],
+  },
+  'gravitational-field-strength': {
+    id: 'gravitational-field-strength',
+    symbol: 'g',
+    name: 'gravitational field strength',
+    description: 'Acceleration produced by the local gravitational field.',
+    nature: 'vector',
+    siUnit: metrePerSecondSquared,
+    acceptedUnits: [
+      metrePerSecondSquared,
+      unit('newton per kilogram', 'N/kg', 'L·T⁻²'),
+    ],
+  },
+  height: {
+    id: 'height',
+    symbol: 'h',
+    name: 'height change',
+    description: 'Vertical displacement relative to the chosen zero level.',
+    nature: 'component',
+    siUnit: metre,
+    acceptedUnits: [metre, unit('centimetre', 'cm', 'L', 0.01), unit('kilometre', 'km', 'L', 1000)],
+  },
+  speed: {
+    id: 'speed',
+    symbol: 'v',
+    name: 'speed',
+    description: 'Magnitude of velocity.',
+    nature: 'scalar',
+    siUnit: metrePerSecond,
+    acceptedUnits: [metrePerSecond, unit('kilometre per hour', 'km/h', 'L·T⁻¹', 1 / 3.6)],
+  },
+  momentum: {
+    id: 'momentum',
+    symbol: 'p',
+    name: 'linear momentum',
+    description: 'Vector product of mass and velocity.',
+    nature: 'vector',
+    siUnit: unit('kilogram metre per second', 'kg·m/s', 'M·L·T⁻¹'),
+    acceptedUnits: [
+      unit('kilogram metre per second', 'kg·m/s', 'M·L·T⁻¹'),
+      unit('newton second', 'N·s', 'M·L·T⁻¹'),
+    ],
+  },
+  velocity: {
+    id: 'velocity',
+    symbol: 'v',
+    name: 'velocity',
+    description: 'Rate of displacement in a specified direction.',
+    nature: 'vector',
+    siUnit: metrePerSecond,
+    acceptedUnits: [metrePerSecond, unit('kilometre per hour', 'km/h', 'L·T⁻¹', 1 / 3.6)],
+  },
+  'centripetal-acceleration': {
+    id: 'centripetal-acceleration',
+    symbol: 'a꜀',
+    name: 'centripetal acceleration',
+    description: 'Inward acceleration required for circular motion.',
+    nature: 'vector',
+    siUnit: metrePerSecondSquared,
+    acceptedUnits: [metrePerSecondSquared],
+  },
+  radius: {
+    id: 'radius',
+    symbol: 'r',
+    name: 'radius',
+    description: 'Distance from the center of the circular path.',
+    nature: 'scalar',
+    siUnit: metre,
+    acceptedUnits: [metre, unit('centimetre', 'cm', 'L', 0.01), unit('kilometre', 'km', 'L', 1000)],
+  },
+  'vertical-position': {
+    id: 'vertical-position',
+    symbol: 'y',
+    name: 'vertical position',
+    description: 'Vertical coordinate at the chosen time.',
+    nature: 'component',
+    siUnit: metre,
+    acceptedUnits: [metre, unit('centimetre', 'cm', 'L', 0.01)],
+  },
+  'initial-vertical-position': {
+    id: 'initial-vertical-position',
+    symbol: 'y₀',
+    name: 'initial vertical position',
+    description: 'Vertical coordinate at launch.',
+    nature: 'component',
+    siUnit: metre,
+    acceptedUnits: [metre, unit('centimetre', 'cm', 'L', 0.01)],
+  },
+  'initial-vertical-velocity': {
+    id: 'initial-vertical-velocity',
+    symbol: 'v₀ᵧ',
+    name: 'initial vertical velocity',
+    description: 'Vertical component of velocity at launch.',
+    nature: 'component',
+    siUnit: metrePerSecond,
+    acceptedUnits: [metrePerSecond, unit('kilometre per hour', 'km/h', 'L·T⁻¹', 1 / 3.6)],
+  },
+  'spring-force': {
+    id: 'spring-force',
+    symbol: 'F',
+    name: 'spring force',
+    description: 'Restoring force exerted by an ideal spring.',
+    nature: 'component',
+    siUnit: newton,
+    acceptedUnits: [newton],
+  },
+  'spring-constant': {
+    id: 'spring-constant',
+    symbol: 'k',
+    name: 'spring constant',
+    description: 'Measure of spring stiffness.',
+    nature: 'scalar',
+    siUnit: unit('newton per metre', 'N/m', 'M·T⁻²'),
+    acceptedUnits: [
+      unit('newton per metre', 'N/m', 'M·T⁻²'),
+      unit('newton per centimetre', 'N/cm', 'M·T⁻²', 100),
+    ],
+  },
+  'spring-displacement': {
+    id: 'spring-displacement',
+    symbol: 'x',
+    name: 'spring displacement',
+    description: 'Signed displacement from the spring equilibrium position.',
+    nature: 'component',
+    siUnit: metre,
+    acceptedUnits: [metre, unit('centimetre', 'cm', 'L', 0.01)],
+  },
+}
+
+export function getVariableDefinition(variableId: PhysicsVariableId) {
+  return variableCatalog[variableId]
+}

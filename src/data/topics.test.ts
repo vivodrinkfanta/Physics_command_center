@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { getFormulaById } from './formulas'
 import { findMechanicsTopic, mechanicsTopics } from './topics'
 
 describe('mechanicsTopics', () => {
@@ -22,6 +23,8 @@ describe('mechanicsTopics', () => {
     expect(new Set(identifiers).size).toBe(identifiers.length)
     mechanicsTopics.forEach((topic) => {
       expect(topic.concepts.length).toBeGreaterThanOrEqual(4)
+      expect(topic.formulaIds).toContain(topic.featuredFormulaId)
+      topic.formulaIds.forEach((formulaId) => expect(getFormulaById(formulaId).id).toBe(formulaId))
       topic.connections.forEach((connection) => expect(knownTopicIds.has(connection)).toBe(true))
     })
   })

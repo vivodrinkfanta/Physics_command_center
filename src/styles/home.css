@@ -176,8 +176,7 @@
 
 .search-results__formula {
   color: var(--color-accent-strong);
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.82rem;
 }
 
 .search-results__copy {
@@ -577,10 +576,15 @@ a.topic-card:hover .topic-card__arrow {
   line-height: 1.55;
 }
 
-.topic-card code {
+.topic-card__formula,
+.topic-card__planned-formula {
   color: var(--color-text-muted);
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-family: var(--font-math);
+  font-size: 0.78rem;
+}
+
+.topic-card__planned-formula {
+  font-style: italic;
 }
 
 .topic-card--planned {

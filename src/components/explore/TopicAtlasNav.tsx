@@ -1,4 +1,6 @@
 import { Search } from 'lucide-react'
+import { FormulaExpression } from '../math/FormulaExpression'
+import { getFormulaById } from '../../data/formulas'
 import { topicIcons } from './topicIcons'
 import type { MechanicsTopic, TopicIconName } from '../../types/topic'
 
@@ -43,6 +45,7 @@ export function TopicAtlasNav({
           {topics.map((topic) => {
             const Icon = topicIcons[topic.icon]
             const isActive = topic.id === activeTopicId
+            const featuredFormula = getFormulaById(topic.featuredFormulaId)
 
             return (
               <li key={topic.id}>
@@ -58,7 +61,7 @@ export function TopicAtlasNav({
                   </span>
                   <span className="atlas-topic__copy">
                     <strong>{topic.name}</strong>
-                    <small>{topic.equation}</small>
+                    <FormulaExpression expression={featuredFormula.expression} />
                   </span>
                   <span className="atlas-topic__node" aria-hidden="true" />
                 </button>

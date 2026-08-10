@@ -9,12 +9,10 @@ export const mechanicsTopics: MechanicsTopic[] = [
     aliases: ['motion', 'movement', 'suvat'],
     summary:
       'Describe how position and velocity change through time, without yet asking what caused the motion.',
-    equation: 'v = u + at',
-    equationName: 'Constant-acceleration velocity',
-    dimensionalLine: 'm·s⁻¹ = m·s⁻¹ + (m·s⁻²)(s)',
+    featuredFormulaId: 'constant-acceleration-velocity',
+    formulaIds: ['constant-acceleration-velocity'],
     insight:
       'Acceleration sets the slope of a velocity–time graph. The area beneath that graph accumulates displacement.',
-    assumptions: ['Constant acceleration', 'One-dimensional motion for this relation'],
     concepts: [
       {
         name: 'Displacement',
@@ -53,12 +51,10 @@ export const mechanicsTopics: MechanicsTopic[] = [
     aliases: ['newton', 'dynamics', 'f=ma', 'weight', 'friction'],
     summary:
       'Connect interactions to changes in motion using free-body diagrams and Newton’s laws.',
-    equation: 'ΣF = ma',
-    equationName: 'Newton’s Second Law',
-    dimensionalLine: 'N = kg·m·s⁻²',
+    featuredFormulaId: 'newton-second-law',
+    formulaIds: ['newton-second-law'],
     insight:
       'Acceleration follows the resultant force, not any single force. Balanced forces can exist while an object is moving.',
-    assumptions: ['Constant mass', 'Measured in an inertial reference frame'],
     concepts: [
       {
         name: 'Resultant force',
@@ -97,12 +93,10 @@ export const mechanicsTopics: MechanicsTopic[] = [
     aliases: ['work', 'power', 'kinetic', 'potential', 'energy conservation'],
     summary:
       'Track how physical systems store, transfer, and dissipate the capacity to cause change.',
-    equation: 'Eₖ = ½mv²',
-    equationName: 'Translational kinetic energy',
-    dimensionalLine: 'J = kg·m²·s⁻²',
+    featuredFormulaId: 'kinetic-energy',
+    formulaIds: ['kinetic-energy', 'gravitational-potential-energy'],
     insight:
       'Velocity is squared: doubling speed makes kinetic energy four times larger while doubling mass only doubles it.',
-    assumptions: ['Non-relativistic speed', 'Translational motion of the chosen system'],
     concepts: [
       {
         name: 'Kinetic energy',
@@ -141,12 +135,10 @@ export const mechanicsTopics: MechanicsTopic[] = [
     aliases: ['impulse', 'collision', 'momentum conservation', 'p=mv'],
     summary:
       'Analyze interactions over time and predict motion before and after collisions.',
-    equation: 'p = mv',
-    equationName: 'Linear momentum',
-    dimensionalLine: 'kg·m·s⁻¹ = kg(m·s⁻¹)',
+    featuredFormulaId: 'linear-momentum',
+    formulaIds: ['linear-momentum'],
     insight:
       'Momentum keeps the sign of velocity. Two objects can have equal kinetic energies but opposite momenta.',
-    assumptions: ['Classical, non-relativistic motion', 'Closed system for momentum conservation'],
     concepts: [
       {
         name: 'Momentum',
@@ -185,12 +177,10 @@ export const mechanicsTopics: MechanicsTopic[] = [
     aliases: ['centripetal', 'orbit', 'rotation', 'radius'],
     summary:
       'Understand why continuous inward acceleration is required even when speed stays constant.',
-    equation: 'a꜀ = v²/r',
-    equationName: 'Centripetal acceleration',
-    dimensionalLine: 'm·s⁻² = (m²·s⁻²)/m',
+    featuredFormulaId: 'centripetal-acceleration',
+    formulaIds: ['centripetal-acceleration'],
     insight:
       'The velocity vector is always tangent to the path while acceleration points toward the center, changing direction rather than speed.',
-    assumptions: ['Uniform circular motion', 'Radius measured to the object’s center of mass'],
     concepts: [
       {
         name: 'Tangential velocity',
@@ -229,12 +219,10 @@ export const mechanicsTopics: MechanicsTopic[] = [
     aliases: ['projectile motion', 'trajectory', 'launch', 'free fall'],
     summary:
       'Resolve launch velocity into independent components and follow a two-dimensional trajectory.',
-    equation: 'y = y₀ + v₀ᵧt − ½gt²',
-    equationName: 'Vertical projectile position',
-    dimensionalLine: 'm = m + (m·s⁻¹)(s) − (m·s⁻²)(s²)',
+    featuredFormulaId: 'projectile-vertical-position',
+    formulaIds: ['projectile-vertical-position'],
     insight:
       'Horizontal and vertical motion share the same clock. Gravity changes vertical velocity while horizontal velocity remains constant in the ideal model.',
-    assumptions: ['Uniform gravitational field', 'Air resistance ignored'],
     concepts: [
       {
         name: 'Vector components',
@@ -273,12 +261,10 @@ export const mechanicsTopics: MechanicsTopic[] = [
     aliases: ['springs', 'hooke', 'simple harmonic motion', 'shm'],
     summary:
       'Study repeating motion produced by restoring forces, beginning with an ideal mass–spring system.',
-    equation: 'F = −kx',
-    equationName: 'Hooke’s law',
-    dimensionalLine: 'N = (N·m⁻¹)(m)',
+    featuredFormulaId: 'hookes-law',
+    formulaIds: ['hookes-law'],
     insight:
       'The minus sign carries physical meaning: the restoring force always points opposite to displacement from equilibrium.',
-    assumptions: ['Ideal Hookean spring', 'Displacement remains within the elastic limit'],
     concepts: [
       {
         name: 'Equilibrium',

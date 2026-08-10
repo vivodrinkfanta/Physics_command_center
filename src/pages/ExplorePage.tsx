@@ -3,6 +3,8 @@ import { ArrowRight, GitBranch, Route, ScanLine } from 'lucide-react'
 import { useSearchParams } from 'react-router-dom'
 import { TopicAtlasNav } from '../components/explore/TopicAtlasNav'
 import { TopicDetail } from '../components/explore/TopicDetail'
+import { FormulaExpression } from '../components/math/FormulaExpression'
+import { getFormulaById, mechanicsFormulas } from '../data/formulas'
 import { findMechanicsTopic, getRelatedTopics, mechanicsTopics } from '../data/topics'
 import type { TopicIconName } from '../types/topic'
 import '../styles/explore.css'
@@ -20,7 +22,7 @@ export function ExplorePage() {
       [
         topic.name,
         topic.summary,
-        topic.equation,
+        ...topic.formulaIds.map((formulaId) => getFormulaById(formulaId).expression.plainText),
         ...topic.aliases,
         ...topic.concepts.flatMap((concept) => [concept.name, concept.symbol]),
       ]
@@ -72,8 +74,8 @@ export function ExplorePage() {
             <dd>28</dd>
           </div>
           <div>
-            <dt>Model</dt>
-            <dd>Classical · V1</dd>
+            <dt>Formula models</dt>
+            <dd>{String(mechanicsFormulas.length).padStart(2, '0')}</dd>
           </div>
         </dl>
       </header>
@@ -114,7 +116,7 @@ export function ExplorePage() {
               <button onClick={() => selectTopic(topic.id)} type="button">
                 <span>{String(index + 1).padStart(2, '0')}</span>
                 <strong>{topic.name}</strong>
-                <small>{topic.equation}</small>
+                <FormulaExpression expression={getFormulaById(topic.featuredFormulaId).expression} />
                 <ArrowRight aria-hidden="true" size={14} />
               </button>
             </li>

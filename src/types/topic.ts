@@ -1,3 +1,5 @@
+import type { FormulaId } from './formula'
+
 export type TopicIconName =
   | 'kinematics'
   | 'forces'
@@ -21,12 +23,10 @@ export interface TopicInvestigation {
 
 export interface MechanicsTopic {
   aliases: string[]
-  assumptions: string[]
   concepts: TopicConcept[]
   connections: TopicIconName[]
-  dimensionalLine: string
-  equation: string
-  equationName: string
+  featuredFormulaId: FormulaId
+  formulaIds: FormulaId[]
   icon: TopicIconName
   id: TopicIconName
   insight: string

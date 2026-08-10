@@ -35,12 +35,12 @@ export function WorkspacePlaceholder({ section }: WorkspacePlaceholderProps) {
         <div className="foundation-readout" aria-label="Build status">
           <div>
             <span>Current phase</span>
-            <strong>03 / Topic atlas</strong>
+            <strong>04 / Formula core</strong>
           </div>
           <MoveRight aria-hidden="true" size={20} />
           <div>
             <span>Next instrument</span>
-            <strong>Formula architecture</strong>
+            <strong>Formula Library</strong>
           </div>
           <div className="foundation-readout__state">
             <span>State</span>

@@ -13,14 +13,26 @@ import {
 } from 'lucide-react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { ProjectilePreview } from '../components/home/ProjectilePreview'
-import { homeSearchItems } from '../data/homeSearch'
+import { FormulaExpression } from '../components/math/FormulaExpression'
+import { getFormulaById, searchFormulas } from '../data/formulas'
+import type { FormulaId } from '../types/formula'
 import '../styles/home.css'
 
-const topics = [
+interface HomeTopic {
+  available: boolean
+  description: string
+  equation?: string
+  formulaId?: FormulaId
+  icon: typeof Gauge
+  name: string
+  slug: string
+}
+
+const topics: HomeTopic[] = [
   {
     name: 'Motion',
     description: 'Position, velocity and acceleration through time.',
-    equation: 'v = u + at',
+    formulaId: 'constant-acceleration-velocity',
     icon: Gauge,
     slug: 'kinematics',
     available: true,
@@ -28,7 +40,7 @@ const topics = [
   {
     name: 'Forces',
     description: 'Understand how interactions change motion.',
-    equation: 'ΣF = ma',
+    formulaId: 'newton-second-law',
     icon: MoveUpRight,
     slug: 'forces',
     available: true,
@@ -36,7 +48,7 @@ const topics = [
   {
     name: 'Energy',
     description: 'Track work, power and energy transfers.',
-    equation: 'Eₖ = ½mv²',
+    formulaId: 'kinetic-energy',
     icon: Zap,
     slug: 'energy',
     available: true,
@@ -44,7 +56,7 @@ const topics = [
   {
     name: 'Momentum',
     description: 'Investigate impulse and colliding systems.',
-    equation: 'p = mv',
+    formulaId: 'linear-momentum',
     icon: Boxes,
     slug: 'momentum',
     available: true,
@@ -52,7 +64,7 @@ const topics = [
   {
     name: 'Circular Motion',
     description: 'Explore inward force and radial acceleration.',
-    equation: 'a꜀ = v²/r',
+    formulaId: 'centripetal-acceleration',
     icon: Orbit,
     slug: 'circular-motion',
     available: true,
@@ -93,14 +105,7 @@ export function HomePage() {
     const normalizedQuery = query.trim().toLowerCase()
     if (!normalizedQuery) return []
 
-    return homeSearchItems
-      .filter((item) =>
-        [item.name, item.formula, item.topic, ...item.keywords]
-          .join(' ')
-          .toLowerCase()
-          .includes(normalizedQuery),
-      )
-      .slice(0, 4)
+    return searchFormulas(normalizedQuery).slice(0, 4)
   }, [query])
 
   const submitSearch = (event: FormEvent<HTMLFormElement>) => {
@@ -157,12 +162,15 @@ export function HomePage() {
                       onClick={() => navigate(`/formulas?q=${encodeURIComponent(result.name)}`)}
                       type="button"
                     >
-                      <span className="search-results__formula">{result.formula}</span>
+                      <FormulaExpression
+                        className="search-results__formula"
+                        expression={result.expression}
+                      />
                       <span className="search-results__copy">
                         <strong>{result.name}</strong>
                         <small>{result.description}</small>
                       </span>
-                      <span className="search-results__topic">{result.topic}</span>
+                      <span className="search-results__topic">{result.subtopic}</span>
                       <ArrowRight aria-hidden="true" size={15} />
                     </button>
                   ))
@@ -199,7 +207,7 @@ export function HomePage() {
         </header>
 
         <div className="topic-grid">
-          {topics.map(({ available, description, equation, icon: Icon, name, slug }) =>
+          {topics.map(({ available, description, equation, formulaId, icon: Icon, name, slug }) =>
             available ? (
               <Link className="topic-card" key={slug} to={`/explore?topic=${slug}`}>
                 <div className="topic-card__topline">
@@ -212,7 +220,12 @@ export function HomePage() {
                   <h3>{name}</h3>
                   <p>{description}</p>
                 </div>
-                <code>{equation}</code>
+                {formulaId && (
+                  <FormulaExpression
+                    className="topic-card__formula"
+                    expression={getFormulaById(formulaId).expression}
+                  />
+                )}
               </Link>
             ) : (
               <article aria-disabled="true" className="topic-card topic-card--planned" key={slug}>
@@ -226,7 +239,7 @@ export function HomePage() {
                   <h3>{name}</h3>
                   <p>{description}</p>
                 </div>
-                <code>{equation}</code>
+                <span className="topic-card__planned-formula">{equation}</span>
               </article>
             ),
           )}

@@ -1,0 +1,29 @@
+.math-expression {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.13em;
+  color: inherit;
+  font-family: var(--font-math);
+  font-kerning: normal;
+  font-variant-numeric: lining-nums;
+  letter-spacing: 0.005em;
+  white-space: nowrap;
+}
+
+.math-expression__variable {
+  color: inherit;
+  font: inherit;
+  font-style: italic;
+}
+
+.math-expression__operator,
+.math-expression__number,
+.math-expression__grouping,
+.math-expression__function {
+  color: inherit;
+  font-style: normal;
+}
+
+.math-expression__grouping {
+  margin-inline: -0.07em;
+}

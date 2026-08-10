@@ -1,5 +1,7 @@
 import { ArrowRight, Check, Crosshair, FlaskConical, Network, Ruler } from 'lucide-react'
 import { topicIcons } from './topicIcons'
+import { FormulaExpression } from '../math/FormulaExpression'
+import { getFormulaById } from '../../data/formulas'
 import type { MechanicsTopic, TopicIconName } from '../../types/topic'
 
 interface TopicDetailProps {
@@ -10,6 +12,7 @@ interface TopicDetailProps {
 
 export function TopicDetail({ onSelect, relatedTopics, topic }: TopicDetailProps) {
   const Icon = topicIcons[topic.icon]
+  const featuredFormula = getFormulaById(topic.featuredFormulaId)
 
   return (
     <article className={`topic-detail topic-detail--${topic.id}`} aria-labelledby="topic-detail-title">
@@ -33,16 +36,21 @@ export function TopicDetail({ onSelect, relatedTopics, topic }: TopicDetailProps
 
       <section className="equation-observatory" aria-labelledby="equation-heading">
         <div className="equation-observatory__main">
-          <span id="equation-heading">Reference relationship</span>
-          <strong>{topic.equation}</strong>
-          <p>{topic.equationName}</p>
+          <span className="equation-observatory__label" id="equation-heading">
+            Reference relationship
+          </span>
+          <FormulaExpression
+            className="equation-observatory__formula"
+            expression={featuredFormula.expression}
+          />
+          <p>{featuredFormula.name}</p>
         </div>
         <div className="equation-observatory__dimension">
           <span>
             <Ruler aria-hidden="true" size={13} />
             Dimensional check
           </span>
-          <code>{topic.dimensionalLine}</code>
+          <code>{featuredFormula.dimensionalAnalysis}</code>
         </div>
       </section>
 
@@ -76,7 +84,7 @@ export function TopicDetail({ onSelect, relatedTopics, topic }: TopicDetailProps
             <h3 id="insight-heading">What changes what?</h3>
             <blockquote>{topic.insight}</blockquote>
             <ul>
-              {topic.assumptions.map((assumption) => (
+              {featuredFormula.assumptions.map((assumption) => (
                 <li key={assumption}>
                   <Check aria-hidden="true" size={12} />
                   {assumption}
