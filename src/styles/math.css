@@ -27,6 +27,11 @@
   opacity: 0.34;
 }
 
+.math-expression__variable[tabindex='0'] {
+  cursor: crosshair;
+  outline-offset: 0.08em;
+}
+
 .math-expression__operator,
 .math-expression__number,
 .math-expression__grouping,

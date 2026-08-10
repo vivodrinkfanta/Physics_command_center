@@ -7,12 +7,14 @@ interface FormulaExpressionProps {
   className?: string
   expression: FormulaExpressionValue
   highlightVariableId?: PhysicsVariableId | null
+  onVariableHighlight?: (variableId: PhysicsVariableId | null) => void
 }
 
 export function FormulaExpression({
   className = '',
   expression,
   highlightVariableId = null,
+  onVariableHighlight,
 }: FormulaExpressionProps) {
   return (
     <span
@@ -32,6 +34,11 @@ export function FormulaExpression({
             }`}
             data-variable-id={token.variableId}
             key={`${token.text}-${index}`}
+            onBlur={() => onVariableHighlight?.(null)}
+            onFocus={() => token.variableId && onVariableHighlight?.(token.variableId)}
+            onMouseEnter={() => token.variableId && onVariableHighlight?.(token.variableId)}
+            onMouseLeave={() => onVariableHighlight?.(null)}
+            tabIndex={onVariableHighlight ? 0 : undefined}
           >
             {token.text}
           </var>

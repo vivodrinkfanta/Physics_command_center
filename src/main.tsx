@@ -6,6 +6,7 @@ import './styles/tokens.css'
 import './styles/global.css'
 import './styles/math.css'
 import './styles/formula-library.css'
+import './styles/formula-inspector.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
