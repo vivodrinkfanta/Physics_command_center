@@ -765,3 +765,36 @@ kbd {
   clip-path: inset(50%);
   white-space: nowrap;
 }
+
+@media (max-width: 390px) {
+  :root {
+    --topbar-height: 62px;
+  }
+
+  .topbar {
+    padding-inline: 12px;
+  }
+
+  .mobile-menu-button {
+    margin-right: 8px;
+  }
+
+  .breadcrumb {
+    min-width: 0;
+  }
+
+  .breadcrumb strong {
+    overflow: hidden;
+    max-width: 150px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .topbar__actions {
+    gap: 8px;
+  }
+
+  .mobile-navigation__panel {
+    width: min(92vw, 300px);
+  }
+}

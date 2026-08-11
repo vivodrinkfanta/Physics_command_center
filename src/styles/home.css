@@ -29,6 +29,7 @@
 }
 
 .home-hero,
+.learning-loop,
 .topic-section {
   position: relative;
   z-index: 1;
@@ -482,6 +483,102 @@
   font-size: 0.75rem;
 }
 
+.learning-loop {
+  display: grid;
+  grid-template-columns: minmax(230px, 0.72fr) minmax(0, 2.28fr);
+  gap: clamp(28px, 4vw, 62px);
+  margin-top: clamp(58px, 7vw, 96px);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(120deg, rgba(168, 234, 216, 0.05), transparent 42%),
+    rgba(38, 54, 77, 0.66);
+  padding: clamp(22px, 3vw, 34px);
+  box-shadow: var(--shadow-instrument);
+}
+
+.learning-loop__intro p {
+  margin: 0 0 10px;
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 0.57rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.learning-loop__intro h2 {
+  margin: 0;
+  font-size: clamp(1.35rem, 2.3vw, 2rem);
+  font-weight: 520;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+.learning-loop__intro > span {
+  display: block;
+  margin-top: 14px;
+  color: var(--color-text-dim);
+  font-size: 0.7rem;
+  line-height: 1.6;
+}
+
+.learning-loop__steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.learning-loop__steps a {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 154px;
+  border: 1px solid var(--color-border-soft);
+  border-radius: 12px;
+  background: rgba(29, 41, 59, 0.5);
+  padding: 14px;
+  text-decoration: none;
+  transition: border-color var(--transition-standard), background var(--transition-standard), transform var(--transition-standard);
+}
+
+.learning-loop__steps a:hover {
+  border-color: rgba(168, 234, 216, 0.3);
+  background: rgba(49, 68, 95, 0.72);
+  transform: translateY(-2px);
+}
+
+.learning-loop__steps a > span {
+  color: var(--color-text-faint);
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+}
+
+.learning-loop__steps strong {
+  margin-top: 22px;
+  font-size: 0.82rem;
+  font-weight: 570;
+}
+
+.learning-loop__steps small {
+  margin-top: 7px;
+  color: var(--color-text-dim);
+  font-size: 0.62rem;
+  line-height: 1.45;
+}
+
+.learning-loop__steps svg {
+  position: absolute;
+  top: 13px;
+  right: 13px;
+  color: var(--color-text-faint);
+  transition: color var(--transition-standard), transform var(--transition-standard);
+}
+
+.learning-loop__steps a:hover svg {
+  color: var(--color-accent);
+  transform: translateX(2px);
+}
+
 .topic-section {
   margin-top: clamp(56px, 7vw, 100px);
   border-top: 1px solid var(--color-border-soft);
@@ -643,6 +740,14 @@ a.topic-card:hover .topic-card__arrow {
     width: min(100%, 740px);
   }
 
+  .learning-loop {
+    grid-template-columns: 1fr;
+  }
+
+  .learning-loop__intro {
+    max-width: 520px;
+  }
+
   .topic-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -702,6 +807,19 @@ a.topic-card:hover .topic-card__arrow {
     font-size: 0.66rem;
   }
 
+  .learning-loop {
+    gap: 22px;
+    padding: 20px;
+  }
+
+  .learning-loop__steps {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .learning-loop__steps a {
+    min-height: 144px;
+  }
+
   .section-heading {
     align-items: flex-start;
   }
@@ -721,5 +839,47 @@ a.topic-card:hover .topic-card__arrow {
 
   .topic-card {
     min-height: 190px;
+  }
+}
+
+@media (max-width: 390px) {
+  .home-view {
+    padding: 38px 14px 46px;
+  }
+
+  .home-hero h1 {
+    font-size: clamp(2.55rem, 13.5vw, 3.35rem);
+  }
+
+  .physics-search {
+    padding-left: 14px;
+  }
+
+  .search-examples {
+    gap: 6px;
+  }
+
+  .projectile-preview__header {
+    align-items: flex-start;
+  }
+
+  .instrument-reset span {
+    display: none;
+  }
+
+  .learning-loop {
+    padding: 17px;
+  }
+
+  .learning-loop__steps {
+    grid-template-columns: 1fr;
+  }
+
+  .learning-loop__steps a {
+    min-height: 124px;
+  }
+
+  .learning-loop__steps strong {
+    margin-top: 16px;
   }
 }

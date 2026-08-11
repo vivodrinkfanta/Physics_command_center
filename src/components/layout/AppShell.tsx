@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Menu, Search, X } from 'lucide-react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { findFormulaById } from '../../data/formulas'
 import { isPhysicsSearchShortcut } from '../../utils/shortcuts'
+import { CommandPalette } from './CommandPalette'
 import { Sidebar } from './Sidebar'
 
 const pageNames: Record<string, string> = {
@@ -14,6 +15,7 @@ const pageNames: Record<string, string> = {
 }
 
 export function AppShell() {
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false)
   const [isNavigationOpen, setIsNavigationOpen] = useState(false)
   const hasMounted = useRef(false)
   const location = useLocation()
@@ -25,15 +27,6 @@ export function AppShell() {
     pageNames[location.pathname] ??
     selectedFormula?.name ??
     (location.pathname.startsWith('/formulas/') ? 'Formula Inspector' : 'Workspace')
-
-  const openHomepageSearch = useCallback(() => {
-    if (location.pathname === '/') {
-      window.dispatchEvent(new Event('physics-lab:focus-search'))
-      return
-    }
-
-    navigate('/?focus=search')
-  }, [location.pathname, navigate])
 
   useEffect(() => {
     setIsNavigationOpen(false)
@@ -50,13 +43,13 @@ export function AppShell() {
     const handleSearchShortcut = (event: KeyboardEvent) => {
       if (isPhysicsSearchShortcut(event)) {
         event.preventDefault()
-        openHomepageSearch()
+        setIsCommandPaletteOpen(true)
       }
     }
 
     window.addEventListener('keydown', handleSearchShortcut)
     return () => window.removeEventListener('keydown', handleSearchShortcut)
-  }, [openHomepageSearch])
+  }, [])
 
   useEffect(() => {
     if (!isNavigationOpen) return
@@ -104,8 +97,9 @@ export function AppShell() {
           <button
             className="search-trigger"
             type="button"
-            aria-label="Open physics search. Keyboard shortcuts Command or Control K and F."
-            onClick={openHomepageSearch}
+            aria-haspopup="dialog"
+            aria-label="Open command palette. Keyboard shortcuts Command or Control K and F."
+            onClick={() => setIsCommandPaletteOpen(true)}
           >
             <Search aria-hidden="true" size={16} strokeWidth={1.8} />
             <span>Search physics</span>
@@ -146,6 +140,12 @@ export function AppShell() {
           </aside>
         </div>
       )}
+
+      <CommandPalette
+        onClose={() => setIsCommandPaletteOpen(false)}
+        onNavigate={navigate}
+        open={isCommandPaletteOpen}
+      />
     </div>
   )
 }

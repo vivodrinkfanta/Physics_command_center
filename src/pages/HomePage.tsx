@@ -1,17 +1,19 @@
-import { FormEvent, useEffect, useMemo, useRef, useState } from 'react'
+import { FormEvent, useMemo, useRef, useState } from 'react'
 import {
   ArrowRight,
   Atom,
   Boxes,
   CircuitBoard,
+  Crosshair,
   Gauge,
   MoveUpRight,
   Orbit,
+  RefreshCcw,
   Search,
   Waves,
   Zap,
 } from 'lucide-react'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ProjectilePreview } from '../components/home/ProjectilePreview'
 import { FormulaExpression } from '../components/math/FormulaExpression'
 import { getFormulaById, searchFormulas } from '../data/formulas'
@@ -70,6 +72,22 @@ const topics: HomeTopic[] = [
     available: true,
   },
   {
+    name: 'Projectiles',
+    description: 'Resolve a launch into linked horizontal and vertical motion.',
+    formulaId: 'projectile-vertical-position',
+    icon: Crosshair,
+    slug: 'projectiles',
+    available: true,
+  },
+  {
+    name: 'Oscillations',
+    description: 'Connect displacement, restoring force and periodic motion.',
+    formulaId: 'hookes-law',
+    icon: RefreshCcw,
+    slug: 'oscillations',
+    available: true,
+  },
+  {
     name: 'Waves',
     description: 'Frequency, wavelength and wave behaviour.',
     equation: 'v = fλ',
@@ -89,17 +107,8 @@ const topics: HomeTopic[] = [
 
 export function HomePage() {
   const [query, setQuery] = useState('')
-  const [searchParams] = useSearchParams()
   const inputRef = useRef<HTMLInputElement>(null)
   const navigate = useNavigate()
-
-  useEffect(() => {
-    const focusSearch = () => inputRef.current?.focus()
-    window.addEventListener('physics-lab:focus-search', focusSearch)
-    if (searchParams.get('focus') === 'search') focusSearch()
-
-    return () => window.removeEventListener('physics-lab:focus-search', focusSearch)
-  }, [searchParams])
 
   const results = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase()
@@ -192,6 +201,43 @@ export function HomePage() {
         </div>
 
         <ProjectilePreview />
+      </section>
+
+      <section className="learning-loop" aria-labelledby="learning-loop-heading">
+        <header className="learning-loop__intro">
+          <p>Recommended first run</p>
+          <h2 id="learning-loop-heading">Complete the learning loop.</h2>
+          <span>
+            Start with one relationship, then move from intuition to evidence and calculation.
+          </span>
+        </header>
+
+        <div className="learning-loop__steps">
+          <Link to="/formulas/newton-second-law">
+            <span>01</span>
+            <strong>Simulate</strong>
+            <small>Predict, then manipulate force, mass, and time.</small>
+            <ArrowRight aria-hidden="true" size={15} />
+          </Link>
+          <Link to="/formulas/newton-second-law?tab=explain">
+            <span>02</span>
+            <strong>Explain</strong>
+            <small>Connect the equation to forces, inertia, and units.</small>
+            <ArrowRight aria-hidden="true" size={15} />
+          </Link>
+          <Link to="/formulas/newton-second-law?tab=graph">
+            <span>03</span>
+            <strong>Trace</strong>
+            <small>Read how acceleration responds across two live graphs.</small>
+            <ArrowRight aria-hidden="true" size={15} />
+          </Link>
+          <Link to="/formulas/newton-second-law?tab=practice">
+            <span>04</span>
+            <strong>Solve</strong>
+            <small>Check a numerical answer and reveal hints only as needed.</small>
+            <ArrowRight aria-hidden="true" size={15} />
+          </Link>
+        </div>
       </section>
 
       <section className="topic-section" aria-labelledby="topic-heading">
