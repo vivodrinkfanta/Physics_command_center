@@ -352,6 +352,27 @@
   fill: var(--color-accent);
 }
 
+.newton-vector--velocity line,
+#velocity-arrowhead polygon {
+  fill: #86bfe8;
+  stroke: #86bfe8;
+}
+
+.newton-vector--velocity text {
+  fill: #a9d3f1;
+}
+
+.newton-motion-trail polyline {
+  fill: none;
+  stroke: rgba(168, 234, 216, 0.28);
+  stroke-dasharray: 3 5;
+  stroke-width: 1.4;
+}
+
+.newton-motion-trail circle {
+  fill: rgba(168, 234, 216, 0.62);
+}
+
 .formula-inspector .is-dimmed {
   opacity: 0.24;
 }
@@ -575,6 +596,335 @@
   color: var(--color-text-dim);
   font-size: 0.64rem;
   line-height: 1.6;
+}
+
+.newton-telemetry,
+.newton-prediction {
+  grid-column: 1 / -1;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: rgba(38, 54, 77, 0.82);
+}
+
+.newton-telemetry > header,
+.newton-prediction > header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid var(--color-border-soft);
+  padding: 18px 21px;
+}
+
+.newton-telemetry > header > div,
+.newton-prediction > header > div {
+  display: grid;
+  gap: 6px;
+}
+
+.newton-telemetry > header span,
+.newton-prediction > header span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--color-accent);
+  font: 0.53rem var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.newton-telemetry h3,
+.newton-prediction h3 {
+  margin: 0;
+  font-size: 0.86rem;
+  font-weight: 540;
+}
+
+.newton-telemetry > header output,
+.newton-prediction > header small {
+  color: var(--color-text-dim);
+  font: 0.55rem var(--font-mono);
+  white-space: nowrap;
+}
+
+.newton-telemetry > svg {
+  display: block;
+  width: 100%;
+  background: var(--color-surface-deep);
+}
+
+.telemetry-lane__frame {
+  fill: rgba(255, 255, 255, 0.018);
+  stroke: var(--color-border-soft);
+}
+
+.telemetry-lane__zero {
+  stroke: rgba(232, 240, 248, 0.14);
+  stroke-dasharray: 3 4;
+}
+
+.telemetry-lane__symbol {
+  fill: var(--color-text);
+  font: italic 18px var(--font-math);
+}
+
+.telemetry-lane__label,
+.telemetry-lane__value,
+.telemetry-time-tick text {
+  fill: var(--color-text-dim);
+  font: 10px var(--font-mono);
+}
+
+.telemetry-lane__path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.5;
+  transition: filter 140ms ease, stroke-width 140ms ease;
+}
+
+.telemetry-lane--acceleration .telemetry-lane__path,
+.telemetry-lane--acceleration .telemetry-lane__marker {
+  fill: var(--color-accent);
+  stroke: var(--color-accent);
+}
+
+.telemetry-lane--velocity .telemetry-lane__path,
+.telemetry-lane--velocity .telemetry-lane__marker {
+  fill: #86bfe8;
+  stroke: #86bfe8;
+}
+
+.telemetry-lane--position .telemetry-lane__path,
+.telemetry-lane--position .telemetry-lane__marker {
+  fill: #e5b47f;
+  stroke: #e5b47f;
+}
+
+.telemetry-lane__path.is-linked,
+.telemetry-lane__marker.is-linked {
+  filter: drop-shadow(0 0 5px rgba(168, 234, 216, 0.72));
+  stroke-width: 3.5;
+}
+
+.telemetry-lane__marker {
+  stroke-width: 2;
+}
+
+.telemetry-cursor {
+  stroke: rgba(243, 246, 248, 0.5);
+  stroke-dasharray: 2 3;
+  stroke-width: 1;
+}
+
+.telemetry-time-tick line {
+  stroke: var(--color-text-dim);
+}
+
+.newton-telemetry > footer {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  border-top: 1px solid var(--color-border-soft);
+  padding: 13px 18px;
+}
+
+.newton-telemetry > footer span {
+  border: 1px solid var(--color-border-soft);
+  border-radius: 7px;
+  background: var(--color-bg-elevated);
+  padding: 6px 8px;
+  color: var(--color-text-muted);
+  font: 0.57rem var(--font-mono);
+}
+
+.newton-telemetry > footer var {
+  color: var(--color-accent-strong);
+  font-family: var(--font-math);
+}
+
+.newton-telemetry > footer small {
+  margin-left: auto;
+  color: var(--color-text-dim);
+  font: 0.52rem var(--font-mono);
+}
+
+.prediction-question {
+  display: grid;
+  gap: 12px;
+  padding: clamp(21px, 3vw, 32px);
+}
+
+.prediction-question > span {
+  color: var(--color-accent);
+  font: 0.53rem var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.prediction-question h4 {
+  max-width: 900px;
+  margin: 0;
+  font-size: clamp(1.05rem, 2.3vw, 1.7rem);
+  font-weight: 520;
+  line-height: 1.4;
+}
+
+.prediction-change {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  margin-top: 7px;
+}
+
+.prediction-change > div {
+  display: grid;
+  gap: 7px;
+  min-height: 84px;
+  align-content: center;
+  border: 1px solid var(--color-border-soft);
+  border-radius: 11px;
+  background: var(--color-surface-deep);
+  padding: 14px 16px;
+}
+
+.prediction-change span,
+.prediction-change small {
+  color: var(--color-text-dim);
+  font: 0.51rem var(--font-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.prediction-change strong {
+  color: var(--color-text);
+  font: 0.67rem var(--font-mono);
+  font-weight: 520;
+}
+
+.prediction-change > svg {
+  color: var(--color-accent);
+}
+
+.prediction-change__hidden-reading {
+  color: var(--color-accent) !important;
+}
+
+.prediction-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  padding: 0 clamp(21px, 3vw, 32px);
+}
+
+.prediction-options button {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 11px;
+  min-height: 54px;
+  border: 1px solid var(--color-border-soft);
+  border-radius: 10px;
+  background: var(--color-bg-elevated);
+  padding: 0 13px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 140ms ease, background 140ms ease, color 140ms ease;
+}
+
+.prediction-options button:disabled {
+  cursor: default;
+  opacity: 0.76;
+}
+
+.prediction-options button > span {
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  border: 1px solid var(--color-border);
+  border-radius: 7px;
+  color: var(--color-accent);
+  font: 0.55rem var(--font-mono);
+}
+
+.prediction-options button strong {
+  font-size: 0.65rem;
+  font-weight: 530;
+}
+
+.prediction-options button.is-selected {
+  border-color: rgba(168, 234, 216, 0.38);
+  background: var(--color-accent-soft);
+  color: var(--color-text);
+}
+
+.prediction-options button.is-correct {
+  border-color: rgba(168, 234, 216, 0.42);
+  background: rgba(168, 234, 216, 0.13);
+  color: var(--color-accent-strong);
+}
+
+.prediction-options button.is-incorrect {
+  border-color: rgba(229, 180, 127, 0.42);
+  background: rgba(229, 180, 127, 0.1);
+  color: #f0c99f;
+}
+
+.prediction-feedback {
+  margin: 14px clamp(21px, 3vw, 32px) 0;
+  border-left: 2px solid currentColor;
+  padding: 7px 0 7px 12px;
+  color: var(--color-text-muted);
+  font-size: 0.68rem;
+  line-height: 1.55;
+}
+
+.prediction-feedback.is-correct {
+  color: var(--color-accent);
+}
+
+.prediction-feedback.is-incorrect {
+  color: #f0c99f;
+}
+
+.prediction-actions {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-top: 22px;
+  border-top: 1px solid var(--color-border-soft);
+  padding: 15px clamp(21px, 3vw, 32px);
+}
+
+.prediction-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 38px;
+  border: 1px solid rgba(168, 234, 216, 0.32);
+  border-radius: 9px;
+  background: var(--color-accent-soft);
+  padding: 0 13px;
+  color: var(--color-accent-strong);
+  cursor: pointer;
+  font-size: 0.62rem;
+}
+
+.prediction-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.prediction-actions small {
+  color: var(--color-text-dim);
+  font-size: 0.59rem;
+  line-height: 1.5;
 }
 
 .newton-graphs {
@@ -1807,6 +2157,45 @@
     text-align: right;
   }
 
+  .newton-telemetry,
+  .newton-prediction {
+    border-radius: 16px;
+  }
+
+  .newton-telemetry > header,
+  .newton-prediction > header,
+  .prediction-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .newton-telemetry {
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+
+  .newton-telemetry > svg {
+    min-width: 650px;
+  }
+
+  .newton-telemetry > footer small {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .prediction-change {
+    grid-template-columns: 1fr;
+  }
+
+  .prediction-change > svg {
+    transform: rotate(90deg);
+    justify-self: center;
+  }
+
+  .prediction-options {
+    grid-template-columns: 1fr;
+  }
+
   .inspector-learning-grid,
   .rearrangement-panel > div,
   .related-panel > div {
@@ -1880,6 +2269,16 @@
 
   .newton-stage__clock {
     text-align: left;
+  }
+
+  .prediction-question,
+  .prediction-options,
+  .prediction-actions {
+    padding-inline: 16px;
+  }
+
+  .prediction-feedback {
+    margin-inline: 16px;
   }
 
   .practice-answer > div {

@@ -9,6 +9,13 @@ export interface GraphPoint {
   y: number
 }
 
+export interface MotionSample {
+  acceleration: number
+  position: number
+  time: number
+  velocity: number
+}
+
 export const NEWTON_TIME_LIMIT = 4
 export const NEWTON_FORCE_RANGE = { min: -60, max: 60, step: 1 }
 export const NEWTON_MASS_RANGE = { min: 1, max: 20, step: 0.5 }
@@ -26,6 +33,25 @@ export function calculateMotion(force: number, mass: number, time: number) {
     position: 0.5 * acceleration * safeTime ** 2,
     velocity: acceleration * safeTime,
   }
+}
+
+export function motionSeries(
+  force: number,
+  mass: number,
+  duration = NEWTON_TIME_LIMIT,
+  pointCount = 81,
+): MotionSample[] {
+  if (!Number.isFinite(duration) || duration < 0) {
+    throw new Error('Duration must be a non-negative finite number.')
+  }
+  if (!Number.isInteger(pointCount) || pointCount < 2) {
+    throw new Error('Motion series requires at least two points.')
+  }
+
+  return Array.from({ length: pointCount }, (_, index) => {
+    const time = (index / (pointCount - 1)) * duration
+    return { time, ...calculateMotion(force, mass, time) }
+  })
 }
 
 export function forceGraphPoints(mass: number, pointCount = 31): GraphPoint[] {

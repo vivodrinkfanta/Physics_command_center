@@ -4,6 +4,7 @@ import {
   calculateMotion,
   forceGraphPoints,
   massGraphPoints,
+  motionSeries,
 } from './newtonSecondLaw'
 
 describe('Newton’s Second Law model', () => {
@@ -34,5 +35,19 @@ describe('Newton’s Second Law model', () => {
     expect(forcePoints.at(-1)?.y).toBe(12)
     expect(massPoints[0].y).toBe(20)
     expect(massPoints.at(-1)?.y).toBe(1)
+  })
+
+  it('builds synchronized signed motion histories over the shared time domain', () => {
+    const positive = motionSeries(20, 5, 4, 5)
+    const negative = motionSeries(-20, 5, 4, 5)
+
+    expect(positive[0]).toEqual({ acceleration: 4, position: 0, time: 0, velocity: 0 })
+    expect(positive.at(-1)).toEqual({ acceleration: 4, position: 32, time: 4, velocity: 16 })
+    expect(negative.at(-1)).toEqual({ acceleration: -4, position: -32, time: 4, velocity: -16 })
+  })
+
+  it('rejects invalid motion history requests', () => {
+    expect(() => motionSeries(20, 5, -1)).toThrow('Duration must be a non-negative finite number.')
+    expect(() => motionSeries(20, 5, 4, 1)).toThrow('Motion series requires at least two points.')
   })
 })

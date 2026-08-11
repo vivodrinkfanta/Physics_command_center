@@ -95,6 +95,43 @@ describe('formula data architecture', () => {
         expect(variableIds.has(template.solveFor)).toBe(true)
         template.variableRanges.forEach((range) => expect(variableIds.has(range.variableId)).toBe(true))
       })
+      formula.predictionChallenges?.forEach((challenge) => {
+        expect(challenge.options.some((option) => option.id === challenge.correctOptionId)).toBe(true)
+        expect(new Set(challenge.options.map((option) => option.id)).size).toBe(
+          challenge.options.length,
+        )
+        for (const predictionValue of [...challenge.beforeValues, ...challenge.afterValues]) {
+          expect(variableIds.has(predictionValue.variableId)).toBe(true)
+          expect(Number.isFinite(predictionValue.value)).toBe(true)
+        }
+      })
+    })
+  })
+
+  it('keeps Newton prediction answers consistent with the registered parameter changes', () => {
+    const predictions = getFormulaById('newton-second-law').predictionChallenges ?? []
+    const valueFor = (
+      values: (typeof predictions)[number]['beforeValues'],
+      variableId: PhysicsVariableId,
+    ) => values.find((value) => value.variableId === variableId)?.value ?? 0
+
+    predictions.forEach((challenge) => {
+      const beforeAcceleration =
+        valueFor(challenge.beforeValues, 'resultant-force') /
+        valueFor(challenge.beforeValues, 'mass')
+      const afterAcceleration =
+        valueFor(challenge.afterValues, 'resultant-force') /
+        valueFor(challenge.afterValues, 'mass')
+      const expectedOutcome =
+        afterAcceleration === -beforeAcceleration
+          ? 'reverses'
+          : afterAcceleration === beforeAcceleration * 2
+            ? 'doubles'
+            : afterAcceleration === beforeAcceleration / 2
+              ? 'halves'
+              : 'unchanged'
+
+      expect(challenge.correctOptionId, challenge.id).toBe(expectedOutcome)
     })
   })
 

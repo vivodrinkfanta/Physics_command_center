@@ -251,6 +251,7 @@ export function FormulaInspectorPage() {
             <NewtonSecondLawLab
               highlightedVariable={highlightedVariable}
               onHighlightVariable={setHighlightedVariable}
+              predictionChallenges={formula.predictionChallenges ?? []}
               setState={setNewtonState}
               state={newtonState}
             />

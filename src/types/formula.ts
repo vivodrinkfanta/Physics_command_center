@@ -96,6 +96,26 @@ export interface FormulaDimensionalAnalysis {
   siSubstitution: string
 }
 
+export interface FormulaPredictionOption {
+  id: string
+  label: string
+}
+
+export interface FormulaPredictionValue {
+  value: number
+  variableId: PhysicsVariableId
+}
+
+export interface FormulaPredictionChallenge {
+  afterValues: FormulaPredictionValue[]
+  beforeValues: FormulaPredictionValue[]
+  correctOptionId: string
+  explanation: string
+  id: string
+  options: FormulaPredictionOption[]
+  prompt: string
+}
+
 export interface WorkedExampleValue {
   unit: string
   value: number
@@ -140,6 +160,7 @@ export interface FormulaRecord {
   id: FormulaId
   name: string
   practiceTemplates: PracticeTemplate[]
+  predictionChallenges?: FormulaPredictionChallenge[]
   rearrangements: FormulaRearrangement[]
   relatedFormulaIds: FormulaId[]
   simulationType: string | null

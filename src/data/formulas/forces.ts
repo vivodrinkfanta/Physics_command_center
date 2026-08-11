@@ -86,6 +86,68 @@ export const forceFormulas: FormulaRecord[] = [
         ],
       },
     ],
+    predictionChallenges: [
+      {
+        id: 'double-resultant-force',
+        prompt: 'If the resultant force doubles while mass stays constant, what happens to acceleration?',
+        beforeValues: [
+          { variableId: 'resultant-force', value: 20 },
+          { variableId: 'mass', value: 5 },
+        ],
+        afterValues: [
+          { variableId: 'resultant-force', value: 40 },
+          { variableId: 'mass', value: 5 },
+        ],
+        options: [
+          { id: 'doubles', label: 'It doubles' },
+          { id: 'halves', label: 'It halves' },
+          { id: 'unchanged', label: 'It stays unchanged' },
+          { id: 'quadruples', label: 'It quadruples' },
+        ],
+        correctOptionId: 'doubles',
+        explanation: 'With mass fixed, a = ΣF/m is directly proportional to resultant force.',
+      },
+      {
+        id: 'double-mass',
+        prompt: 'If mass doubles while the resultant force stays constant, what happens to acceleration?',
+        beforeValues: [
+          { variableId: 'resultant-force', value: 20 },
+          { variableId: 'mass', value: 5 },
+        ],
+        afterValues: [
+          { variableId: 'resultant-force', value: 20 },
+          { variableId: 'mass', value: 10 },
+        ],
+        options: [
+          { id: 'doubles', label: 'It doubles' },
+          { id: 'halves', label: 'It halves' },
+          { id: 'unchanged', label: 'It stays unchanged' },
+          { id: 'reverses', label: 'It reverses direction' },
+        ],
+        correctOptionId: 'halves',
+        explanation: 'With force fixed, acceleration is inversely proportional to mass.',
+      },
+      {
+        id: 'reverse-resultant-force',
+        prompt: 'If the resultant force reverses direction without changing magnitude, what happens to acceleration?',
+        beforeValues: [
+          { variableId: 'resultant-force', value: 20 },
+          { variableId: 'mass', value: 5 },
+        ],
+        afterValues: [
+          { variableId: 'resultant-force', value: -20 },
+          { variableId: 'mass', value: 5 },
+        ],
+        options: [
+          { id: 'reverses', label: 'It reverses with the same magnitude' },
+          { id: 'zero', label: 'It becomes zero' },
+          { id: 'unchanged', label: 'It stays unchanged' },
+          { id: 'doubles', label: 'Its magnitude doubles' },
+        ],
+        correctOptionId: 'reverses',
+        explanation: 'Acceleration follows the signed direction of the resultant force.',
+      },
+    ],
     dimensionalAnalysis: {
       siSubstitution: 'N = kg × m/s²',
       baseSubstitution: 'M·L·T⁻² = M × L·T⁻²',

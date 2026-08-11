@@ -7,7 +7,9 @@ import {
   type Dispatch,
   type SetStateAction,
 } from 'react'
-import type { PhysicsVariableId } from '../../types/formula'
+import type { FormulaPredictionChallenge, PhysicsVariableId } from '../../types/formula'
+import { NewtonMotionTelemetry } from './NewtonMotionTelemetry'
+import { NewtonPredictionPanel } from './NewtonPredictionPanel'
 import {
   calculateMotion,
   formatMeasurement,
@@ -20,6 +22,7 @@ import {
 interface NewtonSecondLawLabProps {
   highlightedVariable: PhysicsVariableId | null
   onHighlightVariable: (variableId: PhysicsVariableId | null) => void
+  predictionChallenges: FormulaPredictionChallenge[]
   setState: Dispatch<SetStateAction<NewtonState>>
   state: NewtonState
 }
@@ -100,19 +103,24 @@ function LinkedControl({
 export function NewtonSecondLawLab({
   highlightedVariable,
   onHighlightVariable,
+  predictionChallenges,
   setState,
   state,
 }: NewtonSecondLawLabProps) {
   const [isPlaying, setIsPlaying] = useState(false)
   const previousFrame = useRef<number | null>(null)
   const motion = calculateMotion(state.force, state.mass, state.time)
-  const cartCenter = Math.max(7, Math.min(93, 50 + (motion.position / 120) * 43))
+  const positionToCartCenter = (position: number) =>
+    Math.max(7, Math.min(93, 50 + (position / 120) * 43))
+  const cartCenter = positionToCartCenter(motion.position)
   const cartWidth = 68 + ((state.mass - NEWTON_MASS_RANGE.min) / 19) * 34
   const cartHeight = 34 + ((state.mass - NEWTON_MASS_RANGE.min) / 19) * 16
   const forceArrowLength = (Math.abs(state.force) / NEWTON_FORCE_RANGE.max) * 116
   const accelerationArrowLength = Math.min(Math.abs(motion.acceleration) / 20, 1) * 92
+  const velocityArrowLength = Math.min(Math.abs(motion.velocity) / 60, 1) * 104
   const forceDirection = state.force < 0 ? -1 : 1
   const accelerationDirection = motion.acceleration < 0 ? -1 : 1
+  const velocityDirection = motion.velocity < 0 ? -1 : 1
   const forceArrowEnd = Math.max(
     18,
     Math.min(582, cartCenter * 6 + forceDirection * forceArrowLength),
@@ -121,6 +129,15 @@ export function NewtonSecondLawLab({
     18,
     Math.min(582, cartCenter * 6 + accelerationDirection * accelerationArrowLength),
   )
+  const velocityArrowEnd = Math.max(
+    18,
+    Math.min(582, cartCenter * 6 + velocityDirection * velocityArrowLength),
+  )
+  const trailPoints = Array.from({ length: 7 }, (_, index) => {
+    const sampleTime = state.time * (index / 6)
+    const sample = calculateMotion(state.force, state.mass, sampleTime)
+    return positionToCartCenter(sample.position) * 6
+  })
 
   useEffect(() => {
     if (!isPlaying) {
@@ -185,14 +202,17 @@ export function NewtonSecondLawLab({
         >
           <title>Cart responding to a resultant force</title>
           <desc>
-            The cart position, force arrow, acceleration arrow, size, and wheel rotation reflect
-            the current force, mass, acceleration, and time values.
+            The cart position, sampled motion trail, force, acceleration, and velocity arrows,
+            size, and wheel rotation reflect the current force, mass, acceleration, and time.
           </desc>
           <defs>
             <marker id="force-arrowhead" markerHeight="7" markerWidth="8" orient="auto" refX="7" refY="3.5">
               <polygon points="0 0, 8 3.5, 0 7" />
             </marker>
             <marker id="acceleration-arrowhead" markerHeight="7" markerWidth="8" orient="auto" refX="7" refY="3.5">
+              <polygon points="0 0, 8 3.5, 0 7" />
+            </marker>
+            <marker id="velocity-arrowhead" markerHeight="7" markerWidth="8" orient="auto" refX="7" refY="3.5">
               <polygon points="0 0, 8 3.5, 0 7" />
             </marker>
             <linearGradient id="cart-surface" x1="0" x2="1">
@@ -207,6 +227,14 @@ export function NewtonSecondLawLab({
             ))}
           </g>
           <line className="newton-stage__track" x1="24" x2="576" y1="220" y2="220" />
+          {state.time > 0.02 && (
+            <g className="newton-motion-trail" aria-hidden="true">
+              <polyline points={trailPoints.map((point) => `${point},216`).join(' ')} />
+              {trailPoints.slice(0, -1).map((point, index) => (
+                <circle cx={point} cy="216" key={`${point}-${index}`} r={1.5 + index * 0.18} />
+              ))}
+            </g>
+          )}
           <line className="newton-stage__origin" x1="300" x2="300" y1="205" y2="238" />
           <text className="newton-stage__origin-label" textAnchor="middle" x="300" y="259">
             x = 0
@@ -231,6 +259,27 @@ export function NewtonSecondLawLab({
                   y="66"
                 >
                   ΣF = {formatMeasurement(state.force, 1)} N
+                </text>
+              </>
+            )}
+          </g>
+
+          <g className="newton-vector newton-vector--velocity">
+            {Math.abs(motion.velocity) > 0.01 && (
+              <>
+                <line
+                  markerEnd="url(#velocity-arrowhead)"
+                  x1={cartCenter * 6}
+                  x2={velocityArrowEnd}
+                  y1="150"
+                  y2="150"
+                />
+                <text
+                  textAnchor={velocityDirection > 0 ? 'start' : 'end'}
+                  x={Math.max(12, Math.min(588, velocityArrowEnd + velocityDirection * 8))}
+                  y="144"
+                >
+                  v = {formatMeasurement(motion.velocity, 1)} m/s
                 </text>
               </>
             )}
@@ -344,7 +393,10 @@ export function NewtonSecondLawLab({
           label="Resultant force"
           max={NEWTON_FORCE_RANGE.max}
           min={NEWTON_FORCE_RANGE.min}
-          onChange={(force) => setState((current) => ({ ...current, force }))}
+          onChange={(force) => {
+            setIsPlaying(false)
+            setState((current) => ({ ...current, force, time: 0 }))
+          }}
           onHighlightVariable={onHighlightVariable}
           step={NEWTON_FORCE_RANGE.step}
           symbol="ΣF"
@@ -356,7 +408,10 @@ export function NewtonSecondLawLab({
           label="Mass"
           max={NEWTON_MASS_RANGE.max}
           min={NEWTON_MASS_RANGE.min}
-          onChange={(mass) => setState((current) => ({ ...current, mass }))}
+          onChange={(mass) => {
+            setIsPlaying(false)
+            setState((current) => ({ ...current, mass, time: 0 }))
+          }}
           onHighlightVariable={onHighlightVariable}
           step={NEWTON_MASS_RANGE.step}
           symbol="m"
@@ -384,10 +439,23 @@ export function NewtonSecondLawLab({
         </div>
 
         <p className="newton-console__note">
-          Negative force points left. With constant mass, the cart’s acceleration has the same
-          direction as the resultant force.
+          Negative force points left. Changing either input resets the synchronized timeline so
+          the constant-force model remains physically valid.
         </p>
       </aside>
+
+      <NewtonPredictionPanel
+        challenges={predictionChallenges}
+        onDemonstrate={({ force, mass }) => {
+          setState({ force, mass, time: 0 })
+          setIsPlaying(true)
+        }}
+        onStageBaseline={({ force, mass }) => {
+          setIsPlaying(false)
+          setState({ force, mass, time: 0 })
+        }}
+      />
+      <NewtonMotionTelemetry highlightedVariable={highlightedVariable} state={state} />
     </div>
   )
 }

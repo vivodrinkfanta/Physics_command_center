@@ -16,6 +16,19 @@ export function ProjectilePreview() {
   const [speed, setSpeed] = useState(22)
   const [angle, setAngle] = useState(42)
   const prefersReducedMotion = usePrefersReducedMotion()
+  const launchAngleRadians = (angle * Math.PI) / 180
+  const launchGuideStart = {
+    x: ORIGIN_X + 2.3 * Math.cos(launchAngleRadians),
+    y: GROUND_Y - 2.3 * Math.sin(launchAngleRadians),
+  }
+  const launchGuideEnd = {
+    x: ORIGIN_X + 8.5 * Math.cos(launchAngleRadians),
+    y: GROUND_Y - 8.5 * Math.sin(launchAngleRadians),
+  }
+  const angleArcEnd = {
+    x: ORIGIN_X + 3.2 * Math.cos(launchAngleRadians),
+    y: GROUND_Y - 3.2 * Math.sin(launchAngleRadians),
+  }
 
   const trajectory = useMemo(() => {
     const motion = calculateProjectileMotion({
@@ -86,21 +99,43 @@ export function ProjectilePreview() {
               <path d="M 9 0 L 0 0 0 9" fill="none" stroke="currentColor" strokeWidth="0.16" />
             </pattern>
             <linearGradient id="trajectory-fade" x1="0" x2="1">
-              <stop offset="0" stopColor="#78d6bd" stopOpacity="0.9" />
-              <stop offset="1" stopColor="#78d6bd" stopOpacity="0.34" />
+              <stop offset="0" stopColor="#a8ead8" stopOpacity="0.9" />
+              <stop offset="1" stopColor="#a8ead8" stopOpacity="0.34" />
             </linearGradient>
+            <marker
+              id="launch-guide-arrowhead"
+              markerHeight="4"
+              markerWidth="5"
+              orient="auto"
+              refX="4"
+              refY="2"
+            >
+              <path d="M 0 0 L 5 2 L 0 4 Z" />
+            </marker>
           </defs>
           <rect className="trajectory-stage__grid" fill="url(#trajectory-grid)" height="50" width="100" />
           <line className="trajectory-stage__ground" x1="0" x2="100" y1={GROUND_Y} y2={GROUND_Y} />
           <path className="trajectory-stage__path-shadow" d={trajectory.path} />
           <path className="trajectory-stage__path" d={trajectory.path} />
-          <line
-            className="trajectory-stage__vector"
-            x1={ORIGIN_X}
-            y1={GROUND_Y}
-            x2={ORIGIN_X + 8 * Math.cos((angle * Math.PI) / 180)}
-            y2={GROUND_Y - 8 * Math.sin((angle * Math.PI) / 180)}
+          <path
+            className="trajectory-stage__angle-arc"
+            d={`M ${ORIGIN_X + 3.2} ${GROUND_Y} A 3.2 3.2 0 0 0 ${angleArcEnd.x} ${angleArcEnd.y}`}
           />
+          <line
+            className="trajectory-stage__launch-guide"
+            markerEnd="url(#launch-guide-arrowhead)"
+            x1={launchGuideStart.x}
+            y1={launchGuideStart.y}
+            x2={launchGuideEnd.x}
+            y2={launchGuideEnd.y}
+          />
+          <text
+            className="trajectory-stage__launch-label"
+            x={launchGuideEnd.x + 1.8}
+            y={launchGuideEnd.y - 0.8}
+          >
+            v₀ · {angle}°
+          </text>
           <circle className="trajectory-stage__origin" cx={ORIGIN_X} cy={GROUND_Y} r="1.3" />
           <circle
             className="trajectory-stage__projectile"

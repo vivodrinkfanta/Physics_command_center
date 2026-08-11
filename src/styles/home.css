@@ -348,10 +348,26 @@
   stroke-width: 0.42;
 }
 
-.trajectory-stage__vector {
-  stroke: #d3dbe1;
+.trajectory-stage__launch-guide {
+  stroke: #e5b47f;
+  stroke-dasharray: 0.7 0.65;
   stroke-linecap: round;
-  stroke-width: 0.45;
+  stroke-width: 0.38;
+}
+
+#launch-guide-arrowhead path {
+  fill: #e5b47f;
+}
+
+.trajectory-stage__angle-arc {
+  fill: none;
+  stroke: rgba(229, 180, 127, 0.62);
+  stroke-width: 0.32;
+}
+
+.trajectory-stage__launch-label {
+  fill: #e9c59e;
+  font: 1.35px var(--font-mono);
 }
 
 .trajectory-stage__origin {
