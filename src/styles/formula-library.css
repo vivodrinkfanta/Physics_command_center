@@ -37,7 +37,7 @@
   margin: 0;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  background: rgba(13, 17, 23, 0.72);
+  background: rgba(38, 54, 77, 0.72);
 }
 
 .formula-library__telemetry div {
@@ -75,7 +75,7 @@
   z-index: 10;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  background: rgba(13, 17, 23, 0.92);
+  background: rgba(38, 54, 77, 0.92);
   box-shadow: 0 20px 54px rgba(0, 0, 0, 0.24);
   padding: 14px;
   backdrop-filter: blur(18px);
@@ -89,15 +89,15 @@
   min-height: 54px;
   border: 1px solid #2a3440;
   border-radius: 12px;
-  background: #0a0e13;
+  background: var(--color-surface-deep);
   padding: 0 11px 0 17px;
   color: var(--color-text-dim);
   transition: border-color 150ms ease, box-shadow 150ms ease;
 }
 
 .library-search:focus-within {
-  border-color: rgba(120, 214, 189, 0.62);
-  box-shadow: 0 0 0 4px rgba(120, 214, 189, 0.07);
+  border-color: rgba(168, 234, 216, 0.62);
+  box-shadow: 0 0 0 4px rgba(168, 234, 216, 0.07);
 }
 
 .library-search input {
@@ -165,7 +165,7 @@
 
 .library-examples button:hover,
 .library-topics button:hover {
-  border-color: rgba(120, 214, 189, 0.26);
+  border-color: rgba(168, 234, 216, 0.26);
   color: var(--color-accent-strong);
 }
 
@@ -190,7 +190,7 @@
 }
 
 .library-topics button.is-active {
-  border-color: rgba(120, 214, 189, 0.27);
+  border-color: rgba(168, 234, 216, 0.27);
   background: var(--color-accent-soft);
   color: var(--color-accent-strong);
 }
@@ -218,7 +218,7 @@
 .library-selects select {
   border: 0;
   outline: 0;
-  background: #0f141a;
+  background: var(--color-bg-elevated);
   color: var(--color-text-muted);
   font: 0.67rem var(--font-sans);
 }
@@ -260,13 +260,13 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   background:
-    linear-gradient(145deg, rgba(120, 214, 189, 0.035), transparent 38%),
-    rgba(13, 17, 23, 0.82);
+    linear-gradient(145deg, rgba(168, 234, 216, 0.035), transparent 38%),
+    rgba(38, 54, 77, 0.82);
   transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
 }
 
 .formula-card:hover {
-  border-color: rgba(120, 214, 189, 0.22);
+  border-color: rgba(168, 234, 216, 0.22);
   box-shadow: 0 22px 56px rgba(0, 0, 0, 0.2);
   transform: translateY(-2px);
 }
@@ -368,7 +368,7 @@
 
 .variable-chip:hover,
 .variable-chip--active {
-  border-color: rgba(120, 214, 189, 0.28);
+  border-color: rgba(168, 234, 216, 0.28);
   background: var(--color-accent-soft);
   color: var(--color-text);
 }
@@ -457,7 +457,7 @@
 
 .library-empty button {
   min-height: 36px;
-  border: 1px solid rgba(120, 214, 189, 0.25);
+  border: 1px solid rgba(168, 234, 216, 0.25);
   border-radius: 8px;
   background: var(--color-accent-soft);
   padding: 0 14px;

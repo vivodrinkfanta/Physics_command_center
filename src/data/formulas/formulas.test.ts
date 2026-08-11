@@ -72,6 +72,16 @@ describe('formula data architecture', () => {
     })
   })
 
+  it('provides a complete and consistent dimensional trace for every formula', () => {
+    mechanicsFormulas.forEach((formula) => {
+      const analysis = formula.dimensionalAnalysis
+      expect(analysis.siSubstitution, `${formula.id}: SI substitution`).toContain('=')
+      expect(analysis.baseSubstitution, `${formula.id}: base substitution`).toContain('=')
+      expect(analysis.leftDimensions.length).toBeGreaterThan(0)
+      expect(analysis.rightDimensions).toBe(analysis.leftDimensions)
+    })
+  })
+
   it('keeps relationships, examples, and practice templates internally valid', () => {
     const formulaIds = new Set(mechanicsFormulas.map((formula) => formula.id))
 

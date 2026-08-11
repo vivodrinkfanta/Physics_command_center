@@ -69,7 +69,7 @@
 .module-index__standard {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  background: rgba(13, 17, 23, 0.82);
+  background: rgba(38, 54, 77, 0.82);
 }
 
 .module-index__card {
@@ -98,8 +98,8 @@
   min-width: 0;
   border-right: 1px solid var(--color-border-soft);
   background:
-    linear-gradient(145deg, rgba(120, 214, 189, 0.07), transparent 58%),
-    #090e13;
+    linear-gradient(145deg, rgba(168, 234, 216, 0.07), transparent 58%),
+    var(--color-surface-deep);
   padding: clamp(24px, 4vw, 46px);
 }
 

@@ -89,6 +89,13 @@ export interface FormulaRearrangement {
   solveFor: PhysicsVariableId
 }
 
+export interface FormulaDimensionalAnalysis {
+  baseSubstitution: string
+  leftDimensions: string
+  rightDimensions: string
+  siSubstitution: string
+}
+
 export interface WorkedExampleValue {
   unit: string
   value: number
@@ -127,7 +134,7 @@ export interface FormulaRecord {
   }>
   description: string
   difficulty: 1 | 2 | 3 | 4 | 5
-  dimensionalAnalysis: string
+  dimensionalAnalysis: FormulaDimensionalAnalysis
   expression: FormulaExpression
   graphTypes: string[]
   id: FormulaId

@@ -8,10 +8,12 @@ import {
   GraduationCap,
   Network,
   Ruler,
+  Scale,
 } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { Link, Navigate, useParams, useSearchParams } from 'react-router-dom'
 import { EquationRearranger } from '../components/inspector/EquationRearranger'
+import { DimensionCheckerPanel } from '../components/inspector/DimensionCheckerPanel'
 import { NewtonGraphs } from '../components/inspector/NewtonGraphs'
 import { NewtonPractice } from '../components/inspector/NewtonPractice'
 import { NewtonSecondLawLab } from '../components/inspector/NewtonSecondLawLab'
@@ -27,6 +29,7 @@ const inspectorTabs = [
   { id: 'explain', label: 'Explain', icon: BookOpen },
   { id: 'rearrange', label: 'Rearrange', icon: Calculator },
   { id: 'units', label: 'Units', icon: Ruler },
+  { id: 'dimensions', label: 'Dimensions', icon: Scale },
   { id: 'graph', label: 'Graph', icon: BarChart3 },
   { id: 'example', label: 'Example', icon: GraduationCap },
   { id: 'practice', label: 'Practice', icon: FlaskConical },
@@ -57,8 +60,8 @@ function ExplainPanel({ formula }: { formula: FormulaRecord }) {
       </section>
       <section className="learning-panel learning-panel--wide dimension-readout">
         <span>Dimensional check</span>
-        <code>{formula.dimensionalAnalysis}</code>
-        <strong>Dimensionally consistent</strong>
+        <code>{formula.dimensionalAnalysis.siSubstitution}</code>
+        <strong>Open Dimensions for the full trace</strong>
       </section>
     </div>
   )
@@ -267,6 +270,14 @@ export function FormulaInspectorPage() {
           <UnitConverterPanel
             key={formula.id}
             formula={formula}
+            onHighlightVariable={setHighlightedVariable}
+          />
+        )}
+        {activeTab === 'dimensions' && (
+          <DimensionCheckerPanel
+            key={formula.id}
+            formula={formula}
+            highlightedVariable={highlightedVariable}
             onHighlightVariable={setHighlightedVariable}
           />
         )}

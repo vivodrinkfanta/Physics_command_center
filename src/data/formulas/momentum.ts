@@ -82,7 +82,12 @@ export const momentumFormulas: FormulaRecord[] = [
         ],
       },
     ],
-    dimensionalAnalysis: 'kg·m·s⁻¹ = kg(m·s⁻¹)',
+    dimensionalAnalysis: {
+      siSubstitution: 'kg·m/s = kg × m/s',
+      baseSubstitution: 'M·L·T⁻¹ = M × L·T⁻¹',
+      leftDimensions: 'M·L·T⁻¹',
+      rightDimensions: 'M·L·T⁻¹',
+    },
     difficulty: 1,
     tags: ['momentum', 'mass', 'velocity', 'collision', 'p=mv'],
   },

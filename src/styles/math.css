@@ -19,7 +19,7 @@
 }
 
 .math-expression__variable--active {
-  background: rgba(120, 214, 189, 0.14);
+  background: rgba(168, 234, 216, 0.14);
   color: var(--color-accent-strong);
 }
 

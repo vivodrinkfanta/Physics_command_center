@@ -86,7 +86,12 @@ export const oscillationFormulas: FormulaRecord[] = [
         ],
       },
     ],
-    dimensionalAnalysis: 'N = (N·m⁻¹)(m)',
+    dimensionalAnalysis: {
+      siSubstitution: 'N = (N/m) × m',
+      baseSubstitution: 'M·L·T⁻² = (M·T⁻²) × L',
+      leftDimensions: 'M·L·T⁻²',
+      rightDimensions: 'M·L·T⁻²',
+    },
     difficulty: 2,
     tags: ['spring', 'hooke', 'restoring force', 'stiffness', 'oscillation'],
   },

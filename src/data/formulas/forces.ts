@@ -86,7 +86,12 @@ export const forceFormulas: FormulaRecord[] = [
         ],
       },
     ],
-    dimensionalAnalysis: 'N = kg·m·s⁻²',
+    dimensionalAnalysis: {
+      siSubstitution: 'N = kg × m/s²',
+      baseSubstitution: 'M·L·T⁻² = M × L·T⁻²',
+      leftDimensions: 'M·L·T⁻²',
+      rightDimensions: 'M·L·T⁻²',
+    },
     difficulty: 1,
     tags: ['force', 'mass', 'acceleration', 'newton', 'f=ma', 'resultant'],
   },

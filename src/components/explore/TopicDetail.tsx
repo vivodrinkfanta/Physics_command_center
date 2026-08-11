@@ -58,7 +58,7 @@ export function TopicDetail({ onSelect, relatedTopics, topic }: TopicDetailProps
             <Ruler aria-hidden="true" size={13} />
             Dimensional check
           </span>
-          <code>{featuredFormula.dimensionalAnalysis}</code>
+          <code>{featuredFormula.dimensionalAnalysis.siSubstitution}</code>
         </div>
       </section>
 

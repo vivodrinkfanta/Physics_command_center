@@ -86,7 +86,12 @@ export const circularMotionFormulas: FormulaRecord[] = [
         ],
       },
     ],
-    dimensionalAnalysis: 'm·s⁻² = (m²·s⁻²)/m',
+    dimensionalAnalysis: {
+      siSubstitution: 'm/s² = (m/s)² / m',
+      baseSubstitution: 'L·T⁻² = (L·T⁻¹)² / L',
+      leftDimensions: 'L·T⁻²',
+      rightDimensions: 'L·T⁻²',
+    },
     difficulty: 2,
     tags: ['centripetal', 'circular', 'radius', 'speed', 'inward acceleration'],
   },

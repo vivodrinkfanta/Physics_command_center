@@ -95,15 +95,15 @@
   margin-top: 38px;
   border: 1px solid #2b3541;
   border-radius: 14px;
-  background: rgba(14, 19, 25, 0.94);
+  background: rgba(38, 54, 77, 0.94);
   padding: 0 13px 0 17px;
   box-shadow: 0 16px 42px rgba(0, 0, 0, 0.22);
   transition: border-color 160ms ease, box-shadow 160ms ease;
 }
 
 .physics-search:focus-within {
-  border-color: rgba(120, 214, 189, 0.55);
-  box-shadow: 0 0 0 4px rgba(120, 214, 189, 0.07), 0 16px 42px rgba(0, 0, 0, 0.24);
+  border-color: rgba(168, 234, 216, 0.55);
+  box-shadow: 0 0 0 4px rgba(168, 234, 216, 0.07), 0 16px 42px rgba(0, 0, 0, 0.24);
 }
 
 .physics-search__icon {
@@ -133,7 +133,7 @@
 .physics-search > kbd {
   border: 1px solid #2a3440;
   border-radius: 6px;
-  background: #171d25;
+  background: var(--color-panel-strong);
   padding: 5px 7px;
   color: #74808e;
   font-family: var(--font-sans);
@@ -149,7 +149,7 @@
   overflow: hidden;
   border: 1px solid var(--color-border);
   border-radius: 14px;
-  background: #0d1218;
+  background: var(--color-bg-elevated);
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.5);
   padding: 6px;
 }
@@ -249,7 +249,7 @@
 }
 
 .search-examples button:hover {
-  border-color: rgba(120, 214, 189, 0.3);
+  border-color: rgba(168, 234, 216, 0.3);
   color: var(--color-accent);
 }
 
@@ -257,7 +257,7 @@
   position: relative;
   border: 1px solid var(--color-border);
   border-radius: 22px;
-  background: rgba(13, 18, 24, 0.86);
+  background: rgba(38, 54, 77, 0.86);
   box-shadow: 0 30px 90px rgba(0, 0, 0, 0.3);
   padding: 18px;
   backdrop-filter: blur(16px);
@@ -268,7 +268,7 @@
   inset: -70px;
   z-index: -1;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(120, 214, 189, 0.09), transparent 66%);
+  background: radial-gradient(circle, rgba(168, 234, 216, 0.09), transparent 66%);
   pointer-events: none;
   content: '';
 }
@@ -303,7 +303,7 @@
   gap: 6px;
   border: 1px solid var(--color-border);
   border-radius: 8px;
-  background: #121820;
+  background: var(--color-panel);
   padding: 7px 9px;
   color: var(--color-text-dim);
   cursor: pointer;
@@ -319,7 +319,7 @@
   overflow: hidden;
   border: 1px solid var(--color-border-soft);
   border-radius: 13px;
-  background: #090d12;
+  background: var(--color-surface-deep);
 }
 
 .trajectory-stage svg {
@@ -336,7 +336,7 @@
 
 .trajectory-stage__path-shadow {
   fill: none;
-  stroke: rgba(120, 214, 189, 0.11);
+  stroke: rgba(168, 234, 216, 0.11);
   stroke-width: 1.8;
 }
 
@@ -355,7 +355,7 @@
 }
 
 .trajectory-stage__origin {
-  fill: #0b1116;
+  fill: var(--color-surface-deep);
   stroke: var(--color-accent);
   stroke-width: 0.35;
 }
@@ -364,7 +364,7 @@
   fill: var(--color-accent-strong);
   stroke: rgba(222, 255, 247, 0.8);
   stroke-width: 0.25;
-  filter: drop-shadow(0 0 2px rgba(120, 214, 189, 0.85));
+  filter: drop-shadow(0 0 2px rgba(168, 234, 216, 0.85));
 }
 
 .trajectory-stage__label {
@@ -379,7 +379,7 @@
   right: 10px;
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 5px;
-  background: rgba(7, 11, 15, 0.75);
+  background: rgba(29, 41, 59, 0.82);
   padding: 4px 6px;
   color: #5f6b77;
   font-family: var(--font-mono);
@@ -418,7 +418,7 @@
   margin: 4px 0;
   border-radius: 99px;
   appearance: none;
-  background: #29323d;
+  background: var(--color-panel-strong);
   accent-color: var(--color-accent);
   cursor: pointer;
 }
@@ -426,11 +426,11 @@
 .instrument-controls input[type='range']::-webkit-slider-thumb {
   width: 14px;
   height: 14px;
-  border: 3px solid #0d1218;
+  border: 3px solid var(--color-bg-elevated);
   border-radius: 50%;
   appearance: none;
   background: var(--color-accent);
-  box-shadow: 0 0 0 1px rgba(120, 214, 189, 0.55);
+  box-shadow: 0 0 0 1px rgba(168, 234, 216, 0.55);
 }
 
 .instrument-metrics {
@@ -523,7 +523,7 @@
   min-height: 220px;
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-md);
-  background: rgba(14, 18, 24, 0.62);
+  background: rgba(43, 60, 85, 0.72);
   padding: 17px;
   color: inherit;
   text-decoration: none;
@@ -531,8 +531,8 @@
 }
 
 a.topic-card:hover {
-  border-color: rgba(120, 214, 189, 0.28);
-  background: rgba(18, 25, 31, 0.88);
+  border-color: rgba(168, 234, 216, 0.28);
+  background: rgba(49, 68, 95, 0.92);
   transform: translateY(-3px);
 }
 
@@ -547,7 +547,7 @@ a.topic-card:hover {
   place-items: center;
   width: 38px;
   height: 38px;
-  border: 1px solid rgba(120, 214, 189, 0.13);
+  border: 1px solid rgba(168, 234, 216, 0.13);
   border-radius: 10px;
   background: var(--color-accent-soft);
   color: var(--color-accent);
