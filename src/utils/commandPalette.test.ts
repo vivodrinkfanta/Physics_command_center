@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { mechanicsFormulas } from '../data/formulas'
 import { commandPaletteItems, searchCommandPalette } from './commandPalette'
 
 describe('command palette registry', () => {
@@ -25,6 +26,23 @@ describe('command palette registry', () => {
     expect(searchCommandPalette('two cart collision')[0]?.id).toBe('simulate-momentum')
     expect(searchCommandPalette('potential energy tower')[0]?.id).toBe(
       'simulate-potential-energy',
+    )
+    expect(searchCommandPalette('uniform orbit laboratory')[0]?.id).toBe(
+      'simulate-circular-motion',
+    )
+    expect(searchCommandPalette('mass spring oscillator')[0]?.id).toBe(
+      'simulate-hookes-law',
+    )
+  })
+
+  it('provides a direct simulation command for every registered formula', () => {
+    const simulationDestinations = new Set(
+      commandPaletteItems
+        .filter((item) => item.section === 'Simulate')
+        .map((item) => item.href),
+    )
+    expect(simulationDestinations).toEqual(
+      new Set(mechanicsFormulas.map((formula) => `/formulas/${formula.id}`)),
     )
   })
 

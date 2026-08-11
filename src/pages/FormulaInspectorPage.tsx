@@ -13,6 +13,8 @@ import {
 } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { Link, Navigate, useParams, useSearchParams } from 'react-router-dom'
+import { CircularMotionGraphs } from '../components/inspector/CircularMotionGraphs'
+import { CircularMotionLab } from '../components/inspector/CircularMotionLab'
 import { EquationRearranger } from '../components/inspector/EquationRearranger'
 import { DimensionCheckerPanel } from '../components/inspector/DimensionCheckerPanel'
 import { FormulaPractice } from '../components/inspector/FormulaPractice'
@@ -30,17 +32,21 @@ import { PotentialEnergyGraphs } from '../components/inspector/PotentialEnergyGr
 import { PotentialEnergyLab } from '../components/inspector/PotentialEnergyLab'
 import { ProjectileGraphs } from '../components/inspector/ProjectileGraphs'
 import { ProjectileLab } from '../components/inspector/ProjectileLab'
+import { SpringMotionGraphs } from '../components/inspector/SpringMotionGraphs'
+import { SpringMotionLab } from '../components/inspector/SpringMotionLab'
 import { UnitConverterPanel } from '../components/inspector/UnitConverterPanel'
 import { FittedFormulaExpression } from '../components/math/FittedFormulaExpression'
 import { findFormulaById } from '../data/formulas'
 import { getVariableDefinition } from '../data/variables'
 import type { FormulaRecord, PhysicsVariableId } from '../types/formula'
+import type { CircularMotionState } from '../utils/circularMotion'
 import type { KinematicsState } from '../utils/kinematics'
 import type { KineticEnergyState } from '../utils/kineticEnergy'
 import type { MomentumState } from '../utils/momentum'
 import type { NewtonState } from '../utils/newtonSecondLaw'
 import type { PotentialEnergyState } from '../utils/potentialEnergy'
 import type { ProjectileLabState } from '../utils/projectile'
+import type { SpringMotionState } from '../utils/springMotion'
 
 const inspectorTabs = [
   { id: 'simulate', label: 'Simulate', icon: Boxes },
@@ -113,20 +119,6 @@ function ExamplePanel({ formula }: { formula: FormulaRecord }) {
   )
 }
 
-function PendingInstrument({ formula, instrument }: { formula: FormulaRecord; instrument: string }) {
-  return (
-    <section className="pending-instrument">
-      <FlaskConical aria-hidden="true" size={22} />
-      <span>Registry connected</span>
-      <h2>{instrument} for {formula.name}</h2>
-      <p>
-        Its formula data, variables, units, examples, and relationships are ready. The specialized
-        interactive model will follow the Newton benchmark rather than using a generic animation.
-      </p>
-    </section>
-  )
-}
-
 export function FormulaInspectorPage() {
   const { formulaId } = useParams()
   const [searchParams, setSearchParams] = useSearchParams()
@@ -167,6 +159,18 @@ export function FormulaInspectorPage() {
     height: 5,
     mass: 3,
   })
+  const [circularState, setCircularState] = useState<CircularMotionState>({
+    mass: 2,
+    radius: 4,
+    speed: 8,
+    time: 0,
+  })
+  const [springState, setSpringState] = useState<SpringMotionState>({
+    displacement: 0.25,
+    mass: 2,
+    springConstant: 40,
+    time: 0,
+  })
   const variableDefinitions = useMemo(
     () => formula?.variables.map(({ id }) => getVariableDefinition(id)) ?? [],
     [formula],
@@ -180,13 +184,17 @@ export function FormulaInspectorPage() {
   const isProjectileBenchmark = formula.id === 'projectile-vertical-position'
   const isMomentumBenchmark = formula.id === 'linear-momentum'
   const isPotentialBenchmark = formula.id === 'gravitational-potential-energy'
+  const isCircularBenchmark = formula.id === 'centripetal-acceleration'
+  const isSpringBenchmark = formula.id === 'hookes-law'
   const hasLiveSimulation =
     isNewtonBenchmark ||
     isKineticBenchmark ||
     isKinematicsBenchmark ||
     isProjectileBenchmark ||
     isMomentumBenchmark ||
-    isPotentialBenchmark
+    isPotentialBenchmark ||
+    isCircularBenchmark ||
+    isSpringBenchmark
   const selectTab = (tab: InspectorTabId) => {
     const next = new URLSearchParams(searchParams)
     if (tab === 'simulate') next.delete('tab')
@@ -355,8 +363,22 @@ export function FormulaInspectorPage() {
               setState={setPotentialState}
               state={potentialState}
             />
+          ) : isCircularBenchmark ? (
+            <CircularMotionLab
+              highlightedVariable={highlightedVariable}
+              onHighlightVariable={setHighlightedVariable}
+              setState={setCircularState}
+              state={circularState}
+            />
+          ) : isSpringBenchmark ? (
+            <SpringMotionLab
+              highlightedVariable={highlightedVariable}
+              onHighlightVariable={setHighlightedVariable}
+              setState={setSpringState}
+              state={springState}
+            />
           ) : (
-            <PendingInstrument formula={formula} instrument="Simulation" />
+            null
           ))}
         {activeTab === 'explain' && <ExplainPanel formula={formula} />}
         {activeTab === 'rearrange' && (
@@ -395,8 +417,12 @@ export function FormulaInspectorPage() {
             <MomentumGraphs highlightedVariable={highlightedVariable} state={momentumState} />
           ) : isPotentialBenchmark ? (
             <PotentialEnergyGraphs highlightedVariable={highlightedVariable} state={potentialState} />
+          ) : isCircularBenchmark ? (
+            <CircularMotionGraphs highlightedVariable={highlightedVariable} state={circularState} />
+          ) : isSpringBenchmark ? (
+            <SpringMotionGraphs highlightedVariable={highlightedVariable} state={springState} />
           ) : (
-            <PendingInstrument formula={formula} instrument="Live graph" />
+            null
           ))}
         {activeTab === 'example' && <ExamplePanel formula={formula} />}
         {activeTab === 'practice' && <FormulaPractice key={formula.id} formula={formula} />}

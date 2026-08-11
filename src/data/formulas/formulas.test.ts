@@ -93,6 +93,13 @@ describe('formula data architecture', () => {
     })
   })
 
+  it('registers a simulation and at least one live graph for every V1 formula', () => {
+    mechanicsFormulas.forEach((formula) => {
+      expect(formula.simulationType, `${formula.id}: simulation`).not.toBeNull()
+      expect(formula.graphTypes.length, `${formula.id}: graphs`).toBeGreaterThan(0)
+    })
+  })
+
   it('keeps relationships, examples, and practice templates internally valid', () => {
     const formulaIds = new Set(mechanicsFormulas.map((formula) => formula.id))
 

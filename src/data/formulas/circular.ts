@@ -64,7 +64,7 @@ export const circularMotionFormulas: FormulaRecord[] = [
     ],
     relatedFormulaIds: ['newton-second-law'],
     simulationType: 'rotating-mass',
-    graphTypes: ['acceleration-speed', 'acceleration-radius'],
+    graphTypes: ['acceleration-speed', 'acceleration-radius', 'centripetal-force-mass'],
     workedExamples: [
       {
         prompt: 'An object moves at 6 m/s around a circle of radius 3 m. Find its centripetal acceleration.',

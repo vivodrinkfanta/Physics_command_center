@@ -1318,8 +1318,7 @@
 .dimension-checker,
 .worked-example,
 .related-panel,
-.practice-instrument,
-.pending-instrument {
+.practice-instrument {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   background: var(--color-surface-card);
@@ -1338,8 +1337,7 @@
 .instrument-heading > div > span,
 .worked-example header span,
 .related-panel header span,
-.practice-instrument header span,
-.pending-instrument > span {
+.practice-instrument header span {
   color: var(--color-accent);
   font: 0.56rem var(--font-mono);
   letter-spacing: 0.09em;
@@ -1350,16 +1348,14 @@
 .rearrangement-panel h2,
 .instrument-heading h2,
 .related-panel h2,
-.practice-instrument h2,
-.pending-instrument h2 {
+.practice-instrument h2 {
   margin: 11px 0 0;
   font-size: clamp(1.05rem, 2vw, 1.55rem);
   font-weight: 520;
   line-height: 1.35;
 }
 
-.learning-panel p,
-.pending-instrument p {
+.learning-panel p {
   max-width: 760px;
   margin: 14px 0 0;
   color: var(--color-text-muted);
@@ -2396,24 +2392,6 @@
   font: 0.52rem var(--font-mono);
 }
 
-.pending-instrument {
-  display: grid;
-  justify-items: center;
-  min-height: 430px;
-  place-content: center;
-  padding: 30px;
-  color: var(--color-text-dim);
-  text-align: center;
-}
-
-.pending-instrument > span {
-  margin-top: 17px;
-}
-
-.pending-instrument p {
-  max-width: 560px;
-}
-
 .practice-instrument > header {
   display: flex;
   align-items: flex-start;
@@ -2952,6 +2930,218 @@
   line-height: 1.55;
 }
 
+.circular-stage {
+  background:
+    radial-gradient(circle at 50% 48%, rgba(134, 191, 232, 0.09), transparent 44%),
+    var(--color-surface-deep);
+}
+
+.circular-orbit {
+  fill: rgba(134, 191, 232, 0.015);
+  stroke: rgba(134, 191, 232, 0.34);
+  stroke-dasharray: 4 5;
+  stroke-width: 1.5;
+}
+
+.circular-center {
+  fill: var(--color-warning);
+  stroke: rgba(229, 180, 127, 0.32);
+  stroke-width: 7;
+}
+
+.circular-radius,
+.circular-velocity,
+.circular-force,
+.circular-object,
+.spring-coil,
+.spring-displacement,
+.spring-force,
+.spring-mass {
+  transition: opacity var(--transition-fast), filter var(--transition-fast);
+}
+
+.circular-radius line {
+  stroke: rgba(232, 240, 248, 0.38);
+  stroke-dasharray: 3 4;
+}
+
+.circular-radius text,
+.circular-velocity text,
+.circular-force text,
+.spring-displacement text,
+.spring-force text,
+.spring-velocity text {
+  font: 9px var(--font-mono);
+}
+
+.circular-radius text {
+  fill: var(--color-text-dim);
+}
+
+.circular-velocity line,
+#circular-velocity-head polygon {
+  fill: var(--color-data-velocity);
+  stroke: var(--color-data-velocity);
+}
+
+.circular-force line,
+#circular-force-head polygon {
+  fill: var(--color-accent);
+  stroke: var(--color-accent);
+}
+
+.circular-velocity line,
+.circular-force line {
+  stroke-width: 2.8;
+}
+
+.circular-velocity text {
+  fill: var(--color-data-velocity);
+}
+
+.circular-force text {
+  fill: var(--color-accent);
+}
+
+.circular-object circle:first-child {
+  fill: rgba(168, 234, 216, 0.08);
+  stroke: rgba(168, 234, 216, 0.24);
+}
+
+.circular-object circle:last-child {
+  fill: #c9f2e6;
+  stroke: var(--color-accent);
+  stroke-width: 1.5;
+}
+
+.spring-stage {
+  background:
+    radial-gradient(circle at 58% 48%, rgba(168, 234, 216, 0.075), transparent 44%),
+    var(--color-surface-deep);
+}
+
+.spring-wall {
+  fill: none;
+  stroke: #64727d;
+  stroke-width: 3;
+}
+
+.spring-equilibrium {
+  stroke: rgba(229, 180, 127, 0.42);
+  stroke-dasharray: 3 5;
+}
+
+.spring-coil {
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.5;
+}
+
+.spring-displacement line {
+  stroke: var(--color-warning);
+  stroke-width: 1.5;
+}
+
+.spring-displacement text {
+  fill: var(--color-warning-strong);
+}
+
+.spring-force line,
+#spring-force-head polygon {
+  fill: var(--color-accent);
+  stroke: var(--color-accent);
+}
+
+.spring-velocity line,
+#spring-velocity-head polygon {
+  fill: var(--color-data-velocity);
+  stroke: var(--color-data-velocity);
+}
+
+.spring-force line,
+.spring-velocity line {
+  stroke-width: 2.7;
+}
+
+.spring-force text {
+  fill: var(--color-accent);
+}
+
+.spring-velocity text {
+  fill: var(--color-data-velocity);
+}
+
+.spring-mass rect {
+  fill: #314a50;
+  stroke: rgba(168, 234, 216, 0.52);
+  stroke-width: 1.5;
+}
+
+.spring-mass text {
+  fill: var(--color-text);
+  font: 9px var(--font-mono);
+}
+
+.spring-mass circle {
+  fill: var(--color-surface-deep);
+  stroke: #6e7d8b;
+  stroke-width: 2;
+}
+
+.spring-energy-meter {
+  display: grid;
+  grid-template-columns: auto minmax(70px, 1fr) auto minmax(70px, 1fr);
+  align-items: center;
+  gap: 9px 12px;
+  border-top: 1px solid var(--color-border-soft);
+  padding: 13px 16px;
+}
+
+.spring-energy-meter > div {
+  display: grid;
+  gap: 3px;
+}
+
+.spring-energy-meter span,
+.spring-energy-meter small {
+  color: var(--color-text-dim);
+  font: 0.5rem var(--font-mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.spring-energy-meter strong {
+  color: var(--color-text);
+  font: 0.64rem var(--font-mono);
+  font-weight: 520;
+}
+
+.spring-energy-meter > span {
+  display: block;
+  height: 5px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #2a333e;
+}
+
+.spring-energy-meter > span i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--color-accent);
+}
+
+.spring-energy-meter > span:nth-of-type(2) i {
+  background: var(--color-data-velocity);
+}
+
+.spring-energy-meter > small {
+  grid-column: 1 / -1;
+  text-align: right;
+}
+
 @media (max-width: 1180px) {
   .formula-inspector__header {
     grid-template-columns: 1fr;
@@ -3060,6 +3250,14 @@
   .transport-controls output {
     grid-column: 1 / -1;
     text-align: right;
+  }
+
+  .spring-energy-meter {
+    grid-template-columns: auto minmax(70px, 1fr);
+  }
+
+  .spring-energy-meter > small {
+    text-align: left;
   }
 
   .newton-telemetry,

@@ -12,7 +12,7 @@ const modeContent = {
     eyebrow: 'Calibrated instrument index',
     title: 'Choose a model. Change one cause at a time.',
     description:
-      'Six complete mechanics instruments now share the same standard: faithful calculations, synchronized motion where relevant, variable linking, and live relationship graphs.',
+      'Eight complete mechanics instruments now share the same standard: faithful calculations, synchronized motion where relevant, variable linking, and live relationship graphs.',
   },
   practice: {
     eyebrow: 'Focused mechanics practice',
@@ -82,6 +82,20 @@ const simulationModules = [
     description: 'Move a mass above or below a chosen reference height and compare gravitational fields.',
     features: ['Signed height change', 'Adjustable mass and gravity', 'Height and mass graphs'],
   },
+  {
+    formulaId: 'centripetal-acceleration',
+    label: 'Circular motion · benchmark 07',
+    title: 'Uniform orbit laboratory',
+    description: 'Trace a rotating mass through tangent velocity and inward acceleration and force vectors.',
+    features: ['Mass, speed, and radius controls', 'Synchronized orbital timeline', 'Quadratic, inverse, and force graphs'],
+  },
+  {
+    formulaId: 'hookes-law',
+    label: 'Oscillations · benchmark 08',
+    title: 'Mass-spring oscillator',
+    description: 'Release an attached mass and follow restoring force, motion, and energy exchange.',
+    features: ['Stiffness, displacement, and mass', 'Ideal SHM timeline and energy ledger', 'Force, motion, and energy graphs'],
+  },
 ] as const
 
 export function ModuleIndexPage({ mode }: ModuleIndexPageProps) {
@@ -99,9 +113,9 @@ export function ModuleIndexPage({ mode }: ModuleIndexPageProps) {
           <p>{content.description}</p>
         </div>
         <dl aria-label={`${mode} readiness`}>
-          <div><dt>Modules online</dt><dd>{mode === 'practice' ? String(mechanicsFormulas.length).padStart(2, '0') : '06'}</dd></div>
+              <div><dt>Modules online</dt><dd>{String(mechanicsFormulas.length).padStart(2, '0')}</dd></div>
           <div><dt>Physics checks</dt><dd>Verified</dd></div>
-          <div><dt>{mode === 'practice' ? 'Hint policy' : 'Next instrument'}</dt><dd>{mode === 'practice' ? 'Optional' : 'Circular motion'}</dd></div>
+              <div><dt>{mode === 'practice' ? 'Hint policy' : 'Registry coverage'}</dt><dd>{mode === 'practice' ? 'Optional' : 'Complete'}</dd></div>
         </dl>
       </header>
 
@@ -160,10 +174,10 @@ export function ModuleIndexPage({ mode }: ModuleIndexPageProps) {
 
           <aside className="module-index__standard">
             <span>Benchmark rule</span>
-            <h2>Six complete instruments, one shared standard.</h2>
+            <h2>Every V1 formula now has a live instrument.</h2>
             <p>
-              Additional mechanics modules stay offline until their diagrams, calculations,
-              controls, and graphs meet the same standard as these six instruments.
+              All eight registry formulas connect their diagrams, calculations, controls,
+              variable focus, practice, and graphs through the same scientific interface.
             </p>
             <div>
               <span>Current scope</span>

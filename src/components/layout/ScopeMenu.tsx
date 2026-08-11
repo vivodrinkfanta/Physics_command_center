@@ -75,7 +75,7 @@ export function ScopeMenu() {
             </div>
             <div>
               <dt>Benchmark labs</dt>
-              <dd>06</dd>
+              <dd>{String(mechanicsFormulas.length).padStart(2, '0')}</dd>
             </div>
           </dl>
 
@@ -100,7 +100,7 @@ export function ScopeMenu() {
               <Boxes aria-hidden="true" size={16} />
               <span>
                 <strong>Open simulation catalog</strong>
-                <small>Six complete mechanics instruments</small>
+                <small>Eight complete mechanics instruments</small>
               </span>
               <ArrowRight aria-hidden="true" size={14} />
             </Link>

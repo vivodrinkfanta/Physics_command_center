@@ -108,6 +108,24 @@ const navigationCommands: CommandPaletteItem[] = [
     keywords: ['potential energy', 'gpe', 'height', 'gravity', 'raised mass'],
     meta: 'ΔEₚ = mgΔh',
   },
+  {
+    id: 'simulate-circular-motion',
+    label: 'Run the uniform orbit laboratory',
+    description: 'Adjust mass, speed, and radius while tracing tangent velocity and inward force.',
+    href: '/formulas/centripetal-acceleration',
+    section: 'Simulate',
+    keywords: ['circular motion', 'centripetal', 'orbit', 'radius', 'inward force'],
+    meta: 'a꜀ = v²/r',
+  },
+  {
+    id: 'simulate-hookes-law',
+    label: 'Run the mass-spring oscillator',
+    description: 'Release an attached mass and inspect restoring force and energy exchange.',
+    href: '/formulas/hookes-law',
+    section: 'Simulate',
+    keywords: ['hooke', 'spring', 'oscillation', 'shm', 'restoring force'],
+    meta: 'F = −kx',
+  },
 ]
 
 const formulaCommands: CommandPaletteItem[] = mechanicsFormulas.map((formula) => ({

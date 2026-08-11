@@ -64,7 +64,7 @@ export const oscillationFormulas: FormulaRecord[] = [
     ],
     relatedFormulaIds: ['kinetic-energy'],
     simulationType: 'mass-spring',
-    graphTypes: ['force-displacement'],
+    graphTypes: ['spring-position-time', 'force-displacement', 'spring-energy-displacement'],
     workedExamples: [
       {
         prompt: 'A spring with k = 50 N/m is stretched 0.20 m. Find the restoring force.',
