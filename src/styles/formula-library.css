@@ -37,7 +37,7 @@
   margin: 0;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  background: rgba(38, 54, 77, 0.72);
+  background: var(--color-surface-card-soft);
 }
 
 .formula-library__telemetry div {
@@ -75,7 +75,7 @@
   z-index: 10;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  background: rgba(38, 54, 77, 0.92);
+  background: var(--color-surface-card-strong);
   box-shadow: 0 20px 54px rgba(0, 0, 0, 0.24);
   padding: 14px;
   backdrop-filter: blur(18px);
@@ -261,13 +261,13 @@
   border-radius: var(--radius-lg);
   background:
     linear-gradient(145deg, rgba(168, 234, 216, 0.035), transparent 38%),
-    rgba(38, 54, 77, 0.82);
-  transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+    var(--color-surface-card);
+  transition: border-color var(--transition-standard), transform var(--transition-standard), box-shadow var(--transition-standard);
 }
 
 .formula-card:hover {
   border-color: rgba(168, 234, 216, 0.22);
-  box-shadow: 0 22px 56px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-float);
   transform: translateY(-2px);
 }
 

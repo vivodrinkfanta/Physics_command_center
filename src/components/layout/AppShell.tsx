@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Menu, Search, X } from 'lucide-react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
-import { mechanicsFormulas } from '../../data/formulas'
+import { findFormulaById } from '../../data/formulas'
 import { isPhysicsSearchShortcut } from '../../utils/shortcuts'
 import { Sidebar } from './Sidebar'
 
@@ -18,9 +18,9 @@ export function AppShell() {
   const hasMounted = useRef(false)
   const location = useLocation()
   const navigate = useNavigate()
-  const selectedFormula = mechanicsFormulas.find(
-    (formula) => `/formulas/${formula.id}` === location.pathname,
-  )
+  const selectedFormula = location.pathname.startsWith('/formulas/')
+    ? findFormulaById(location.pathname.slice('/formulas/'.length))
+    : undefined
   const pageName =
     pageNames[location.pathname] ??
     selectedFormula?.name ??

@@ -8,6 +8,36 @@ export type FormulaId =
   | 'projectile-vertical-position'
   | 'hookes-law'
 
+export type FormulaCategory = 'Mechanics'
+
+export type FormulaSimulationType =
+  | 'force-cart'
+  | 'kinematics-cart'
+  | 'mass-spring'
+  | 'momentum-cart'
+  | 'moving-mass'
+  | 'projectile-field'
+  | 'raised-mass'
+  | 'rotating-mass'
+
+export type FormulaGraphType =
+  | 'acceleration-force'
+  | 'acceleration-mass'
+  | 'acceleration-radius'
+  | 'acceleration-speed'
+  | 'acceleration-time'
+  | 'force-displacement'
+  | 'kinetic-energy-mass'
+  | 'kinetic-energy-speed'
+  | 'momentum-mass'
+  | 'momentum-velocity'
+  | 'potential-energy-height'
+  | 'potential-energy-mass'
+  | 'trajectory'
+  | 'velocity-time'
+  | 'vertical-position-time'
+  | 'vertical-velocity-time'
+
 export type PhysicsVariableId =
   | 'final-velocity'
   | 'initial-velocity'
@@ -137,13 +167,7 @@ export interface PracticeVariableRange {
   variableId: PhysicsVariableId
 }
 
-export interface PracticeFixedValue {
-  value: number
-  variableId: PhysicsVariableId
-}
-
 export interface PracticeTemplate {
-  fixedValues?: PracticeFixedValue[]
   promptTemplate: string
   solveFor: PhysicsVariableId
   substitutionTemplate: string
@@ -152,26 +176,27 @@ export interface PracticeTemplate {
 
 export interface FormulaRecord {
   assumptions: string[]
-  category: 'Mechanics'
+  category: FormulaCategory
   commonMistakes: string[]
   constants: Array<{
     name: string
     symbol: string
     unit: string
     value: number
+    variableId: PhysicsVariableId
   }>
   description: string
   difficulty: 1 | 2 | 3 | 4 | 5
   dimensionalAnalysis: FormulaDimensionalAnalysis
   expression: FormulaExpression
-  graphTypes: string[]
+  graphTypes: FormulaGraphType[]
   id: FormulaId
   name: string
   practiceTemplates: PracticeTemplate[]
   predictionChallenges?: FormulaPredictionChallenge[]
   rearrangements: FormulaRearrangement[]
   relatedFormulaIds: FormulaId[]
-  simulationType: string | null
+  simulationType: FormulaSimulationType | null
   subtopic: string
   tags: string[]
   variables: FormulaVariableReference[]

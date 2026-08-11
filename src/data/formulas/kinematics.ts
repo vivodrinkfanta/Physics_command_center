@@ -164,7 +164,15 @@ export const kinematicsFormulas: FormulaRecord[] = [
         control: { defaultValue: 9.81, min: 1.62, max: 24.79, step: 0.01 },
       },
     ],
-    constants: [],
+    constants: [
+      {
+        name: 'Earth surface gravitational field strength',
+        symbol: 'g',
+        unit: 'm/s²',
+        value: 9.81,
+        variableId: 'gravitational-field-strength',
+      },
+    ],
     rearrangements: [
       {
         solveFor: 'initial-vertical-position',
@@ -274,7 +282,6 @@ export const kinematicsFormulas: FormulaRecord[] = [
         promptTemplate: 'A projectile begins at {y0} m with vertical velocity {v0y} m/s. Find y after {t} s.',
         solveFor: 'vertical-position',
         substitutionTemplate: 'y = y₀ + v₀ᵧt − ½gt² = {y0} + ({v0y})({t}) − ½(9.81)({t})²',
-        fixedValues: [{ variableId: 'gravitational-field-strength', value: 9.81 }],
         variableRanges: [
           { variableId: 'initial-vertical-position', placeholder: 'y0', min: 0, max: 20, step: 1 },
           { variableId: 'initial-vertical-velocity', placeholder: 'v0y', min: 5, max: 30, step: 1 },

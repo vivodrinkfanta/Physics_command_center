@@ -65,7 +65,7 @@ export function Sidebar() {
         </div>
       </section>
 
-      <p className="build-label">Build 14 · Learning systems</p>
+      <p className="build-label">Build 16 · Core system</p>
     </div>
   )
 }

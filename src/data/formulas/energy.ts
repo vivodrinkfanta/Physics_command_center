@@ -132,7 +132,15 @@ export const energyFormulas: FormulaRecord[] = [
         control: { defaultValue: 5, min: -20, max: 50, step: 0.1 },
       },
     ],
-    constants: [],
+    constants: [
+      {
+        name: 'Earth surface gravitational field strength',
+        symbol: 'g',
+        unit: 'm/s²',
+        value: 9.81,
+        variableId: 'gravitational-field-strength',
+      },
+    ],
     rearrangements: [
       {
         solveFor: 'mass',
@@ -209,7 +217,6 @@ export const energyFormulas: FormulaRecord[] = [
         promptTemplate: 'A {m} kg object rises by {h} m. Find its change in GPE using g = 9.81 m/s².',
         solveFor: 'gravitational-potential-energy',
         substitutionTemplate: 'ΔEₚ = mgΔh = ({m})(9.81)({h})',
-        fixedValues: [{ variableId: 'gravitational-field-strength', value: 9.81 }],
         variableRanges: [
           { variableId: 'mass', placeholder: 'm', min: 1, max: 20, step: 1 },
           { variableId: 'height', placeholder: 'h', min: 1, max: 30, step: 1 },

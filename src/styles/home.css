@@ -95,7 +95,7 @@
   margin-top: 38px;
   border: 1px solid #2b3541;
   border-radius: 14px;
-  background: rgba(38, 54, 77, 0.94);
+  background: var(--color-surface-card-strong);
   padding: 0 13px 0 17px;
   box-shadow: 0 16px 42px rgba(0, 0, 0, 0.22);
   transition: border-color 160ms ease, box-shadow 160ms ease;
@@ -349,14 +349,14 @@
 }
 
 .trajectory-stage__launch-guide {
-  stroke: #e5b47f;
+  stroke: var(--color-data-displacement);
   stroke-dasharray: 0.7 0.65;
   stroke-linecap: round;
   stroke-width: 0.38;
 }
 
 #launch-guide-arrowhead path {
-  fill: #e5b47f;
+  fill: var(--color-data-displacement);
 }
 
 .trajectory-stage__angle-arc {
@@ -366,7 +366,7 @@
 }
 
 .trajectory-stage__launch-label {
-  fill: #e9c59e;
+  fill: var(--color-warning-strong);
   font: 1.35px var(--font-mono);
 }
 
@@ -543,7 +543,7 @@
   padding: 17px;
   color: inherit;
   text-decoration: none;
-  transition: background 170ms ease, border-color 170ms ease, transform 170ms ease;
+  transition: background var(--transition-standard), border-color var(--transition-standard), transform var(--transition-standard);
 }
 
 a.topic-card:hover {

@@ -21,7 +21,7 @@ import { NewtonGraphs } from '../components/inspector/NewtonGraphs'
 import { NewtonSecondLawLab } from '../components/inspector/NewtonSecondLawLab'
 import { UnitConverterPanel } from '../components/inspector/UnitConverterPanel'
 import { FormulaExpression } from '../components/math/FormulaExpression'
-import { mechanicsFormulas } from '../data/formulas'
+import { findFormulaById } from '../data/formulas'
 import { getVariableDefinition } from '../data/variables'
 import type { FormulaRecord, PhysicsVariableId } from '../types/formula'
 import type { NewtonState } from '../utils/newtonSecondLaw'
@@ -107,7 +107,7 @@ function PendingInstrument({ formula, instrument }: { formula: FormulaRecord; in
 export function FormulaInspectorPage() {
   const { formulaId } = useParams()
   const [searchParams, setSearchParams] = useSearchParams()
-  const formula = mechanicsFormulas.find((candidate) => candidate.id === formulaId)
+  const formula = findFormulaById(formulaId)
   const requestedTab = searchParams.get('tab')
   const activeTab: InspectorTabId = inspectorTabs.some((tab) => tab.id === requestedTab)
     ? (requestedTab as InspectorTabId)

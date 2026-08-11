@@ -25,7 +25,7 @@
   overflow: hidden;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  background: rgba(38, 54, 77, 0.78);
+  background: var(--color-surface-card);
 }
 
 .formula-inspector__identity {
@@ -239,7 +239,7 @@
 .newton-console {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  background: rgba(38, 54, 77, 0.82);
+  background: var(--color-surface-card);
 }
 
 .newton-stage {
@@ -364,12 +364,12 @@
 
 .newton-vector--force line,
 #force-arrowhead polygon {
-  fill: #e0aa72;
-  stroke: #e0aa72;
+  fill: var(--color-warning);
+  stroke: var(--color-warning);
 }
 
 .newton-vector--force text {
-  fill: #e0aa72;
+  fill: var(--color-warning);
 }
 
 .newton-vector--acceleration line,
@@ -384,8 +384,8 @@
 
 .newton-vector--velocity line,
 #velocity-arrowhead polygon {
-  fill: #86bfe8;
-  stroke: #86bfe8;
+  fill: var(--color-data-velocity);
+  stroke: var(--color-data-velocity);
 }
 
 .newton-vector--velocity text {
@@ -566,19 +566,19 @@
 .formula-inspector input[type='range']::-webkit-slider-thumb {
   width: 15px;
   height: 15px;
-  border: 2px solid #b7f0df;
+  border: 2px solid var(--color-control-thumb);
   border-radius: 50%;
   appearance: none;
-  background: #2f5148;
+  background: var(--color-control-track);
   box-shadow: 0 0 0 4px rgba(168, 234, 216, 0.08);
 }
 
 .formula-inspector input[type='range']::-moz-range-thumb {
   width: 12px;
   height: 12px;
-  border: 2px solid #b7f0df;
+  border: 2px solid var(--color-control-thumb);
   border-radius: 50%;
-  background: #2f5148;
+  background: var(--color-control-track);
 }
 
 .newton-control__range {
@@ -634,7 +634,7 @@
   overflow: hidden;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  background: rgba(38, 54, 77, 0.82);
+  background: var(--color-surface-card);
 }
 
 .newton-telemetry > header,
@@ -722,14 +722,14 @@
 
 .telemetry-lane--velocity .telemetry-lane__path,
 .telemetry-lane--velocity .telemetry-lane__marker {
-  fill: #86bfe8;
-  stroke: #86bfe8;
+  fill: var(--color-data-velocity);
+  stroke: var(--color-data-velocity);
 }
 
 .telemetry-lane--position .telemetry-lane__path,
 .telemetry-lane--position .telemetry-lane__marker {
-  fill: #e5b47f;
-  stroke: #e5b47f;
+  fill: var(--color-data-displacement);
+  stroke: var(--color-data-displacement);
 }
 
 .telemetry-lane__path.is-linked,
@@ -901,8 +901,8 @@
 
 .prediction-options button.is-incorrect {
   border-color: rgba(229, 180, 127, 0.42);
-  background: rgba(229, 180, 127, 0.1);
-  color: #f0c99f;
+  background: var(--color-warning-soft);
+  color: var(--color-warning-strong);
 }
 
 .prediction-feedback {
@@ -919,7 +919,7 @@
 }
 
 .prediction-feedback.is-incorrect {
-  color: #f0c99f;
+  color: var(--color-warning-strong);
 }
 
 .prediction-actions {
@@ -968,7 +968,7 @@
   overflow: hidden;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  background: rgba(38, 54, 77, 0.82);
+  background: var(--color-surface-card);
   transition: border-color 140ms ease, box-shadow 140ms ease;
 }
 
@@ -1087,7 +1087,7 @@
 .pending-instrument {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  background: rgba(38, 54, 77, 0.82);
+  background: var(--color-surface-card);
 }
 
 .learning-panel {
@@ -1160,7 +1160,7 @@
 }
 
 .learning-panel--warning li::before {
-  background: #d6a26f;
+  background: var(--color-warning);
 }
 
 .dimension-readout {
@@ -1496,7 +1496,7 @@
 .unit-monitor--unknown,
 .unit-monitor--invalid-value {
   border-color: rgba(214, 162, 111, 0.26);
-  color: #d6a26f;
+  color: var(--color-warning);
 }
 
 .unit-monitor output {
@@ -1933,7 +1933,7 @@
   overflow: hidden;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  background: rgba(38, 54, 77, 0.82);
+  background: var(--color-surface-card);
 }
 
 .formula-map > header {
@@ -1995,7 +1995,7 @@
 }
 
 .formula-map__legend i.is-connected {
-  border-color: #86bfe8;
+  border-color: var(--color-data-velocity);
   background: rgba(134, 191, 232, 0.42);
 }
 
@@ -2055,12 +2055,12 @@
   transform: translate(-50%, -50%);
   border: 1px solid var(--color-border-soft);
   border-radius: 11px;
-  background: rgba(38, 54, 77, 0.96);
+  background: var(--color-surface-card-strong);
   padding: 12px 13px;
   color: var(--color-text-muted);
   text-decoration: none;
-  box-shadow: 0 12px 30px rgba(7, 13, 22, 0.18);
-  transition: border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease, opacity 140ms ease;
+  box-shadow: var(--shadow-instrument);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast);
 }
 
 .formula-map__node:hover,
@@ -2069,7 +2069,7 @@
   transform: translate(-50%, -50%) translateY(-3px);
   border-color: rgba(168, 234, 216, 0.42);
   outline: 0;
-  box-shadow: 0 16px 36px rgba(7, 13, 22, 0.3);
+  box-shadow: var(--shadow-float);
 }
 
 .formula-map__node.is-context {

@@ -36,8 +36,14 @@ a {
 }
 
 ::selection {
-  background: rgba(168, 234, 216, 0.24);
-  color: white;
+  background: var(--color-accent-selection);
+  color: var(--color-text);
+}
+
+output,
+code,
+kbd {
+  font-variant-numeric: tabular-nums lining-nums;
 }
 
 .skip-link {
@@ -47,7 +53,7 @@ a {
   z-index: 200;
   border-radius: var(--radius-sm);
   background: var(--color-accent);
-  color: #07100d;
+  color: var(--color-ink-on-accent);
   padding: 10px 14px;
   text-decoration: none;
   font-size: 0.86rem;
@@ -61,9 +67,31 @@ a {
 
 .app-shell {
   min-height: 100vh;
-  background:
+  background-color: var(--color-bg);
+  background-image:
     radial-gradient(circle at 75% 18%, rgba(77, 119, 110, 0.09), transparent 28rem),
-    var(--color-bg);
+    linear-gradient(rgba(232, 240, 248, 0.014) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232, 240, 248, 0.014) 1px, transparent 1px);
+  background-size: auto, 64px 64px, 64px 64px;
+}
+
+:where(
+  .atlas-workspace,
+  .formula-card,
+  .formula-inspector__header,
+  .formula-map,
+  .library-instrument,
+  .module-index__card,
+  .module-index__standard,
+  .newton-console,
+  .newton-prediction,
+  .newton-stage,
+  .newton-telemetry,
+  .practice-catalog,
+  .practice-instrument,
+  .relationship-graph
+) {
+  box-shadow: var(--shadow-instrument);
 }
 
 .desktop-sidebar {
@@ -72,7 +100,7 @@ a {
   width: var(--sidebar-width);
   z-index: 20;
   border-right: 1px solid var(--color-border-soft);
-  background: rgba(29, 41, 59, 0.96);
+  background: var(--color-surface-navigation);
 }
 
 .sidebar {
@@ -92,7 +120,7 @@ a {
 
 .lab-mark rect {
   fill: var(--color-panel);
-  stroke: #2b3a3d;
+  stroke: var(--color-border);
 }
 
 .lab-mark circle {
@@ -101,7 +129,7 @@ a {
 
 .lab-mark ellipse {
   fill: none;
-  stroke: #87cdbd;
+  stroke: var(--color-accent);
   stroke-width: 1;
   opacity: 0.65;
 }
@@ -154,7 +182,7 @@ a {
   color: var(--color-text-muted);
   text-decoration: none;
   font-size: 0.84rem;
-  transition: background 150ms ease, border-color 150ms ease, color 150ms ease;
+  transition: background var(--transition-standard), border-color var(--transition-standard), color var(--transition-standard);
 }
 
 .nav-item:hover {
@@ -170,7 +198,7 @@ a {
 
 .nav-item__chevron {
   opacity: 0;
-  transition: opacity 150ms ease, transform 150ms ease;
+  transition: opacity var(--transition-standard), transform var(--transition-standard);
 }
 
 .nav-item:hover .nav-item__chevron,
@@ -226,7 +254,7 @@ a {
 
 .build-label {
   margin: 13px 4px 0;
-  color: #46505d;
+  color: var(--color-text-faint);
   font-family: var(--font-mono);
   font-size: 0.58rem;
   letter-spacing: 0.08em;
@@ -242,7 +270,7 @@ a {
   justify-content: space-between;
   min-height: var(--topbar-height);
   border-bottom: 1px solid var(--color-border-soft);
-  background: rgba(33, 45, 64, 0.88);
+  background: var(--color-surface-topbar);
   padding: 0 26px;
   backdrop-filter: blur(18px);
 }
@@ -266,7 +294,7 @@ a {
 }
 
 .breadcrumb__separator {
-  color: #39414d;
+  color: var(--color-text-faint);
 }
 
 .topbar__actions {
@@ -294,11 +322,11 @@ a {
 }
 
 .search-trigger kbd {
-  border: 1px solid #28313d;
+  border: 1px solid var(--color-border-soft);
   border-radius: 5px;
   background: var(--color-panel-strong);
   padding: 3px 5px;
-  color: #717c89;
+  color: var(--color-text-dim);
   font-family: var(--font-sans);
   font-size: 0.62rem;
 }

@@ -92,12 +92,12 @@ export function generatePracticeProblem(
     values[range.variableId] = value
     replacements[range.placeholder] = value
   })
-  template.fixedValues?.forEach(({ value, variableId }) => {
+  formula.constants.forEach(({ value, variableId }) => {
     values[variableId] = value
   })
 
   const knownValues = [...template.variableRanges.map(({ variableId }) => variableId)]
-  template.fixedValues?.forEach(({ variableId }) => knownValues.push(variableId))
+  formula.constants.forEach(({ variableId }) => knownValues.push(variableId))
 
   return {
     answerUnit: getVariableDefinition(template.solveFor).siUnit.symbol,

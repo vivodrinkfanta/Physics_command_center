@@ -101,10 +101,12 @@ describe('formula data architecture', () => {
           expect(template.promptTemplate).toContain(`{${range.placeholder}}`)
           expect(template.substitutionTemplate).toContain(`{${range.placeholder}}`)
         })
-        template.fixedValues?.forEach((value) => {
-          expect(variableIds.has(value.variableId)).toBe(true)
-          expect(Number.isFinite(value.value)).toBe(true)
-        })
+      })
+      formula.constants.forEach((constant) => {
+        const definition = variableCatalog[constant.variableId]
+        expect(variableIds.has(constant.variableId)).toBe(true)
+        expect(Number.isFinite(constant.value)).toBe(true)
+        expect(constant.unit).toBe(definition.siUnit.symbol)
       })
       formula.predictionChallenges?.forEach((challenge) => {
         expect(challenge.options.some((option) => option.id === challenge.correctOptionId)).toBe(true)

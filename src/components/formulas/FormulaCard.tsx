@@ -70,8 +70,8 @@ export function FormulaCard({ formula }: FormulaCardProps) {
       <footer className="formula-card__footer">
         <div className="formula-card__capabilities" aria-label="Available formula data">
           {formula.simulationType && (
-            <span title="Simulation-ready data">
-              <Box aria-hidden="true" size={14} /> Simulation
+            <span title={`Registered simulation model: ${formula.simulationType}`}>
+              <Box aria-hidden="true" size={14} /> Model
             </span>
           )}
           {formula.graphTypes.length > 0 && (

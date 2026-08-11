@@ -1,55 +1,33 @@
 import { useEffect, useRef, type CSSProperties } from 'react'
 import { ArrowUpRight, Network } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { mechanicsFormulas } from '../../data/formulas'
-import type { FormulaId, FormulaRecord } from '../../types/formula'
+import {
+  getFormulaRelationshipEdges,
+  getRelatedFormulas,
+  mechanicsFormulas,
+} from '../../data/formulas'
+import type { FormulaRecord } from '../../types/formula'
+import { createFormulaRelationshipLayout } from '../../utils/formulaRelationships'
 import { FormulaExpression } from '../math/FormulaExpression'
 
 interface FormulaRelationshipMapProps {
   formula: FormulaRecord
 }
 
-interface MapPosition {
-  x: number
-  y: number
-}
-
-const mapPositions: Record<FormulaId, MapPosition> = {
-  'constant-acceleration-velocity': { x: 130, y: 100 },
-  'projectile-vertical-position': { x: 130, y: 320 },
-  'newton-second-law': { x: 390, y: 100 },
-  'centripetal-acceleration': { x: 390, y: 320 },
-  'linear-momentum': { x: 650, y: 100 },
-  'hookes-law': { x: 650, y: 320 },
-  'kinetic-energy': { x: 910, y: 100 },
-  'gravitational-potential-energy': { x: 910, y: 320 },
-}
-
-const relationshipEdges = (() => {
-  const seen = new Set<string>()
-  return mechanicsFormulas.flatMap((formula) =>
-    formula.relatedFormulaIds.flatMap((relatedId) => {
-      const ids = [formula.id, relatedId].sort() as [FormulaId, FormulaId]
-      const key = ids.join(':')
-      if (seen.has(key)) return []
-      seen.add(key)
-      return [{ from: ids[0], to: ids[1] }]
-    }),
-  )
-})()
+const relationshipEdges = getFormulaRelationshipEdges()
+const relationshipLayout = createFormulaRelationshipLayout(mechanicsFormulas, relationshipEdges)
+const mapPositions = new Map(
+  relationshipLayout.positions.map(({ formulaId, x, y }) => [formulaId, { x, y }]),
+)
 
 export function FormulaRelationshipMap({ formula }: FormulaRelationshipMapProps) {
   const viewportRef = useRef<HTMLDivElement>(null)
-  const directlyConnectedIds = new Set<FormulaId>()
-  relationshipEdges.forEach((edge) => {
-    if (edge.from === formula.id) directlyConnectedIds.add(edge.to)
-    if (edge.to === formula.id) directlyConnectedIds.add(edge.from)
-  })
+  const directlyConnectedIds = new Set(getRelatedFormulas(formula.id).map(({ id }) => id))
 
   useEffect(() => {
     const viewport = viewportRef.current
     if (!viewport) return
-    const currentX = mapPositions[formula.id].x
+    const currentX = mapPositions.get(formula.id)?.x ?? 0
     viewport.scrollLeft = Math.max(0, currentX - viewport.clientWidth / 2)
   }, [formula.id])
 
@@ -68,8 +46,18 @@ export function FormulaRelationshipMap({ formula }: FormulaRelationshipMapProps)
       </header>
 
       <div className="formula-map__viewport" ref={viewportRef} tabIndex={0}>
-        <div className="formula-map__canvas" role="group" aria-label="Clickable mechanics formulas">
-          <svg aria-hidden="true" height="420" viewBox="0 0 1040 420" width="1040">
+        <div
+          className="formula-map__canvas"
+          role="group"
+          aria-label="Clickable mechanics formulas"
+          style={{ height: relationshipLayout.height, width: relationshipLayout.width }}
+        >
+          <svg
+            aria-hidden="true"
+            height={relationshipLayout.height}
+            viewBox={`0 0 ${relationshipLayout.width} ${relationshipLayout.height}`}
+            width={relationshipLayout.width}
+          >
             <defs>
               <filter id="formula-map-glow" x="-30%" y="-30%" width="160%" height="160%">
                 <feGaussianBlur result="blur" stdDeviation="3" />
@@ -77,8 +65,9 @@ export function FormulaRelationshipMap({ formula }: FormulaRelationshipMapProps)
               </filter>
             </defs>
             {relationshipEdges.map((edge) => {
-              const from = mapPositions[edge.from]
-              const to = mapPositions[edge.to]
+              const from = mapPositions.get(edge.from)
+              const to = mapPositions.get(edge.to)
+              if (!from || !to) return null
               const isActive = edge.from === formula.id || edge.to === formula.id
               return (
                 <g className={`formula-map__edge${isActive ? ' is-active' : ''}`} key={`${edge.from}-${edge.to}`}>
@@ -91,7 +80,8 @@ export function FormulaRelationshipMap({ formula }: FormulaRelationshipMapProps)
           </svg>
 
           {mechanicsFormulas.map((candidate) => {
-            const position = mapPositions[candidate.id]
+            const position = mapPositions.get(candidate.id)
+            if (!position) return null
             const state =
               candidate.id === formula.id
                 ? ' is-current'

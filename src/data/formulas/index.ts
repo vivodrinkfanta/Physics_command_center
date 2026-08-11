@@ -6,7 +6,12 @@ import { kinematicsFormulas } from './kinematics'
 import { momentumFormulas } from './momentum'
 import { oscillationFormulas } from './oscillations'
 
-export const mechanicsFormulas: FormulaRecord[] = [
+export interface FormulaRelationshipEdge {
+  readonly from: FormulaId
+  readonly to: FormulaId
+}
+
+export const mechanicsFormulas: readonly FormulaRecord[] = [
   ...kinematicsFormulas,
   ...forceFormulas,
   ...energyFormulas,
@@ -16,11 +21,41 @@ export const mechanicsFormulas: FormulaRecord[] = [
 ]
 
 const formulaRegistry = new Map(mechanicsFormulas.map((formula) => [formula.id, formula]))
+const formulaRelationshipEdges: readonly FormulaRelationshipEdge[] = (() => {
+  const seen = new Set<string>()
+  return mechanicsFormulas.flatMap((formula) =>
+    formula.relatedFormulaIds.flatMap((relatedId) => {
+      const ids = [formula.id, relatedId].sort() as [FormulaId, FormulaId]
+      const key = ids.join(':')
+      if (seen.has(key)) return []
+      seen.add(key)
+      return [{ from: ids[0], to: ids[1] }]
+    }),
+  )
+})()
+
+export function findFormulaById(formulaId: string | undefined) {
+  if (!formulaId) return undefined
+  return formulaRegistry.get(formulaId as FormulaId)
+}
 
 export function getFormulaById(formulaId: FormulaId) {
-  const formula = formulaRegistry.get(formulaId)
+  const formula = findFormulaById(formulaId)
   if (!formula) throw new Error(`Unknown formula: ${formulaId}`)
   return formula
+}
+
+export function getFormulaRelationshipEdges() {
+  return formulaRelationshipEdges
+}
+
+export function getRelatedFormulas(formulaId: FormulaId) {
+  const connectedIds = new Set<FormulaId>()
+  getFormulaRelationshipEdges().forEach((edge) => {
+    if (edge.from === formulaId) connectedIds.add(edge.to)
+    if (edge.to === formulaId) connectedIds.add(edge.from)
+  })
+  return mechanicsFormulas.filter((formula) => connectedIds.has(formula.id))
 }
 
 export function searchFormulas(query: string) {
