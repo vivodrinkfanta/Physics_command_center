@@ -65,6 +65,12 @@
   margin-top: clamp(38px, 6vw, 70px);
 }
 
+.module-index__catalog {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+
 .module-index__card,
 .module-index__standard {
   border: 1px solid var(--color-border);

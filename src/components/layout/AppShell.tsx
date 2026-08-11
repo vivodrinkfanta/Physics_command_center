@@ -118,7 +118,16 @@ export function AppShell() {
         <p aria-live="polite" className="route-announcer">
           {pageName}
         </p>
-        <Outlet />
+        <div
+          className="route-stage"
+          key={
+            location.pathname === '/explore'
+              ? `${location.pathname}${location.search}`
+              : location.pathname
+          }
+        >
+          <Outlet />
+        </div>
       </main>
 
       {isNavigationOpen && (

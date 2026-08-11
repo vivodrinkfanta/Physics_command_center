@@ -1,5 +1,4 @@
 import {
-  Atom,
   BookOpen,
   Boxes,
   ChevronRight,
@@ -7,8 +6,11 @@ import {
   Orbit,
   House,
 } from 'lucide-react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import { LabMark } from '../brand/LabMark'
+import { topicIcons } from '../explore/topicIcons'
+import { findFormulaById } from '../../data/formulas'
+import { mechanicsTopics } from '../../data/topics'
 
 const navigation = [
   { label: 'Home', path: '/', icon: House, end: true },
@@ -19,6 +21,17 @@ const navigation = [
 ]
 
 export function Sidebar() {
+  const location = useLocation()
+  const selectedTopicId = new URLSearchParams(location.search).get('topic')
+  const selectedFormula = location.pathname.startsWith('/formulas/')
+    ? findFormulaById(location.pathname.slice('/formulas/'.length))
+    : undefined
+  const activeTopicId =
+    (location.pathname === '/explore' && selectedTopicId) ||
+    mechanicsTopics.find((topic) =>
+      selectedFormula ? topic.formulaIds.includes(selectedFormula.id) : false,
+    )?.id
+
   return (
     <div className="sidebar">
       <NavLink className="brand" to="/" aria-label="Physics Lab workspace">
@@ -48,11 +61,34 @@ export function Sidebar() {
         </ul>
       </nav>
 
+      <nav className="unit-nav" aria-label="Mechanics units">
+        <p className="nav-label">Mechanics units</p>
+        <ol>
+          {mechanicsTopics.map((topic) => {
+            const Icon = topicIcons[topic.icon]
+            const isActive = activeTopicId === topic.id
+            return (
+              <li key={topic.id}>
+                <NavLink
+                  aria-current={isActive ? 'page' : undefined}
+                  className={`unit-nav__item${isActive ? ' unit-nav__item--active' : ''}`}
+                  to={`/explore?topic=${topic.id}`}
+                >
+                  <span>{String(topic.sequence).padStart(2, '0')}</span>
+                  <Icon aria-hidden="true" size={14} strokeWidth={1.7} />
+                  <strong>{topic.name}</strong>
+                </NavLink>
+              </li>
+            )
+          })}
+        </ol>
+      </nav>
+
       <div className="sidebar__spacer" />
 
       <section className="system-card" aria-labelledby="system-card-title">
         <div className="system-card__heading">
-          <Atom aria-hidden="true" size={16} strokeWidth={1.7} />
+          <Orbit aria-hidden="true" size={16} strokeWidth={1.7} />
           <span id="system-card-title">System</span>
         </div>
         <div className="system-card__reading">

@@ -18,6 +18,8 @@ import { DimensionCheckerPanel } from '../components/inspector/DimensionCheckerP
 import { FormulaPractice } from '../components/inspector/FormulaPractice'
 import { FormulaIntegrityBar } from '../components/inspector/FormulaIntegrityBar'
 import { FormulaRelationshipMap } from '../components/inspector/FormulaRelationshipMap'
+import { KineticEnergyGraphs } from '../components/inspector/KineticEnergyGraphs'
+import { KineticEnergyLab } from '../components/inspector/KineticEnergyLab'
 import { NewtonGraphs } from '../components/inspector/NewtonGraphs'
 import { NewtonSecondLawLab } from '../components/inspector/NewtonSecondLawLab'
 import { UnitConverterPanel } from '../components/inspector/UnitConverterPanel'
@@ -25,6 +27,7 @@ import { FittedFormulaExpression } from '../components/math/FittedFormulaExpress
 import { findFormulaById } from '../data/formulas'
 import { getVariableDefinition } from '../data/variables'
 import type { FormulaRecord, PhysicsVariableId } from '../types/formula'
+import type { KineticEnergyState } from '../utils/kineticEnergy'
 import type { NewtonState } from '../utils/newtonSecondLaw'
 
 const inspectorTabs = [
@@ -122,6 +125,11 @@ export function FormulaInspectorPage() {
     : 'simulate'
   const [highlightedVariable, setHighlightedVariable] = useState<PhysicsVariableId | null>(null)
   const [newtonState, setNewtonState] = useState<NewtonState>({ force: 20, mass: 5, time: 0 })
+  const [kineticState, setKineticState] = useState<KineticEnergyState>({
+    mass: 4,
+    speed: 8,
+    time: 0,
+  })
   const variableDefinitions = useMemo(
     () => formula?.variables.map(({ id }) => getVariableDefinition(id)) ?? [],
     [formula],
@@ -130,6 +138,8 @@ export function FormulaInspectorPage() {
   if (!formula) return <Navigate replace to="/formulas" />
 
   const isNewtonBenchmark = formula.id === 'newton-second-law'
+  const isKineticBenchmark = formula.id === 'kinetic-energy'
+  const hasLiveSimulation = isNewtonBenchmark || isKineticBenchmark
   const selectTab = (tab: InspectorTabId) => {
     const next = new URLSearchParams(searchParams)
     if (tab === 'simulate') next.delete('tab')
@@ -236,7 +246,7 @@ export function FormulaInspectorPage() {
             type="button"
           >
             <Icon aria-hidden="true" size={15} /> {label}
-            {id === 'simulate' && isNewtonBenchmark && <small>Live</small>}
+            {id === 'simulate' && hasLiveSimulation && <small>Live</small>}
           </button>
         ))}
       </nav>
@@ -256,6 +266,13 @@ export function FormulaInspectorPage() {
               predictionChallenges={formula.predictionChallenges ?? []}
               setState={setNewtonState}
               state={newtonState}
+            />
+          ) : isKineticBenchmark ? (
+            <KineticEnergyLab
+              highlightedVariable={highlightedVariable}
+              onHighlightVariable={setHighlightedVariable}
+              setState={setKineticState}
+              state={kineticState}
             />
           ) : (
             <PendingInstrument formula={formula} instrument="Simulation" />
@@ -287,6 +304,8 @@ export function FormulaInspectorPage() {
         {activeTab === 'graph' &&
           (isNewtonBenchmark ? (
             <NewtonGraphs highlightedVariable={highlightedVariable} state={newtonState} />
+          ) : isKineticBenchmark ? (
+            <KineticEnergyGraphs highlightedVariable={highlightedVariable} state={kineticState} />
           ) : (
             <PendingInstrument formula={formula} instrument="Live graph" />
           ))}

@@ -63,6 +63,15 @@ const navigationCommands: CommandPaletteItem[] = [
     keywords: ['newton', 'force cart', 'f=ma', 'f ma', 'acceleration', 'mass'],
     meta: 'ΣF = ma',
   },
+  {
+    id: 'simulate-kinetic-energy',
+    label: 'Run the kinetic energy runway',
+    description: 'Manipulate mass and speed in the translational energy simulation.',
+    href: '/formulas/kinetic-energy',
+    section: 'Simulate',
+    keywords: ['kinetic energy', 'energy runway', 'mass', 'speed', 'velocity squared'],
+    meta: 'Eₖ = ½mv²',
+  },
 ]
 
 const formulaCommands: CommandPaletteItem[] = mechanicsFormulas.map((formula) => ({
@@ -104,10 +113,10 @@ export const commandPaletteItems: readonly CommandPaletteItem[] = [
 
 const suggestedCommandIds = [
   'simulate-newton',
+  'simulate-kinetic-energy',
   'navigate-formulas',
   'navigate-explore',
   'navigate-practice',
-  'formula-kinetic-energy',
   'topic-projectiles',
 ]
 
