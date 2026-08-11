@@ -71,10 +71,16 @@
   text-transform: uppercase;
 }
 
-.formula-inspector__equation-panel .math-expression {
-  max-width: 100%;
-  overflow-x: auto;
+.formula-inspector__equation-panel .fitted-formula {
+  width: 100%;
+  overflow: hidden;
   margin: 22px 0;
+}
+
+.formula-inspector__equation-panel .math-expression {
+  max-width: none;
+  overflow: visible;
+  margin: 0;
   color: var(--color-accent-strong);
   font-size: clamp(3rem, 5vw, 5.7rem);
 }

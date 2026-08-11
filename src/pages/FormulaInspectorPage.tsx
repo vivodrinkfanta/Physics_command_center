@@ -21,7 +21,7 @@ import { FormulaRelationshipMap } from '../components/inspector/FormulaRelations
 import { NewtonGraphs } from '../components/inspector/NewtonGraphs'
 import { NewtonSecondLawLab } from '../components/inspector/NewtonSecondLawLab'
 import { UnitConverterPanel } from '../components/inspector/UnitConverterPanel'
-import { FormulaExpression } from '../components/math/FormulaExpression'
+import { FittedFormulaExpression } from '../components/math/FittedFormulaExpression'
 import { findFormulaById } from '../data/formulas'
 import { getVariableDefinition } from '../data/variables'
 import type { FormulaRecord, PhysicsVariableId } from '../types/formula'
@@ -171,7 +171,7 @@ export function FormulaInspectorPage() {
           ) : (
             <>
               <span>Reference relationship</span>
-              <FormulaExpression
+              <FittedFormulaExpression
                 expression={formula.expression}
                 highlightVariableId={highlightedVariable}
                 onVariableHighlight={setHighlightedVariable}

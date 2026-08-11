@@ -331,6 +331,11 @@ kbd {
   font-size: 0.62rem;
 }
 
+.scope-control {
+  position: relative;
+  flex: none;
+}
+
 .scope-badge {
   display: flex;
   align-items: center;
@@ -338,11 +343,29 @@ kbd {
   height: 36px;
   border: 1px solid var(--color-border-soft);
   border-radius: 9px;
+  background: transparent;
   padding: 0 11px;
   color: var(--color-text-muted);
+  cursor: pointer;
   font-family: var(--font-mono);
   font-size: 0.65rem;
   letter-spacing: 0.02em;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.scope-badge:hover,
+.scope-badge[aria-expanded='true'] {
+  border-color: rgba(168, 234, 216, 0.3);
+  background: var(--color-accent-soft);
+}
+
+.scope-badge > svg {
+  color: var(--color-text-dim);
+  transition: transform var(--transition-fast);
+}
+
+.scope-badge > svg.is-open {
+  transform: rotate(180deg);
 }
 
 .scope-badge__pulse {
@@ -351,6 +374,137 @@ kbd {
   border-radius: 50%;
   background: var(--color-accent);
   box-shadow: 0 0 0 4px var(--color-accent-soft);
+}
+
+.scope-panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: min(340px, calc(100vw - 32px));
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 15px;
+  background: rgba(38, 54, 77, 0.98);
+  box-shadow: 0 24px 70px rgba(5, 11, 20, 0.42);
+  color: var(--color-text-muted);
+  font-family: var(--font-sans);
+}
+
+.scope-panel > header {
+  border-bottom: 1px solid var(--color-border-soft);
+  background:
+    linear-gradient(135deg, rgba(168, 234, 216, 0.08), transparent 62%),
+    var(--color-surface-deep);
+  padding: 18px;
+}
+
+.scope-panel > header > span {
+  color: var(--color-accent);
+  font: 0.53rem var(--font-mono);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.scope-panel > header strong {
+  display: block;
+  margin-top: 8px;
+  color: var(--color-text);
+  font-size: 0.88rem;
+  font-weight: 570;
+}
+
+.scope-panel > header p {
+  margin: 7px 0 0;
+  color: var(--color-text-dim);
+  font-size: 0.65rem;
+  line-height: 1.5;
+}
+
+.scope-panel dl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+  border-bottom: 1px solid var(--color-border-soft);
+}
+
+.scope-panel dl > div {
+  display: grid;
+  gap: 5px;
+  padding: 12px;
+}
+
+.scope-panel dl > div + div {
+  border-left: 1px solid var(--color-border-soft);
+}
+
+.scope-panel dt {
+  color: var(--color-text-dim);
+  font: 0.48rem var(--font-mono);
+  text-transform: uppercase;
+}
+
+.scope-panel dd {
+  margin: 0;
+  color: var(--color-accent-strong);
+  font: 0.72rem var(--font-mono);
+}
+
+.scope-panel nav {
+  display: grid;
+  gap: 3px;
+  padding: 8px;
+}
+
+.scope-panel nav a {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) 16px;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  border-radius: 9px;
+  padding: 7px 9px;
+  color: var(--color-text-muted);
+  text-decoration: none;
+}
+
+.scope-panel nav a:hover,
+.scope-panel nav a:focus-visible {
+  background: var(--color-accent-soft);
+}
+
+.scope-panel nav a > svg:first-child {
+  color: var(--color-accent);
+}
+
+.scope-panel nav a > svg:last-child {
+  color: var(--color-text-faint);
+}
+
+.scope-panel nav a > span {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.scope-panel nav strong {
+  color: var(--color-text);
+  font-size: 0.67rem;
+  font-weight: 560;
+}
+
+.scope-panel nav small {
+  overflow: hidden;
+  color: var(--color-text-dim);
+  font-size: 0.57rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.scope-panel > footer {
+  border-top: 1px solid var(--color-border-soft);
+  padding: 11px 16px;
+  color: var(--color-text-dim);
+  font: 0.51rem/1.5 var(--font-mono);
 }
 
 .icon-button {
@@ -737,7 +891,7 @@ kbd {
 @media (max-width: 470px) {
   .breadcrumb > span:first-child,
   .breadcrumb__separator,
-  .scope-badge {
+  .scope-control {
     display: none;
   }
 

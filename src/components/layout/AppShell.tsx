@@ -5,6 +5,7 @@ import { findFormulaById } from '../../data/formulas'
 import { useModalDialog } from '../../hooks/useModalDialog'
 import { isPhysicsSearchShortcut } from '../../utils/shortcuts'
 import { CommandPalette } from './CommandPalette'
+import { ScopeMenu } from './ScopeMenu'
 import { Sidebar } from './Sidebar'
 
 const pageNames: Record<string, string> = {
@@ -109,10 +110,7 @@ export function AppShell() {
             <span>Search physics</span>
             <kbd>⌘ K / F</kbd>
           </button>
-          <div className="scope-badge" aria-label="Current curriculum scope">
-            <span className="scope-badge__pulse" aria-hidden="true" />
-            Mechanics · V1
-          </div>
+          <ScopeMenu />
         </div>
       </header>
 

@@ -4,7 +4,7 @@ import type {
 } from '../../types/formula'
 import { getVariableDefinition } from '../../data/variables'
 
-interface FormulaExpressionProps {
+export interface FormulaExpressionProps {
   className?: string
   expression: FormulaExpressionValue
   highlightVariableId?: PhysicsVariableId | null
