@@ -162,7 +162,9 @@ export function ProjectilePreview() {
             100 m
           </text>
         </svg>
-        <span className="assumption-label">Air resistance ignored · g = 9.81 m/s²</span>
+        <span className="assumption-label">
+          Air resistance ignored · equal launch/landing height · g = 9.81 m/s²
+        </span>
       </div>
 
       <div className="instrument-controls">

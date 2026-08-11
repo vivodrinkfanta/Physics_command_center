@@ -169,6 +169,68 @@
   text-transform: uppercase;
 }
 
+.formula-integrity {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 7px;
+  margin-bottom: 12px;
+}
+
+.formula-integrity > div,
+.formula-integrity > button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  min-height: 56px;
+  border: 1px solid var(--color-border-soft);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.017);
+  padding: 9px 12px;
+  color: var(--color-text-muted);
+  text-align: left;
+}
+
+.formula-integrity > button {
+  cursor: pointer;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+
+.formula-integrity > button:hover {
+  border-color: rgba(168, 234, 216, 0.28);
+  background: var(--color-accent-soft);
+}
+
+.formula-integrity svg {
+  flex: none;
+  color: var(--color-accent);
+}
+
+.formula-integrity > button:nth-child(3) svg {
+  color: var(--color-warning-strong);
+}
+
+.formula-integrity span {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.formula-integrity small {
+  color: var(--color-text-dim);
+  font: 0.49rem var(--font-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.formula-integrity strong {
+  overflow: hidden;
+  font-size: 0.62rem;
+  font-weight: 560;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .inspector-tabs {
   position: sticky;
   top: calc(var(--topbar-height) + 10px);
@@ -320,6 +382,12 @@
 .newton-stage__origin-label {
   fill: #596574;
   font: 10px var(--font-mono);
+}
+
+.newton-stage__scale-label {
+  fill: var(--color-text-faint);
+  font: 7px var(--font-mono);
+  letter-spacing: 0.04em;
 }
 
 .newton-cart,
@@ -1132,7 +1200,8 @@
   line-height: 1.7;
 }
 
-.learning-panel ul {
+.learning-panel ul,
+.learning-panel ol {
   display: grid;
   gap: 10px;
   margin: 17px 0 0;
@@ -1161,6 +1230,29 @@
 
 .learning-panel--warning li::before {
   background: var(--color-warning);
+}
+
+.learning-panel--warning ol li {
+  display: grid;
+  grid-template-columns: 27px minmax(0, 1fr);
+  align-items: start;
+  gap: 10px;
+  padding-left: 0;
+}
+
+.learning-panel--warning ol li::before {
+  display: none;
+}
+
+.learning-panel--warning ol li > span {
+  display: grid;
+  place-items: center;
+  min-height: 24px;
+  border: 1px solid rgba(229, 180, 127, 0.28);
+  border-radius: 7px;
+  background: var(--color-warning-soft);
+  color: var(--color-warning-strong);
+  font: 0.5rem var(--font-mono);
 }
 
 .dimension-readout {
@@ -2403,6 +2495,10 @@
     grid-template-columns: 1fr;
   }
 
+  .formula-integrity {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .newton-console {
     width: 100%;
   }
@@ -2581,6 +2677,20 @@
 
   .formula-inspector__equation-panel .math-expression {
     font-size: 2.65rem;
+  }
+
+  .formula-integrity {
+    gap: 6px;
+  }
+
+  .formula-integrity > div,
+  .formula-integrity > button {
+    min-height: 62px;
+    padding-inline: 9px;
+  }
+
+  .formula-integrity strong {
+    white-space: normal;
   }
 
   .newton-stage__header {

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Menu, Search, X } from 'lucide-react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { findFormulaById } from '../../data/formulas'
+import { useModalDialog } from '../../hooks/useModalDialog'
 import { isPhysicsSearchShortcut } from '../../utils/shortcuts'
 import { CommandPalette } from './CommandPalette'
 import { Sidebar } from './Sidebar'
@@ -18,6 +19,15 @@ export function AppShell() {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false)
   const [isNavigationOpen, setIsNavigationOpen] = useState(false)
   const hasMounted = useRef(false)
+  const mobileNavigationCloseRef = useRef<HTMLButtonElement>(null)
+  const {
+    handleDialogKeyDown: handleNavigationKeyDown,
+    rootRef: mobileNavigationRef,
+  } = useModalDialog<HTMLDivElement>(
+    isNavigationOpen,
+    () => setIsNavigationOpen(false),
+    () => mobileNavigationCloseRef.current,
+  )
   const location = useLocation()
   const navigate = useNavigate()
   const selectedFormula = location.pathname.startsWith('/formulas/')
@@ -43,6 +53,7 @@ export function AppShell() {
     const handleSearchShortcut = (event: KeyboardEvent) => {
       if (isPhysicsSearchShortcut(event)) {
         event.preventDefault()
+        setIsNavigationOpen(false)
         setIsCommandPaletteOpen(true)
       }
     }
@@ -50,17 +61,6 @@ export function AppShell() {
     window.addEventListener('keydown', handleSearchShortcut)
     return () => window.removeEventListener('keydown', handleSearchShortcut)
   }, [])
-
-  useEffect(() => {
-    if (!isNavigationOpen) return
-
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setIsNavigationOpen(false)
-    }
-
-    window.addEventListener('keydown', handleEscape)
-    return () => window.removeEventListener('keydown', handleEscape)
-  }, [isNavigationOpen])
 
   return (
     <div className="app-shell">
@@ -97,9 +97,13 @@ export function AppShell() {
           <button
             className="search-trigger"
             type="button"
+            aria-expanded={isCommandPaletteOpen}
             aria-haspopup="dialog"
             aria-label="Open command palette. Keyboard shortcuts Command or Control K and F."
-            onClick={() => setIsCommandPaletteOpen(true)}
+            onClick={() => {
+              setIsNavigationOpen(false)
+              setIsCommandPaletteOpen(true)
+            }}
           >
             <Search aria-hidden="true" size={16} strokeWidth={1.8} />
             <span>Search physics</span>
@@ -120,11 +124,19 @@ export function AppShell() {
       </main>
 
       {isNavigationOpen && (
-        <div className="mobile-navigation" role="dialog" aria-modal="true" aria-label="Navigation">
+        <div
+          aria-label="Navigation"
+          aria-modal="true"
+          className="mobile-navigation"
+          onKeyDown={handleNavigationKeyDown}
+          ref={mobileNavigationRef}
+          role="dialog"
+        >
           <button
             className="mobile-navigation__backdrop"
             aria-label="Close navigation"
             onClick={() => setIsNavigationOpen(false)}
+            tabIndex={-1}
             type="button"
           />
           <aside className="mobile-navigation__panel">
@@ -132,6 +144,7 @@ export function AppShell() {
               aria-label="Close navigation"
               className="icon-button mobile-navigation__close"
               onClick={() => setIsNavigationOpen(false)}
+              ref={mobileNavigationCloseRef}
               type="button"
             >
               <X size={19} strokeWidth={1.8} />

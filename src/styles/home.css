@@ -124,7 +124,7 @@
 }
 
 .physics-search input::placeholder {
-  color: #66717f;
+  color: var(--color-text-faint);
 }
 
 .physics-search input::-webkit-search-cancel-button {
@@ -398,7 +398,7 @@
   border-radius: 5px;
   background: rgba(29, 41, 59, 0.82);
   padding: 4px 6px;
-  color: #5f6b77;
+  color: var(--color-text-faint);
   font-family: var(--font-mono);
   font-size: 0.48rem;
 }

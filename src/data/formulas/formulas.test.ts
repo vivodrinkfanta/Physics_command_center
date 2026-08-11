@@ -82,6 +82,17 @@ describe('formula data architecture', () => {
     })
   })
 
+  it('publishes concise model assumptions and student-error guardrails for every formula', () => {
+    mechanicsFormulas.forEach((formula) => {
+      expect(formula.assumptions.length, `${formula.id}: assumptions`).toBeGreaterThanOrEqual(2)
+      expect(formula.commonMistakes.length, `${formula.id}: common mistakes`).toBeGreaterThanOrEqual(3)
+      expect(new Set(formula.assumptions).size).toBe(formula.assumptions.length)
+      expect(new Set(formula.commonMistakes).size).toBe(formula.commonMistakes.length)
+      formula.assumptions.forEach((assumption) => expect(assumption.length).toBeLessThan(120))
+      formula.commonMistakes.forEach((mistake) => expect(mistake.length).toBeLessThan(140))
+    })
+  })
+
   it('keeps relationships, examples, and practice templates internally valid', () => {
     const formulaIds = new Set(mechanicsFormulas.map((formula) => formula.id))
 

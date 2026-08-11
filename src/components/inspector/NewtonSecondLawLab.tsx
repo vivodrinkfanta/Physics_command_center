@@ -110,8 +110,7 @@ export function NewtonSecondLawLab({
   const [isPlaying, setIsPlaying] = useState(false)
   const previousFrame = useRef<number | null>(null)
   const motion = calculateMotion(state.force, state.mass, state.time)
-  const positionToCartCenter = (position: number) =>
-    Math.max(7, Math.min(93, 50 + (position / 120) * 43))
+  const positionToCartCenter = (position: number) => 300 + 160 * Math.tanh(position / 90)
   const cartCenter = positionToCartCenter(motion.position)
   const cartWidth = 68 + ((state.mass - NEWTON_MASS_RANGE.min) / 19) * 34
   const cartHeight = 34 + ((state.mass - NEWTON_MASS_RANGE.min) / 19) * 16
@@ -123,20 +122,20 @@ export function NewtonSecondLawLab({
   const velocityDirection = motion.velocity < 0 ? -1 : 1
   const forceArrowEnd = Math.max(
     18,
-    Math.min(582, cartCenter * 6 + forceDirection * forceArrowLength),
+    Math.min(582, cartCenter + forceDirection * forceArrowLength),
   )
   const accelerationArrowEnd = Math.max(
     18,
-    Math.min(582, cartCenter * 6 + accelerationDirection * accelerationArrowLength),
+    Math.min(582, cartCenter + accelerationDirection * accelerationArrowLength),
   )
   const velocityArrowEnd = Math.max(
     18,
-    Math.min(582, cartCenter * 6 + velocityDirection * velocityArrowLength),
+    Math.min(582, cartCenter + velocityDirection * velocityArrowLength),
   )
   const trailPoints = Array.from({ length: 7 }, (_, index) => {
     const sampleTime = state.time * (index / 6)
     const sample = calculateMotion(state.force, state.mass, sampleTime)
-    return positionToCartCenter(sample.position) * 6
+    return positionToCartCenter(sample.position)
   })
 
   useEffect(() => {
@@ -183,7 +182,16 @@ export function NewtonSecondLawLab({
 
   return (
     <div className="newton-lab">
-      <section className="newton-stage" aria-label="Newton’s Second Law force cart simulation">
+      <section
+        aria-describedby="newton-model-contract"
+        aria-label="Newton’s Second Law force cart simulation"
+        className="newton-stage"
+      >
+        <p className="sr-only" id="newton-model-contract">
+          One-dimensional constant resultant force model in an inertial frame. Mass remains
+          constant and the cart starts from rest. The position display compresses large
+          displacements while numerical readings remain in metres.
+        </p>
         <header className="newton-stage__header">
           <div>
             <span>1D inertial frame</span>
@@ -239,6 +247,9 @@ export function NewtonSecondLawLab({
           <text className="newton-stage__origin-label" textAnchor="middle" x="300" y="259">
             x = 0
           </text>
+          <text className="newton-stage__scale-label" x="24" y="278">
+            POSITION DISPLAY · LARGE DISPLACEMENTS COMPRESSED
+          </text>
 
           <g
             className={`newton-vector newton-vector--force${forceLinked}`}
@@ -248,7 +259,7 @@ export function NewtonSecondLawLab({
               <>
                 <line
                   markerEnd="url(#force-arrowhead)"
-                  x1={cartCenter * 6}
+                  x1={cartCenter}
                   x2={forceArrowEnd}
                   y1="72"
                   y2="72"
@@ -269,7 +280,7 @@ export function NewtonSecondLawLab({
               <>
                 <line
                   markerEnd="url(#velocity-arrowhead)"
-                  x1={cartCenter * 6}
+                  x1={cartCenter}
                   x2={velocityArrowEnd}
                   y1="150"
                   y2="150"
@@ -293,7 +304,7 @@ export function NewtonSecondLawLab({
               <>
                 <line
                   markerEnd="url(#acceleration-arrowhead)"
-                  x1={cartCenter * 6}
+                  x1={cartCenter}
                   x2={accelerationArrowEnd}
                   y1="112"
                   y2="112"
@@ -312,7 +323,7 @@ export function NewtonSecondLawLab({
           <g
             className={`newton-cart${massLinked}`}
             data-variable-id="mass"
-            transform={`translate(${cartCenter * 6 - cartWidth / 2} ${196 - cartHeight})`}
+            transform={`translate(${cartCenter - cartWidth / 2} ${196 - cartHeight})`}
           >
             <rect fill="url(#cart-surface)" height={cartHeight} rx="7" width={cartWidth} />
             <line x1="12" x2={cartWidth - 12} y1="10" y2="10" />
@@ -335,7 +346,7 @@ export function NewtonSecondLawLab({
           </g>
         </svg>
 
-        <div className="newton-stage__readouts" aria-live="polite">
+        <div className="newton-stage__readouts">
           <div className={accelerationLinked} data-variable-id="acceleration">
             <span>Acceleration</span>
             <strong>{formatMeasurement(motion.acceleration)} <small>m/s²</small></strong>

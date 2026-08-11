@@ -36,7 +36,10 @@ export function ExplorePage() {
     setSearchParams({ topic: topicId })
     if (window.innerWidth < 900) {
       window.requestAnimationFrame(() => {
-        document.getElementById('selected-topic')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        document
+          .getElementById('selected-topic')
+          ?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' })
       })
     }
   }

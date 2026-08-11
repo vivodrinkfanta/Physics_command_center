@@ -16,6 +16,7 @@ import { Link, Navigate, useParams, useSearchParams } from 'react-router-dom'
 import { EquationRearranger } from '../components/inspector/EquationRearranger'
 import { DimensionCheckerPanel } from '../components/inspector/DimensionCheckerPanel'
 import { FormulaPractice } from '../components/inspector/FormulaPractice'
+import { FormulaIntegrityBar } from '../components/inspector/FormulaIntegrityBar'
 import { FormulaRelationshipMap } from '../components/inspector/FormulaRelationshipMap'
 import { NewtonGraphs } from '../components/inspector/NewtonGraphs'
 import { NewtonSecondLawLab } from '../components/inspector/NewtonSecondLawLab'
@@ -58,7 +59,14 @@ function ExplainPanel({ formula }: { formula: FormulaRecord }) {
       </section>
       <section className="learning-panel learning-panel--warning">
         <span>Common mistakes</span>
-        <ul>{formula.commonMistakes.map((mistake) => <li key={mistake}>{mistake}</li>)}</ul>
+        <ol>
+          {formula.commonMistakes.map((mistake, index) => (
+            <li key={mistake}>
+              <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+              {mistake}
+            </li>
+          ))}
+        </ol>
       </section>
       <section className="learning-panel learning-panel--wide dimension-readout">
         <span>Dimensional check</span>
@@ -192,10 +200,15 @@ export function FormulaInspectorPage() {
         ))}
       </div>
 
+      <FormulaIntegrityBar
+        formula={formula}
+        onOpenDimensions={() => selectTab('dimensions')}
+        onOpenExplanation={() => selectTab('explain')}
+      />
+
       <nav className="inspector-tabs" aria-label="Formula Inspector modes" role="tablist">
         {inspectorTabs.map(({ icon: Icon, id, label }) => (
           <button
-            aria-current={activeTab === id ? 'page' : undefined}
             aria-controls="formula-inspector-panel"
             aria-selected={activeTab === id}
             className={activeTab === id ? 'is-active' : ''}
@@ -228,11 +241,12 @@ export function FormulaInspectorPage() {
         ))}
       </nav>
 
-      <main
+      <section
         aria-labelledby={`inspector-tab-${activeTab}`}
         className="formula-inspector__content"
         id="formula-inspector-panel"
         role="tabpanel"
+        tabIndex={0}
       >
         {activeTab === 'simulate' &&
           (isNewtonBenchmark ? (
@@ -279,7 +293,7 @@ export function FormulaInspectorPage() {
         {activeTab === 'example' && <ExamplePanel formula={formula} />}
         {activeTab === 'practice' && <FormulaPractice key={formula.id} formula={formula} />}
         {activeTab === 'related' && <FormulaRelationshipMap formula={formula} />}
-      </main>
+      </section>
     </div>
   )
 }

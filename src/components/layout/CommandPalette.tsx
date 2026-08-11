@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react'
 import {
   ArrowRight,
   Atom,
@@ -14,6 +14,7 @@ import {
   type CommandPaletteItem,
   type CommandSection,
 } from '../../utils/commandPalette'
+import { useModalDialog } from '../../hooks/useModalDialog'
 
 interface CommandPaletteProps {
   onClose: () => void
@@ -47,27 +48,19 @@ export function CommandPalette({ onClose, onNavigate, open }: CommandPaletteProp
   const [activeIndex, setActiveIndex] = useState(0)
   const [query, setQuery] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
-  const panelRef = useRef<HTMLDivElement>(null)
-  const previouslyFocusedElement = useRef<HTMLElement | null>(null)
+  const { handleDialogKeyDown, rootRef } = useModalDialog<HTMLDivElement>(
+    open,
+    onClose,
+    () => inputRef.current,
+  )
   const results = useMemo(() => searchCommandPalette(query), [query])
   const groups = useMemo(() => groupCommands(results), [results])
   const displayedResults = useMemo(() => groups.flatMap((group) => group.commands), [groups])
 
   useEffect(() => {
     if (!open) return
-
-    previouslyFocusedElement.current = document.activeElement as HTMLElement | null
     setQuery('')
     setActiveIndex(0)
-    const frame = window.requestAnimationFrame(() => inputRef.current?.focus())
-    const previousOverflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-
-    return () => {
-      window.cancelAnimationFrame(frame)
-      document.body.style.overflow = previousOverflow
-      previouslyFocusedElement.current?.focus()
-    }
   }, [open])
 
   useEffect(() => {
@@ -91,12 +84,8 @@ export function CommandPalette({ onClose, onNavigate, open }: CommandPaletteProp
     onClose()
   }
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === 'Escape') {
-      event.preventDefault()
-      onClose()
-      return
-    }
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (handleDialogKeyDown(event)) return
 
     if (event.key === 'ArrowDown') {
       event.preventDefault()
@@ -118,22 +107,6 @@ export function CommandPalette({ onClose, onNavigate, open }: CommandPaletteProp
       return
     }
 
-    if (event.key === 'Tab') {
-      const focusableElements = panelRef.current?.querySelectorAll<HTMLElement>(
-        'button:not([disabled]), input:not([disabled]), a[href]',
-      )
-      if (!focusableElements?.length) return
-
-      const first = focusableElements[0]
-      const last = focusableElements[focusableElements.length - 1]
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault()
-        last.focus()
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault()
-        first.focus()
-      }
-    }
   }
 
   let resultIndex = -1
@@ -144,16 +117,18 @@ export function CommandPalette({ onClose, onNavigate, open }: CommandPaletteProp
       aria-modal="true"
       className="command-palette"
       onKeyDown={handleKeyDown}
+      ref={rootRef}
       role="dialog"
     >
       <button
         aria-label="Close command palette"
         className="command-palette__backdrop"
         onClick={onClose}
+        tabIndex={-1}
         type="button"
       />
 
-      <div className="command-palette__panel" ref={panelRef}>
+      <div className="command-palette__panel">
         <header className="command-palette__header">
           <div>
             <p>Physics command center</p>

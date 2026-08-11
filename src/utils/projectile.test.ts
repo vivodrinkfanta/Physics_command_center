@@ -26,5 +26,11 @@ describe('calculateProjectileMotion', () => {
     expect(() => calculateProjectileMotion({ angleDegrees: 45, gravity: -9.81, speed: 20 })).toThrow(
       RangeError,
     )
+    expect(() => calculateProjectileMotion({ angleDegrees: Number.NaN, speed: 20 })).toThrow(
+      RangeError,
+    )
+    expect(() => calculateProjectileMotion({ angleDegrees: 45, speed: Number.POSITIVE_INFINITY })).toThrow(
+      RangeError,
+    )
   })
 })

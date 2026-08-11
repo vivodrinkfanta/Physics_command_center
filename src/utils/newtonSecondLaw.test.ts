@@ -19,6 +19,16 @@ describe('Newton’s Second Law model', () => {
     expect(() => calculateAcceleration(10, -2)).toThrow('Mass must be greater than zero.')
   })
 
+  it('rejects non-finite inputs and time outside the modeled interval', () => {
+    expect(() => calculateAcceleration(Number.NaN, 5)).toThrow('Force must be a finite number.')
+    expect(() => calculateAcceleration(10, Number.POSITIVE_INFINITY)).toThrow(
+      'Mass must be greater than zero.',
+    )
+    expect(() => calculateMotion(10, 5, -0.1)).toThrow(
+      'Time must be a non-negative finite number.',
+    )
+  })
+
   it('keeps position and velocity synchronized for constant acceleration', () => {
     expect(calculateMotion(20, 5, 3)).toEqual({
       acceleration: 4,
@@ -49,5 +59,7 @@ describe('Newton’s Second Law model', () => {
   it('rejects invalid motion history requests', () => {
     expect(() => motionSeries(20, 5, -1)).toThrow('Duration must be a non-negative finite number.')
     expect(() => motionSeries(20, 5, 4, 1)).toThrow('Motion series requires at least two points.')
+    expect(() => forceGraphPoints(5, 1)).toThrow('Force graph requires at least two points.')
+    expect(() => massGraphPoints(20, 1)).toThrow('Mass graph requires at least two points.')
   })
 })

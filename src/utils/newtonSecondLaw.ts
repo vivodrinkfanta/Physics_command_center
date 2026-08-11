@@ -21,17 +21,20 @@ export const NEWTON_FORCE_RANGE = { min: -60, max: 60, step: 1 }
 export const NEWTON_MASS_RANGE = { min: 1, max: 20, step: 0.5 }
 
 export function calculateAcceleration(force: number, mass: number) {
+  if (!Number.isFinite(force)) throw new Error('Force must be a finite number.')
   if (!Number.isFinite(mass) || mass <= 0) throw new Error('Mass must be greater than zero.')
   return force / mass
 }
 
 export function calculateMotion(force: number, mass: number, time: number) {
+  if (!Number.isFinite(time) || time < 0) {
+    throw new Error('Time must be a non-negative finite number.')
+  }
   const acceleration = calculateAcceleration(force, mass)
-  const safeTime = Math.max(0, time)
   return {
     acceleration,
-    position: 0.5 * acceleration * safeTime ** 2,
-    velocity: acceleration * safeTime,
+    position: 0.5 * acceleration * time ** 2,
+    velocity: acceleration * time,
   }
 }
 
@@ -55,6 +58,9 @@ export function motionSeries(
 }
 
 export function forceGraphPoints(mass: number, pointCount = 31): GraphPoint[] {
+  if (!Number.isInteger(pointCount) || pointCount < 2) {
+    throw new Error('Force graph requires at least two points.')
+  }
   return Array.from({ length: pointCount }, (_, index) => {
     const force =
       NEWTON_FORCE_RANGE.min +
@@ -64,6 +70,9 @@ export function forceGraphPoints(mass: number, pointCount = 31): GraphPoint[] {
 }
 
 export function massGraphPoints(force: number, pointCount = 31): GraphPoint[] {
+  if (!Number.isInteger(pointCount) || pointCount < 2) {
+    throw new Error('Mass graph requires at least two points.')
+  }
   return Array.from({ length: pointCount }, (_, index) => {
     const mass =
       NEWTON_MASS_RANGE.min +
