@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { Menu, Search, X } from 'lucide-react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { mechanicsFormulas } from '../../data/formulas'
+import { isPhysicsSearchShortcut } from '../../utils/shortcuts'
 import { Sidebar } from './Sidebar'
 
 const pageNames: Record<string, string> = {
@@ -47,7 +48,7 @@ export function AppShell() {
 
   useEffect(() => {
     const handleSearchShortcut = (event: KeyboardEvent) => {
-      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+      if (isPhysicsSearchShortcut(event)) {
         event.preventDefault()
         openHomepageSearch()
       }
@@ -103,12 +104,12 @@ export function AppShell() {
           <button
             className="search-trigger"
             type="button"
-            aria-label="Open homepage physics search"
+            aria-label="Open physics search. Keyboard shortcuts Command or Control K and F."
             onClick={openHomepageSearch}
           >
             <Search aria-hidden="true" size={16} strokeWidth={1.8} />
             <span>Search physics</span>
-            <kbd>⌘ K</kbd>
+            <kbd>⌘ K / F</kbd>
           </button>
           <div className="scope-badge" aria-label="Current curriculum scope">
             <span className="scope-badge__pulse" aria-hidden="true" />

@@ -65,7 +65,7 @@ export function Sidebar() {
         </div>
       </section>
 
-      <p className="build-label">Build 07 · Newton benchmark</p>
+      <p className="build-label">Build 14 · Learning systems</p>
     </div>
   )
 }

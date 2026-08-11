@@ -76,9 +76,10 @@ export const momentumFormulas: FormulaRecord[] = [
       {
         promptTemplate: 'A {m} kg cart travels at {v} m/s. Calculate its momentum.',
         solveFor: 'momentum',
+        substitutionTemplate: 'p = mv = ({m})({v})',
         variableRanges: [
-          { variableId: 'mass', min: 1, max: 20, step: 1 },
-          { variableId: 'velocity', min: -15, max: 15, step: 1 },
+          { variableId: 'mass', placeholder: 'm', min: 1, max: 20, step: 1 },
+          { variableId: 'velocity', placeholder: 'v', min: -15, max: 15, step: 1 },
         ],
       },
     ],

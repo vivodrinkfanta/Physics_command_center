@@ -80,9 +80,10 @@ export const forceFormulas: FormulaRecord[] = [
       {
         promptTemplate: 'A {m} kg object experiences a resultant force of {F} N. Find its acceleration.',
         solveFor: 'acceleration',
+        substitutionTemplate: 'a = ΣF/m = {F}/{m}',
         variableRanges: [
-          { variableId: 'mass', min: 1, max: 20, step: 1 },
-          { variableId: 'resultant-force', min: -100, max: 100, step: 5 },
+          { variableId: 'mass', placeholder: 'm', min: 1, max: 20, step: 1 },
+          { variableId: 'resultant-force', placeholder: 'F', min: -100, max: 100, step: 5 },
         ],
       },
     ],

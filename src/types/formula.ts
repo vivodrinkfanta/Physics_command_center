@@ -132,13 +132,21 @@ export interface WorkedExample {
 export interface PracticeVariableRange {
   max: number
   min: number
+  placeholder: string
   step: number
   variableId: PhysicsVariableId
 }
 
+export interface PracticeFixedValue {
+  value: number
+  variableId: PhysicsVariableId
+}
+
 export interface PracticeTemplate {
+  fixedValues?: PracticeFixedValue[]
   promptTemplate: string
   solveFor: PhysicsVariableId
+  substitutionTemplate: string
   variableRanges: PracticeVariableRange[]
 }
 

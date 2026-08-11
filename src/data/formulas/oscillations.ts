@@ -80,9 +80,10 @@ export const oscillationFormulas: FormulaRecord[] = [
       {
         promptTemplate: 'A spring with stiffness {k} N/m is displaced by {x} m. Find its restoring force.',
         solveFor: 'spring-force',
+        substitutionTemplate: 'F = −kx = −({k})({x})',
         variableRanges: [
-          { variableId: 'spring-constant', min: 10, max: 150, step: 10 },
-          { variableId: 'spring-displacement', min: -0.4, max: 0.4, step: 0.05 },
+          { variableId: 'spring-constant', placeholder: 'k', min: 10, max: 150, step: 10 },
+          { variableId: 'spring-displacement', placeholder: 'x', min: -0.4, max: 0.4, step: 0.05 },
         ],
       },
     ],

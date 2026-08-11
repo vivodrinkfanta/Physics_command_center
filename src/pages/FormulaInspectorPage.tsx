@@ -4,6 +4,7 @@ import {
   BookOpen,
   Boxes,
   Calculator,
+  EyeOff,
   FlaskConical,
   GraduationCap,
   Network,
@@ -14,8 +15,9 @@ import { useMemo, useState } from 'react'
 import { Link, Navigate, useParams, useSearchParams } from 'react-router-dom'
 import { EquationRearranger } from '../components/inspector/EquationRearranger'
 import { DimensionCheckerPanel } from '../components/inspector/DimensionCheckerPanel'
+import { FormulaPractice } from '../components/inspector/FormulaPractice'
+import { FormulaRelationshipMap } from '../components/inspector/FormulaRelationshipMap'
 import { NewtonGraphs } from '../components/inspector/NewtonGraphs'
-import { NewtonPractice } from '../components/inspector/NewtonPractice'
 import { NewtonSecondLawLab } from '../components/inspector/NewtonSecondLawLab'
 import { UnitConverterPanel } from '../components/inspector/UnitConverterPanel'
 import { FormulaExpression } from '../components/math/FormulaExpression'
@@ -88,31 +90,6 @@ function ExamplePanel({ formula }: { formula: FormulaRecord }) {
   )
 }
 
-function RelatedPanel({ formula }: { formula: FormulaRecord }) {
-  const related = mechanicsFormulas.filter((candidate) =>
-    formula.relatedFormulaIds.includes(candidate.id),
-  )
-
-  return (
-    <section className="related-panel" aria-labelledby="related-title">
-      <header>
-        <span>Continue the model</span>
-        <h2 id="related-title">Related relationships</h2>
-      </header>
-      <div>
-        {related.map((candidate) => (
-          <Link key={candidate.id} to={`/formulas/${candidate.id}`}>
-            <span>{candidate.subtopic}</span>
-            <FormulaExpression expression={candidate.expression} />
-            <strong>{candidate.name}</strong>
-            <small>{candidate.description}</small>
-          </Link>
-        ))}
-      </div>
-    </section>
-  )
-}
-
 function PendingInstrument({ formula, instrument }: { formula: FormulaRecord; instrument: string }) {
   return (
     <section className="pending-instrument">
@@ -161,7 +138,7 @@ export function FormulaInspectorPage() {
   }
 
   return (
-    <div className="formula-inspector">
+    <div className={`formula-inspector${activeTab === 'practice' ? ' formula-inspector--practice' : ''}`}>
       <Link className="formula-inspector__back" to="/formulas">
         <ArrowLeft aria-hidden="true" size={15} /> Formula Library
       </Link>
@@ -176,13 +153,24 @@ export function FormulaInspectorPage() {
           <p>{formula.description}</p>
         </div>
         <div className="formula-inspector__equation-panel">
-          <span>Reference relationship</span>
-          <FormulaExpression
-            expression={formula.expression}
-            highlightVariableId={highlightedVariable}
-            onVariableHighlight={setHighlightedVariable}
-          />
-          <small>Focus a variable to trace it through the active instrument.</small>
+          {activeTab === 'practice' ? (
+            <div className="formula-inspector__recall-shield">
+              <EyeOff aria-hidden="true" size={20} />
+              <span>Recall mode</span>
+              <strong>Equation held back</strong>
+              <small>Reveal it only if you choose the second hint.</small>
+            </div>
+          ) : (
+            <>
+              <span>Reference relationship</span>
+              <FormulaExpression
+                expression={formula.expression}
+                highlightVariableId={highlightedVariable}
+                onVariableHighlight={setHighlightedVariable}
+              />
+              <small>Focus a variable to trace it through the active instrument.</small>
+            </>
+          )}
         </div>
       </header>
 
@@ -289,13 +277,8 @@ export function FormulaInspectorPage() {
             <PendingInstrument formula={formula} instrument="Live graph" />
           ))}
         {activeTab === 'example' && <ExamplePanel formula={formula} />}
-        {activeTab === 'practice' &&
-          (isNewtonBenchmark ? (
-            <NewtonPractice />
-          ) : (
-            <PendingInstrument formula={formula} instrument="Practice generator" />
-          ))}
-        {activeTab === 'related' && <RelatedPanel formula={formula} />}
+        {activeTab === 'practice' && <FormulaPractice key={formula.id} formula={formula} />}
+        {activeTab === 'related' && <FormulaRelationshipMap formula={formula} />}
       </main>
     </div>
   )

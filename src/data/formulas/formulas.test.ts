@@ -93,7 +93,18 @@ describe('formula data architecture', () => {
       )
       formula.practiceTemplates.forEach((template) => {
         expect(variableIds.has(template.solveFor)).toBe(true)
-        template.variableRanges.forEach((range) => expect(variableIds.has(range.variableId)).toBe(true))
+        const placeholders = new Set<string>()
+        template.variableRanges.forEach((range) => {
+          expect(variableIds.has(range.variableId)).toBe(true)
+          expect(placeholders.has(range.placeholder)).toBe(false)
+          placeholders.add(range.placeholder)
+          expect(template.promptTemplate).toContain(`{${range.placeholder}}`)
+          expect(template.substitutionTemplate).toContain(`{${range.placeholder}}`)
+        })
+        template.fixedValues?.forEach((value) => {
+          expect(variableIds.has(value.variableId)).toBe(true)
+          expect(Number.isFinite(value.value)).toBe(true)
+        })
       })
       formula.predictionChallenges?.forEach((challenge) => {
         expect(challenge.options.some((option) => option.id === challenge.correctOptionId)).toBe(true)

@@ -82,9 +82,10 @@ export const energyFormulas: FormulaRecord[] = [
       {
         promptTemplate: 'A {m} kg object moves at {v} m/s. Calculate its kinetic energy.',
         solveFor: 'kinetic-energy',
+        substitutionTemplate: 'Eₖ = ½mv² = ½({m})({v})²',
         variableRanges: [
-          { variableId: 'mass', min: 1, max: 20, step: 1 },
-          { variableId: 'speed', min: 1, max: 25, step: 1 },
+          { variableId: 'mass', placeholder: 'm', min: 1, max: 20, step: 1 },
+          { variableId: 'speed', placeholder: 'v', min: 1, max: 25, step: 1 },
         ],
       },
     ],
@@ -207,9 +208,11 @@ export const energyFormulas: FormulaRecord[] = [
       {
         promptTemplate: 'A {m} kg object rises by {h} m. Find its change in GPE using g = 9.81 m/s².',
         solveFor: 'gravitational-potential-energy',
+        substitutionTemplate: 'ΔEₚ = mgΔh = ({m})(9.81)({h})',
+        fixedValues: [{ variableId: 'gravitational-field-strength', value: 9.81 }],
         variableRanges: [
-          { variableId: 'mass', min: 1, max: 20, step: 1 },
-          { variableId: 'height', min: 1, max: 30, step: 1 },
+          { variableId: 'mass', placeholder: 'm', min: 1, max: 20, step: 1 },
+          { variableId: 'height', placeholder: 'h', min: 1, max: 30, step: 1 },
         ],
       },
     ],

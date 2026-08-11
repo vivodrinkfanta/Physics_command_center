@@ -80,9 +80,10 @@ export const circularMotionFormulas: FormulaRecord[] = [
       {
         promptTemplate: 'An object moves at {v} m/s in a circle of radius {r} m. Find a꜀.',
         solveFor: 'centripetal-acceleration',
+        substitutionTemplate: 'a꜀ = v²/r = ({v})²/{r}',
         variableRanges: [
-          { variableId: 'speed', min: 2, max: 20, step: 1 },
-          { variableId: 'radius', min: 1, max: 15, step: 1 },
+          { variableId: 'speed', placeholder: 'v', min: 2, max: 20, step: 1 },
+          { variableId: 'radius', placeholder: 'r', min: 1, max: 15, step: 1 },
         ],
       },
     ],
