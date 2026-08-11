@@ -16,7 +16,7 @@ Momentum, Circular Motion, Projectiles, and Oscillations.
 
 | Area | Status |
 | --- | --- |
-| Application shell, responsive navigation, and command palette | Complete |
+| Application shell, persistent collapsible unit navigation, and command palette | Complete |
 | Homepage projectile instrument and mechanics topic atlas | Complete |
 | Formula Library and reusable Formula Inspector | Complete |
 | Units, dimensions, rearranging, examples, practice, and relationships | Complete for all eight registry formulas |
@@ -38,7 +38,8 @@ accuracy, synchronization, accessibility, and responsive behavior.
 - `/practice` — practice catalog
 
 The Formula Inspector supports Simulate, Explain, Rearrange, Units, Dimensions, Graph, Example,
-Practice, and Related modes. The global command palette opens with `Cmd/Ctrl + K` or `Cmd/Ctrl + F`.
+Practice, and Related modes. Each mode is a deep link that can be opened or dragged into another
+browser tab or window. The global command palette opens with `Cmd/Ctrl + K` or `Cmd/Ctrl + F`.
 
 ## Run locally
 

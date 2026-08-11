@@ -146,6 +146,13 @@ export function FormulaInspectorPage() {
     else next.set('tab', tab)
     setSearchParams(next, { replace: true })
   }
+  const tabHref = (tab: InspectorTabId) => {
+    const next = new URLSearchParams(searchParams)
+    if (tab === 'simulate') next.delete('tab')
+    else next.set('tab', tab)
+    const query = next.toString()
+    return `/formulas/${formula.id}${query ? `?${query}` : ''}`
+  }
   const moveTabFocus = (currentIndex: number, offset: number) => {
     const nextIndex = (currentIndex + offset + inspectorTabs.length) % inspectorTabs.length
     const nextTab = inspectorTabs[nextIndex]
@@ -218,13 +225,12 @@ export function FormulaInspectorPage() {
 
       <nav className="inspector-tabs" aria-label="Formula Inspector modes" role="tablist">
         {inspectorTabs.map(({ icon: Icon, id, label }) => (
-          <button
+          <Link
             aria-controls="formula-inspector-panel"
             aria-selected={activeTab === id}
             className={activeTab === id ? 'is-active' : ''}
             id={`inspector-tab-${id}`}
             key={id}
-            onClick={() => selectTab(id)}
             onKeyDown={(event) => {
               const currentIndex = inspectorTabs.findIndex((tab) => tab.id === id)
               if (event.key === 'ArrowRight') {
@@ -243,11 +249,11 @@ export function FormulaInspectorPage() {
             }}
             role="tab"
             tabIndex={activeTab === id ? 0 : -1}
-            type="button"
+            to={tabHref(id)}
           >
             <Icon aria-hidden="true" size={15} /> {label}
             {id === 'simulate' && hasLiveSimulation && <small>Live</small>}
-          </button>
+          </Link>
         ))}
       </nav>
 

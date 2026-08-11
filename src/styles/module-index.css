@@ -110,9 +110,12 @@
 }
 
 .module-index__equation .math-expression {
-  overflow-x: auto;
+  flex-wrap: wrap;
+  max-width: 100%;
   color: var(--color-accent-strong);
-  font-size: clamp(2.7rem, 5vw, 5.2rem);
+  font-size: clamp(2.25rem, 4.5vw, 4.6rem);
+  line-height: 1.05;
+  white-space: normal;
 }
 
 .module-index__card-copy {
@@ -290,8 +293,10 @@
 .practice-catalog__grid .math-expression {
   overflow: hidden;
   color: var(--color-accent-strong);
-  font-size: clamp(1.5rem, 2.5vw, 2.4rem);
-  white-space: nowrap;
+  flex-wrap: wrap;
+  font-size: clamp(1.35rem, 2.2vw, 2.15rem);
+  line-height: 1.05;
+  white-space: normal;
 }
 
 .practice-catalog__grid > a > strong {

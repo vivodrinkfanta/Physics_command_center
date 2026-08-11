@@ -5,8 +5,11 @@ import {
   FlaskConical,
   Orbit,
   House,
+  PanelLeftClose,
+  PanelLeftOpen,
 } from 'lucide-react'
 import { NavLink, useLocation } from 'react-router-dom'
+import { useId } from 'react'
 import { LabMark } from '../brand/LabMark'
 import { topicIcons } from '../explore/topicIcons'
 import { findFormulaById } from '../../data/formulas'
@@ -20,7 +23,13 @@ const navigation = [
   { label: 'Practice', path: '/practice', icon: FlaskConical },
 ]
 
-export function Sidebar() {
+interface SidebarProps {
+  collapsed?: boolean
+  onToggleCollapsed?: () => void
+}
+
+export function Sidebar({ collapsed = false, onToggleCollapsed }: SidebarProps) {
+  const systemCardTitleId = useId()
   const location = useLocation()
   const selectedTopicId = new URLSearchParams(location.search).get('topic')
   const selectedFormula = location.pathname.startsWith('/formulas/')
@@ -33,8 +42,13 @@ export function Sidebar() {
     )?.id
 
   return (
-    <div className="sidebar">
-      <NavLink className="brand" to="/" aria-label="Physics Lab workspace">
+    <div className={`sidebar${collapsed ? ' sidebar--collapsed' : ''}`}>
+      <NavLink
+        className="brand"
+        title={collapsed ? 'Physics Lab home' : undefined}
+        to="/"
+        aria-label="Physics Lab workspace"
+      >
         <LabMark />
         <span className="brand__copy">
           <strong>Physics Lab</strong>
@@ -42,14 +56,35 @@ export function Sidebar() {
         </span>
       </NavLink>
 
+      {onToggleCollapsed && (
+        <button
+          aria-controls="desktop-primary-sidebar"
+          aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          aria-pressed={collapsed}
+          className="sidebar-toggle"
+          onClick={onToggleCollapsed}
+          title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          type="button"
+        >
+          {collapsed ? (
+            <PanelLeftOpen aria-hidden="true" size={16} />
+          ) : (
+            <PanelLeftClose aria-hidden="true" size={16} />
+          )}
+          <span>{collapsed ? 'Expand' : 'Collapse sidebar'}</span>
+        </button>
+      )}
+
       <nav className="primary-nav" aria-label="Workspace sections">
         <p className="nav-label">Laboratory</p>
         <ul>
           {navigation.map(({ end, icon: Icon, label, path }) => (
             <li key={path}>
               <NavLink
+                aria-label={label}
                 className={({ isActive }) => `nav-item${isActive ? ' nav-item--active' : ''}`}
                 end={end}
+                title={collapsed ? label : undefined}
                 to={path}
               >
                 <Icon aria-hidden="true" size={18} strokeWidth={1.7} />
@@ -71,7 +106,9 @@ export function Sidebar() {
               <li key={topic.id}>
                 <NavLink
                   aria-current={isActive ? 'page' : undefined}
+                  aria-label={`Unit ${topic.sequence}: ${topic.name}`}
                   className={`unit-nav__item${isActive ? ' unit-nav__item--active' : ''}`}
+                  title={collapsed ? `Unit ${topic.sequence}: ${topic.name}` : undefined}
                   to={`/explore?topic=${topic.id}`}
                 >
                   <span>{String(topic.sequence).padStart(2, '0')}</span>
@@ -86,10 +123,10 @@ export function Sidebar() {
 
       <div className="sidebar__spacer" />
 
-      <section className="system-card" aria-labelledby="system-card-title">
+      <section className="system-card" aria-labelledby={systemCardTitleId}>
         <div className="system-card__heading">
           <Orbit aria-hidden="true" size={16} strokeWidth={1.7} />
-          <span id="system-card-title">System</span>
+          <span id={systemCardTitleId}>System</span>
         </div>
         <div className="system-card__reading">
           <span>Environment</span>
@@ -101,7 +138,7 @@ export function Sidebar() {
         </div>
       </section>
 
-      <p className="build-label">Build 16 · Core system</p>
+      <p className="build-label">Build 17 · Complete mechanics shell</p>
     </div>
   )
 }

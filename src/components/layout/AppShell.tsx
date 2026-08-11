@@ -16,9 +16,28 @@ const pageNames: Record<string, string> = {
   '/practice': 'Practice',
 }
 
+const sidebarPreferenceKey = 'physics-lab-sidebar-collapsed'
+
+function readSidebarPreference() {
+  try {
+    return window.localStorage.getItem(sidebarPreferenceKey) === 'true'
+  } catch {
+    return false
+  }
+}
+
+function writeSidebarPreference(collapsed: boolean) {
+  try {
+    window.localStorage.setItem(sidebarPreferenceKey, String(collapsed))
+  } catch {
+    // The layout still works when storage is unavailable; only persistence is skipped.
+  }
+}
+
 export function AppShell() {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false)
   const [isNavigationOpen, setIsNavigationOpen] = useState(false)
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(readSidebarPreference)
   const hasMounted = useRef(false)
   const mobileNavigationCloseRef = useRef<HTMLButtonElement>(null)
   const {
@@ -38,6 +57,14 @@ export function AppShell() {
     pageNames[location.pathname] ??
     selectedFormula?.name ??
     (location.pathname.startsWith('/formulas/') ? 'Formula Inspector' : 'Workspace')
+
+  const toggleSidebar = () => {
+    setIsSidebarCollapsed((current) => {
+      const next = !current
+      writeSidebarPreference(next)
+      return next
+    })
+  }
 
   useEffect(() => {
     setIsNavigationOpen(false)
@@ -64,13 +91,17 @@ export function AppShell() {
   }, [])
 
   return (
-    <div className="app-shell">
+    <div className={`app-shell${isSidebarCollapsed ? ' app-shell--sidebar-collapsed' : ''}`}>
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
 
-      <aside className="desktop-sidebar" aria-label="Primary navigation">
-        <Sidebar />
+      <aside
+        aria-label="Primary navigation"
+        className="desktop-sidebar"
+        id="desktop-primary-sidebar"
+      >
+        <Sidebar collapsed={isSidebarCollapsed} onToggleCollapsed={toggleSidebar} />
       </aside>
 
       <header className="topbar">
