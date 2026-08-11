@@ -19,6 +19,15 @@ describe('command palette registry', () => {
     )
   })
 
+  it('finds every completed benchmark simulation', () => {
+    expect(searchCommandPalette('constant acceleration cart')[0]?.id).toBe('simulate-kinematics')
+    expect(searchCommandPalette('2d projectile field')[0]?.id).toBe('simulate-projectile')
+    expect(searchCommandPalette('two cart collision')[0]?.id).toBe('simulate-momentum')
+    expect(searchCommandPalette('potential energy tower')[0]?.id).toBe(
+      'simulate-potential-energy',
+    )
+  })
+
   it('returns a concise suggested set for an empty query', () => {
     const suggestions = searchCommandPalette('')
     expect(suggestions).toHaveLength(6)

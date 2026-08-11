@@ -88,7 +88,7 @@ export const kinematicsFormulas: FormulaRecord[] = [
     ],
     relatedFormulaIds: ['projectile-vertical-position', 'newton-second-law'],
     simulationType: 'kinematics-cart',
-    graphTypes: ['velocity-time', 'acceleration-time'],
+    graphTypes: ['position-time', 'velocity-time', 'acceleration-time'],
     workedExamples: [
       {
         prompt: 'A cart starts at 3 m/s and accelerates at 2 m/s² for 4 s. Find its final velocity.',

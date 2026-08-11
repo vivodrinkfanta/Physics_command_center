@@ -75,7 +75,7 @@ export function ScopeMenu() {
             </div>
             <div>
               <dt>Benchmark labs</dt>
-              <dd>02</dd>
+              <dd>06</dd>
             </div>
           </dl>
 
@@ -96,19 +96,11 @@ export function ScopeMenu() {
               </span>
               <ArrowRight aria-hidden="true" size={14} />
             </Link>
-            <Link onClick={close} to="/formulas/newton-second-law">
+            <Link onClick={close} to="/simulations">
               <Boxes aria-hidden="true" size={16} />
               <span>
-                <strong>Run force cart</strong>
-                <small>Newton’s synchronized force cart</small>
-              </span>
-              <ArrowRight aria-hidden="true" size={14} />
-            </Link>
-            <Link onClick={close} to="/formulas/kinetic-energy">
-              <Boxes aria-hidden="true" size={16} />
-              <span>
-                <strong>Run energy runway</strong>
-                <small>Mass, speed, motion, and live graphs</small>
+                <strong>Open simulation catalog</strong>
+                <small>Six complete mechanics instruments</small>
               </span>
               <ArrowRight aria-hidden="true" size={14} />
             </Link>

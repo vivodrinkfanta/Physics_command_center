@@ -72,6 +72,42 @@ const navigationCommands: CommandPaletteItem[] = [
     keywords: ['kinetic energy', 'energy runway', 'mass', 'speed', 'velocity squared'],
     meta: 'Eₖ = ½mv²',
   },
+  {
+    id: 'simulate-kinematics',
+    label: 'Run the constant-acceleration cart',
+    description: 'Synchronize signed cart motion with position, velocity, and acceleration graphs.',
+    href: '/formulas/constant-acceleration-velocity',
+    section: 'Simulate',
+    keywords: ['kinematics', 'motion cart', 'suvat', 'velocity time', 'acceleration'],
+    meta: 'v = u + at',
+  },
+  {
+    id: 'simulate-projectile',
+    label: 'Run the 2D projectile field',
+    description: 'Launch with adjustable speed, angle, height, and gravity.',
+    href: '/formulas/projectile-vertical-position',
+    section: 'Simulate',
+    keywords: ['projectile', 'trajectory', 'launch angle', 'range', 'flight time'],
+    meta: 'y = y₀ + v₀ᵧt − ½gt²',
+  },
+  {
+    id: 'simulate-momentum',
+    label: 'Run the two-cart collision lab',
+    description: 'Compare elastic and inelastic collisions with a momentum ledger.',
+    href: '/formulas/linear-momentum',
+    section: 'Simulate',
+    keywords: ['momentum', 'collision', 'elastic', 'inelastic', 'two cart'],
+    meta: 'p = mv',
+  },
+  {
+    id: 'simulate-potential-energy',
+    label: 'Run the potential energy tower',
+    description: 'Adjust mass, gravity, and signed height relative to a reference plane.',
+    href: '/formulas/gravitational-potential-energy',
+    section: 'Simulate',
+    keywords: ['potential energy', 'gpe', 'height', 'gravity', 'raised mass'],
+    meta: 'ΔEₚ = mgΔh',
+  },
 ]
 
 const formulaCommands: CommandPaletteItem[] = mechanicsFormulas.map((formula) => ({
@@ -114,10 +150,10 @@ export const commandPaletteItems: readonly CommandPaletteItem[] = [
 const suggestedCommandIds = [
   'simulate-newton',
   'simulate-kinetic-energy',
+  'simulate-kinematics',
+  'simulate-projectile',
   'navigate-formulas',
-  'navigate-explore',
   'navigate-practice',
-  'topic-projectiles',
 ]
 
 function normalize(value: string) {

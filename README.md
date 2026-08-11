@@ -2,8 +2,8 @@
 
 Physics Command Center is an interactive mechanics workspace for exploring equations as physical
 models rather than isolated facts. It combines a searchable formula registry, reusable Formula
-Inspectors, unit and dimension tools, practice problems, relationship mapping, and calibrated
-Newton’s Second Law and Kinetic Energy simulations.
+Inspectors, unit and dimension tools, practice problems, relationship mapping, and six calibrated
+mechanics simulations spanning forces, motion, projectiles, momentum, and energy.
 
 - Cloudflare Pages: [physics-command-center.pages.dev](https://physics-command-center.pages.dev/)
 - GitHub Pages: [vivodrinkfanta.github.io/Physics_command_center](https://vivodrinkfanta.github.io/Physics_command_center/)
@@ -22,7 +22,9 @@ Momentum, Circular Motion, Projectiles, and Oscillations.
 | Units, dimensions, rearranging, examples, practice, and relationships | Complete for all eight registry formulas |
 | Newton’s Second Law simulation, graphs, prediction, and synchronized motion | Benchmark complete |
 | Kinetic Energy simulation, graphs, and synchronized motion | Benchmark complete |
-| Remaining specialized Formula Inspector simulations and graphs | Intentionally pending benchmark-quality implementation |
+| Kinematics and Projectile simulations with synchronized graphs | Benchmark complete |
+| Momentum collision and Gravitational Potential Energy simulations | Benchmark complete |
+| Circular Motion and Hooke’s Law specialized instruments | Intentionally pending benchmark-quality implementation |
 
 Pending does not mean that a generic animation has been counted as a completed physics model. New
 specialized modules should be delivered one at a time and should meet the Newton benchmark for
@@ -114,16 +116,17 @@ Inspector shell.
 
 ### Phase 2 — Benchmark simulations
 
-Newton’s Second Law and Kinetic Energy are complete. Continue with one high-quality vertical slice
-at a time in this order: Kinematics, Projectile Motion, then Momentum/Collisions.
+Newton’s Second Law, Kinetic Energy, Kinematics, Projectile Motion, Momentum/Collisions, and
+Gravitational Potential Energy are complete. Continue with Circular Motion and Hooke’s Law one
+high-quality vertical slice at a time.
 
 The homepage projectile is a compact demonstration, not the finished Projectile Formula Inspector.
 
 ### Phase 3 — Learning instruments
 
 The shared rearranging, units, dimensions, practice, prediction, and relationship systems are in
-place. Live graph and simulation synchronization is complete for Newton and Kinetic Energy and
-should be extended only alongside each specialized module.
+place. Live graph and simulation synchronization is complete for all relevant motion instruments
+and should be extended only alongside each future specialized module.
 
 ### Phase 4 — Remaining mechanics depth
 

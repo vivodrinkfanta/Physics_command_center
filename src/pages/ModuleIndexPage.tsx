@@ -12,7 +12,7 @@ const modeContent = {
     eyebrow: 'Calibrated instrument index',
     title: 'Choose a model. Change one cause at a time.',
     description:
-      'Two complete mechanics instruments now share the same standard: faithful calculations, synchronized motion, variable linking, and live relationship graphs.',
+      'Six complete mechanics instruments now share the same standard: faithful calculations, synchronized motion where relevant, variable linking, and live relationship graphs.',
   },
   practice: {
     eyebrow: 'Focused mechanics practice',
@@ -54,6 +54,34 @@ const simulationModules = [
       'Linear and quadratic graphs',
     ],
   },
+  {
+    formulaId: 'constant-acceleration-velocity',
+    label: 'Kinematics · benchmark 03',
+    title: 'Constant-acceleration cart',
+    description: 'Follow signed position, velocity, and acceleration through one synchronized timeline.',
+    features: ['Initial-condition controls', 'Play, pause, reset, and scrub', 'Three synchronized time graphs'],
+  },
+  {
+    formulaId: 'projectile-vertical-position',
+    label: 'Projectiles · benchmark 04',
+    title: '2D projectile field',
+    description: 'Launch from a chosen height and inspect the full trajectory and velocity components.',
+    features: ['Speed, angle, gravity, and height', 'Range, peak, and flight time', 'Trajectory and time graphs'],
+  },
+  {
+    formulaId: 'linear-momentum',
+    label: 'Momentum · benchmark 05',
+    title: 'Two-cart collision lab',
+    description: 'Compare elastic and perfectly inelastic collisions in an isolated signed system.',
+    features: ['Two independently configured carts', 'Momentum and energy ledger', 'Elastic and inelastic outcomes'],
+  },
+  {
+    formulaId: 'gravitational-potential-energy',
+    label: 'Energy · benchmark 06',
+    title: 'Potential energy tower',
+    description: 'Move a mass above or below a chosen reference height and compare gravitational fields.',
+    features: ['Signed height change', 'Adjustable mass and gravity', 'Height and mass graphs'],
+  },
 ] as const
 
 export function ModuleIndexPage({ mode }: ModuleIndexPageProps) {
@@ -71,9 +99,9 @@ export function ModuleIndexPage({ mode }: ModuleIndexPageProps) {
           <p>{content.description}</p>
         </div>
         <dl aria-label={`${mode} readiness`}>
-          <div><dt>Modules online</dt><dd>{mode === 'practice' ? String(mechanicsFormulas.length).padStart(2, '0') : '02'}</dd></div>
+          <div><dt>Modules online</dt><dd>{mode === 'practice' ? String(mechanicsFormulas.length).padStart(2, '0') : '06'}</dd></div>
           <div><dt>Physics checks</dt><dd>Verified</dd></div>
-          <div><dt>{mode === 'practice' ? 'Hint policy' : 'Next instrument'}</dt><dd>{mode === 'practice' ? 'Optional' : 'Kinematics'}</dd></div>
+          <div><dt>{mode === 'practice' ? 'Hint policy' : 'Next instrument'}</dt><dd>{mode === 'practice' ? 'Optional' : 'Circular motion'}</dd></div>
         </dl>
       </header>
 
@@ -132,10 +160,10 @@ export function ModuleIndexPage({ mode }: ModuleIndexPageProps) {
 
           <aside className="module-index__standard">
             <span>Benchmark rule</span>
-            <h2>Complete instruments, released one at a time.</h2>
+            <h2>Six complete instruments, one shared standard.</h2>
             <p>
               Additional mechanics modules stay offline until their diagrams, calculations,
-              controls, and graphs meet the same standard as these two instruments.
+              controls, and graphs meet the same standard as these six instruments.
             </p>
             <div>
               <span>Current scope</span>

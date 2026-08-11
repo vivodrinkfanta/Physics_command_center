@@ -20,15 +20,27 @@ import { FormulaIntegrityBar } from '../components/inspector/FormulaIntegrityBar
 import { FormulaRelationshipMap } from '../components/inspector/FormulaRelationshipMap'
 import { KineticEnergyGraphs } from '../components/inspector/KineticEnergyGraphs'
 import { KineticEnergyLab } from '../components/inspector/KineticEnergyLab'
+import { KinematicsGraphs } from '../components/inspector/KinematicsGraphs'
+import { KinematicsLab } from '../components/inspector/KinematicsLab'
+import { MomentumGraphs } from '../components/inspector/MomentumGraphs'
+import { MomentumLab } from '../components/inspector/MomentumLab'
 import { NewtonGraphs } from '../components/inspector/NewtonGraphs'
 import { NewtonSecondLawLab } from '../components/inspector/NewtonSecondLawLab'
+import { PotentialEnergyGraphs } from '../components/inspector/PotentialEnergyGraphs'
+import { PotentialEnergyLab } from '../components/inspector/PotentialEnergyLab'
+import { ProjectileGraphs } from '../components/inspector/ProjectileGraphs'
+import { ProjectileLab } from '../components/inspector/ProjectileLab'
 import { UnitConverterPanel } from '../components/inspector/UnitConverterPanel'
 import { FittedFormulaExpression } from '../components/math/FittedFormulaExpression'
 import { findFormulaById } from '../data/formulas'
 import { getVariableDefinition } from '../data/variables'
 import type { FormulaRecord, PhysicsVariableId } from '../types/formula'
+import type { KinematicsState } from '../utils/kinematics'
 import type { KineticEnergyState } from '../utils/kineticEnergy'
+import type { MomentumState } from '../utils/momentum'
 import type { NewtonState } from '../utils/newtonSecondLaw'
+import type { PotentialEnergyState } from '../utils/potentialEnergy'
+import type { ProjectileLabState } from '../utils/projectile'
 
 const inspectorTabs = [
   { id: 'simulate', label: 'Simulate', icon: Boxes },
@@ -130,6 +142,31 @@ export function FormulaInspectorPage() {
     speed: 8,
     time: 0,
   })
+  const [kinematicsState, setKinematicsState] = useState<KinematicsState>({
+    acceleration: 2,
+    initialVelocity: 3,
+    time: 0,
+  })
+  const [projectileState, setProjectileState] = useState<ProjectileLabState>({
+    angleDegrees: 45,
+    gravity: 9.81,
+    launchHeight: 2,
+    speed: 22,
+    time: 0,
+  })
+  const [momentumState, setMomentumState] = useState<MomentumState>({
+    mass: 4,
+    restitution: 1,
+    secondMass: 6,
+    secondVelocity: -2,
+    time: 0,
+    velocity: 7,
+  })
+  const [potentialState, setPotentialState] = useState<PotentialEnergyState>({
+    gravity: 9.81,
+    height: 5,
+    mass: 3,
+  })
   const variableDefinitions = useMemo(
     () => formula?.variables.map(({ id }) => getVariableDefinition(id)) ?? [],
     [formula],
@@ -139,7 +176,17 @@ export function FormulaInspectorPage() {
 
   const isNewtonBenchmark = formula.id === 'newton-second-law'
   const isKineticBenchmark = formula.id === 'kinetic-energy'
-  const hasLiveSimulation = isNewtonBenchmark || isKineticBenchmark
+  const isKinematicsBenchmark = formula.id === 'constant-acceleration-velocity'
+  const isProjectileBenchmark = formula.id === 'projectile-vertical-position'
+  const isMomentumBenchmark = formula.id === 'linear-momentum'
+  const isPotentialBenchmark = formula.id === 'gravitational-potential-energy'
+  const hasLiveSimulation =
+    isNewtonBenchmark ||
+    isKineticBenchmark ||
+    isKinematicsBenchmark ||
+    isProjectileBenchmark ||
+    isMomentumBenchmark ||
+    isPotentialBenchmark
   const selectTab = (tab: InspectorTabId) => {
     const next = new URLSearchParams(searchParams)
     if (tab === 'simulate') next.delete('tab')
@@ -280,6 +327,34 @@ export function FormulaInspectorPage() {
               setState={setKineticState}
               state={kineticState}
             />
+          ) : isKinematicsBenchmark ? (
+            <KinematicsLab
+              highlightedVariable={highlightedVariable}
+              onHighlightVariable={setHighlightedVariable}
+              setState={setKinematicsState}
+              state={kinematicsState}
+            />
+          ) : isProjectileBenchmark ? (
+            <ProjectileLab
+              highlightedVariable={highlightedVariable}
+              onHighlightVariable={setHighlightedVariable}
+              setState={setProjectileState}
+              state={projectileState}
+            />
+          ) : isMomentumBenchmark ? (
+            <MomentumLab
+              highlightedVariable={highlightedVariable}
+              onHighlightVariable={setHighlightedVariable}
+              setState={setMomentumState}
+              state={momentumState}
+            />
+          ) : isPotentialBenchmark ? (
+            <PotentialEnergyLab
+              highlightedVariable={highlightedVariable}
+              onHighlightVariable={setHighlightedVariable}
+              setState={setPotentialState}
+              state={potentialState}
+            />
           ) : (
             <PendingInstrument formula={formula} instrument="Simulation" />
           ))}
@@ -312,6 +387,14 @@ export function FormulaInspectorPage() {
             <NewtonGraphs highlightedVariable={highlightedVariable} state={newtonState} />
           ) : isKineticBenchmark ? (
             <KineticEnergyGraphs highlightedVariable={highlightedVariable} state={kineticState} />
+          ) : isKinematicsBenchmark ? (
+            <KinematicsGraphs highlightedVariable={highlightedVariable} state={kinematicsState} />
+          ) : isProjectileBenchmark ? (
+            <ProjectileGraphs highlightedVariable={highlightedVariable} state={projectileState} />
+          ) : isMomentumBenchmark ? (
+            <MomentumGraphs highlightedVariable={highlightedVariable} state={momentumState} />
+          ) : isPotentialBenchmark ? (
+            <PotentialEnergyGraphs highlightedVariable={highlightedVariable} state={potentialState} />
           ) : (
             <PendingInstrument formula={formula} instrument="Live graph" />
           ))}

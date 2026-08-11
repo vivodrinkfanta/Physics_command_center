@@ -33,6 +33,7 @@ export type FormulaGraphType =
   | 'momentum-velocity'
   | 'potential-energy-height'
   | 'potential-energy-mass'
+  | 'position-time'
   | 'trajectory'
   | 'velocity-time'
   | 'vertical-position-time'

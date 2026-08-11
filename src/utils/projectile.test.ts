@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { calculateProjectileMotion } from './projectile'
+import { calculateProjectileMotion, calculateProjectileSample } from './projectile'
 
 describe('calculateProjectileMotion', () => {
   it('calculates an ideal 45-degree launch in SI units', () => {
@@ -20,12 +20,36 @@ describe('calculateProjectileMotion', () => {
     expect(finalPoint?.y).toBe(0)
   })
 
+  it('supports an elevated launch and synchronized velocity components', () => {
+    const motion = calculateProjectileMotion({
+      angleDegrees: 45,
+      gravity: 9.81,
+      launchHeight: 10,
+      speed: 20,
+    })
+    const sample = calculateProjectileSample({
+      angleDegrees: 45,
+      gravity: 9.81,
+      launchHeight: 10,
+      speed: 20,
+      time: 1,
+    })
+
+    expect(motion.maximumHeight).toBeGreaterThan(20)
+    expect(motion.flightTime).toBeGreaterThan(2.883)
+    expect(sample.x).toBeCloseTo(motion.horizontalVelocity)
+    expect(sample.verticalVelocity).toBeCloseTo(motion.verticalVelocity - 9.81)
+  })
+
   it('rejects physically invalid inputs', () => {
     expect(() => calculateProjectileMotion({ angleDegrees: 45, speed: 0 })).toThrow(RangeError)
     expect(() => calculateProjectileMotion({ angleDegrees: 90, speed: 20 })).toThrow(RangeError)
     expect(() => calculateProjectileMotion({ angleDegrees: 45, gravity: -9.81, speed: 20 })).toThrow(
       RangeError,
     )
+    expect(() =>
+      calculateProjectileMotion({ angleDegrees: 45, launchHeight: -1, speed: 20 }),
+    ).toThrow(RangeError)
     expect(() => calculateProjectileMotion({ angleDegrees: Number.NaN, speed: 20 })).toThrow(
       RangeError,
     )
