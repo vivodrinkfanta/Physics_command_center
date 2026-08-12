@@ -3142,6 +3142,214 @@
   text-align: right;
 }
 
+.expanded-stage {
+  background:
+    radial-gradient(circle at 50% 46%, rgba(134, 191, 232, 0.07), transparent 45%),
+    var(--color-surface-deep);
+}
+
+.workbench-track,
+.power-rail {
+  stroke: #52616d;
+  stroke-width: 2;
+}
+
+.workbench-origin {
+  stroke: rgba(168, 234, 216, 0.45);
+  stroke-dasharray: 3 4;
+}
+
+.workbench-motion-path {
+  fill: none;
+  stroke: rgba(168, 234, 216, 0.28);
+  stroke-dasharray: 3 5;
+}
+
+.workbench-cart rect {
+  fill: #314a50;
+  stroke: rgba(168, 234, 216, 0.5);
+  stroke-width: 1.4;
+}
+
+.workbench-cart text,
+.power-load + text {
+  fill: var(--color-text);
+  font: 9px var(--font-mono);
+}
+
+.workbench-cart circle {
+  fill: var(--color-surface-deep);
+  stroke: #71808d;
+  stroke-width: 2;
+}
+
+.workbench-velocity line,
+.workbench-force--up line,
+.workbench-force--right line,
+#workbench-blue-head polygon {
+  fill: var(--color-data-velocity);
+  stroke: var(--color-data-velocity);
+}
+
+.workbench-force--down line,
+.workbench-force--left line,
+.workbench-displacement,
+#workbench-warm-head polygon {
+  fill: var(--color-warning);
+  stroke: var(--color-warning);
+}
+
+.workbench-velocity line,
+.workbench-force line,
+.workbench-displacement {
+  stroke-width: 2.7;
+}
+
+.workbench-velocity text,
+.workbench-force--up text,
+.workbench-force--right text {
+  fill: var(--color-data-velocity);
+}
+
+.workbench-force--down text,
+.workbench-force--left text,
+.workbench-displacement + text {
+  fill: var(--color-warning-strong);
+}
+
+.workbench-velocity text,
+.workbench-force text,
+.workbench-displacement + text,
+.workbench-readout,
+.energy-account text,
+.power-pulse + circle + text,
+.impulse-area + line + text {
+  font: 9px var(--font-mono);
+}
+
+.workbench-readout {
+  fill: var(--color-text-muted);
+  letter-spacing: 0.05em;
+}
+
+.workbench-component {
+  opacity: 0.42;
+  stroke-dasharray: 3 4;
+  stroke-width: 1 !important;
+}
+
+.energy-account rect {
+  fill: rgba(168, 234, 216, 0.42);
+  stroke: rgba(168, 234, 216, 0.5);
+}
+
+.energy-account rect:first-child {
+  fill: rgba(134, 191, 232, 0.38);
+  stroke: var(--color-data-velocity);
+}
+
+.energy-account rect.is-dissipated {
+  fill: rgba(229, 180, 127, 0.4);
+  stroke: var(--color-warning);
+}
+
+.energy-account path {
+  fill: none;
+  stroke: var(--color-text-dim);
+  stroke-width: 2;
+}
+
+.energy-account text,
+.power-pulse + circle + text,
+.impulse-area + line + text {
+  fill: var(--color-text-muted);
+}
+
+.power-pulse {
+  fill: rgba(168, 234, 216, 0.46);
+}
+
+.power-load {
+  fill: rgba(134, 191, 232, 0.12);
+  stroke: var(--color-data-velocity);
+  stroke-width: 2;
+}
+
+.impulse-area {
+  fill: rgba(168, 234, 216, 0.22);
+  stroke: rgba(168, 234, 216, 0.5);
+}
+
+.impulse-axis {
+  stroke: var(--color-text-dim);
+}
+
+.workbench-invalid {
+  fill: var(--color-warning-strong);
+  font: 11px var(--font-mono);
+}
+
+.workbench-transport {
+  display: grid;
+  grid-template-columns: auto auto minmax(120px, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  min-height: 62px;
+  padding: 10px 14px;
+}
+
+.workbench-transport button {
+  min-height: 35px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-panel);
+  padding: 0 11px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  font-size: 0.61rem;
+}
+
+.workbench-transport button:first-child {
+  border-color: rgba(168, 234, 216, 0.25);
+  background: var(--color-accent-soft);
+  color: var(--color-accent-strong);
+}
+
+.workbench-transport label {
+  display: flex;
+  min-width: 0;
+}
+
+.workbench-transport output {
+  color: var(--color-text-dim);
+  font: 0.55rem var(--font-mono);
+}
+
+.workbench-presets {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  border-bottom: 1px solid var(--color-border-soft);
+  padding: 12px 16px;
+}
+
+.workbench-presets button {
+  min-height: 36px;
+  border: 1px solid var(--color-border-soft);
+  border-radius: 8px;
+  background: var(--color-bg-elevated);
+  color: var(--color-text-dim);
+  cursor: pointer;
+  font-size: 0.61rem;
+}
+
+.workbench-presets button:hover,
+.workbench-presets button.is-active {
+  border-color: rgba(168, 234, 216, 0.3);
+  background: var(--color-accent-soft);
+  color: var(--color-accent-strong);
+}
+
 @media (max-width: 1180px) {
   .formula-inspector__header {
     grid-template-columns: 1fr;
@@ -3254,6 +3462,19 @@
 
   .spring-energy-meter {
     grid-template-columns: auto minmax(70px, 1fr);
+  }
+
+  .workbench-transport {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .workbench-transport label,
+  .workbench-transport output {
+    grid-column: 1 / -1;
+  }
+
+  .workbench-transport output {
+    text-align: right;
   }
 
   .spring-energy-meter > small {

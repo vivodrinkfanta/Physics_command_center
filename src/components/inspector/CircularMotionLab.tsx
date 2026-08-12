@@ -17,6 +17,7 @@ interface CircularMotionLabProps {
   onHighlightVariable: (variableId: PhysicsVariableId | null) => void
   setState: Dispatch<SetStateAction<CircularMotionState>>
   state: CircularMotionState
+  outputVariableId?: 'centripetal-acceleration' | 'centripetal-force'
 }
 
 export function CircularMotionLab({
@@ -24,6 +25,7 @@ export function CircularMotionLab({
   onHighlightVariable,
   setState,
   state,
+  outputVariableId = 'centripetal-acceleration',
 }: CircularMotionLabProps) {
   const playback = useTimelinePlayback(state, setState, CIRCULAR_TIME_LIMIT)
   const motion = calculateCircularMotion(state.mass, state.speed, state.radius, state.time)
@@ -40,13 +42,13 @@ export function CircularMotionLab({
   const objectRadius = 9 + ((state.mass - CIRCULAR_MASS_RANGE.min) / 9.5) * 5
   const accelerationLinked = instrumentLinkedClass(
     highlightedVariable,
-    'centripetal-acceleration',
+    outputVariableId,
   )
   const speedLinked = instrumentLinkedClass(highlightedVariable, 'speed')
   const radiusLinked = instrumentLinkedClass(highlightedVariable, 'radius')
   const massLinked = instrumentLinkedClass(highlightedVariable, 'mass')
   const forceLinked = highlightedVariable
-    ? highlightedVariable === 'centripetal-acceleration' || highlightedVariable === 'mass'
+    ? highlightedVariable === outputVariableId || highlightedVariable === 'mass'
       ? ' is-linked'
       : ' is-dimmed'
     : ''
@@ -103,7 +105,7 @@ export function CircularMotionLab({
         <InstrumentControl highlightedVariable={highlightedVariable} label="Object mass" max={CIRCULAR_MASS_RANGE.max} min={CIRCULAR_MASS_RANGE.min} onChange={(mass) => change({ mass })} onHighlightVariable={onHighlightVariable} step={CIRCULAR_MASS_RANGE.step} symbol="m" unit="kg" value={state.mass} variableId="mass" />
         <InstrumentControl highlightedVariable={highlightedVariable} label="Tangential speed" max={CIRCULAR_SPEED_RANGE.max} min={CIRCULAR_SPEED_RANGE.min} onChange={(speed) => change({ speed })} onHighlightVariable={onHighlightVariable} step={CIRCULAR_SPEED_RANGE.step} symbol="v" unit="m/s" value={state.speed} variableId="speed" />
         <InstrumentControl highlightedVariable={highlightedVariable} label="Orbit radius" max={CIRCULAR_RADIUS_RANGE.max} min={CIRCULAR_RADIUS_RANGE.min} onChange={(radius) => change({ radius })} onHighlightVariable={onHighlightVariable} step={CIRCULAR_RADIUS_RANGE.step} symbol="r" unit="m" value={state.radius} variableId="radius" />
-        <div className={`newton-result${accelerationLinked}`}><span>Calculated inward acceleration</span><output><var>a꜀</var> = {formatMeasurement(motion.acceleration)} <small>m/s²</small></output><code>{formatMeasurement(state.speed, 1)}² ÷ {formatMeasurement(state.radius, 1)}</code></div>
+        <div className={`newton-result${accelerationLinked}`}><span>{outputVariableId === 'centripetal-force' ? 'Calculated inward force' : 'Calculated inward acceleration'}</span><output><var>{outputVariableId === 'centripetal-force' ? 'F꜀' : 'a꜀'}</var> = {formatMeasurement(outputVariableId === 'centripetal-force' ? motion.force : motion.acceleration)} <small>{outputVariableId === 'centripetal-force' ? 'N' : 'm/s²'}</small></output><code>{outputVariableId === 'centripetal-force' ? `${formatMeasurement(state.mass, 1)} × ` : ''}{formatMeasurement(state.speed, 1)}² ÷ {formatMeasurement(state.radius, 1)}</code></div>
         <p className="newton-console__note">Speed is constant but velocity changes direction continuously. “Centripetal force” is the inward resultant supplied by real forces, not an additional force type.</p>
       </aside>
     </div>

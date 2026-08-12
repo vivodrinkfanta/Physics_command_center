@@ -1,6 +1,7 @@
 import type { FormulaId, FormulaRecord } from '../../types/formula'
 import { circularMotionFormulas } from './circular'
 import { energyFormulas } from './energy'
+import { expandedMechanicsFormulas } from './expandedMechanics'
 import { forceFormulas } from './forces'
 import { kinematicsFormulas } from './kinematics'
 import { momentumFormulas } from './momentum'
@@ -18,6 +19,7 @@ export const mechanicsFormulas: readonly FormulaRecord[] = [
   ...momentumFormulas,
   ...circularMotionFormulas,
   ...oscillationFormulas,
+  ...expandedMechanicsFormulas,
 ]
 
 const formulaRegistry = new Map(mechanicsFormulas.map((formula) => [formula.id, formula]))

@@ -12,7 +12,7 @@ const modeContent = {
     eyebrow: 'Calibrated instrument index',
     title: 'Choose a model. Change one cause at a time.',
     description:
-      'Eight complete mechanics instruments now share the same standard: faithful calculations, synchronized motion where relevant, variable linking, and live relationship graphs.',
+      'Twelve physical workbenches now cover all 21 V1 mechanics relationships with faithful calculations, synchronized motion where relevant, variable linking, and live graphs.',
   },
   practice: {
     eyebrow: 'Focused mechanics practice',
@@ -96,6 +96,34 @@ const simulationModules = [
     description: 'Release an attached mass and follow restoring force, motion, and energy exchange.',
     features: ['Stiffness, displacement, and mass', 'Ideal SHM timeline and energy ledger', 'Force, motion, and energy graphs'],
   },
+  {
+    formulaId: 'average-speed',
+    label: 'Kinematics · workbench 09',
+    title: 'Motion and free-fall analyzer',
+    description: 'Explore average rates and every constant-acceleration relationship through signed motion.',
+    features: ['Speed and acceleration rates', 'Complete SUVAT family', 'Free-fall-ready signed controls'],
+  },
+  {
+    formulaId: 'friction-force',
+    label: 'Forces · workbench 10',
+    title: 'Force-system workbench',
+    description: 'Read weight, normal force, friction, tension, and resultants from physical free-body diagrams.',
+    features: ['Weight and friction models', 'Normal and tension vectors', 'Contact-force graphing'],
+  },
+  {
+    formulaId: 'work',
+    label: 'Energy · workbench 11',
+    title: 'Energy-transfer bench',
+    description: 'Connect angled work, transfer rate, energy stores, and dissipation in one accounting system.',
+    features: ['Force components and work', 'Power as transfer rate', 'Conservation ledger'],
+  },
+  {
+    formulaId: 'impulse',
+    label: 'Momentum · workbench 12',
+    title: 'Impulse cart',
+    description: 'Build impulse as force-time area and watch the matching signed momentum change.',
+    features: ['Signed average force', 'Adjustable contact duration', 'Force-time area and Δp'],
+  },
 ] as const
 
 export function ModuleIndexPage({ mode }: ModuleIndexPageProps) {
@@ -113,7 +141,7 @@ export function ModuleIndexPage({ mode }: ModuleIndexPageProps) {
           <p>{content.description}</p>
         </div>
         <dl aria-label={`${mode} readiness`}>
-              <div><dt>Modules online</dt><dd>{String(mechanicsFormulas.length).padStart(2, '0')}</dd></div>
+              <div><dt>{mode === 'practice' ? 'Problem sets' : 'Workbenches online'}</dt><dd>{mode === 'practice' ? String(mechanicsFormulas.length).padStart(2, '0') : String(simulationModules.length).padStart(2, '0')}</dd></div>
           <div><dt>Physics checks</dt><dd>Verified</dd></div>
               <div><dt>{mode === 'practice' ? 'Hint policy' : 'Registry coverage'}</dt><dd>{mode === 'practice' ? 'Optional' : 'Complete'}</dd></div>
         </dl>
@@ -174,10 +202,10 @@ export function ModuleIndexPage({ mode }: ModuleIndexPageProps) {
 
           <aside className="module-index__standard">
             <span>Benchmark rule</span>
-            <h2>Every V1 formula now has a live instrument.</h2>
+            <h2>Every V1 formula now has a physical instrument.</h2>
             <p>
-              All eight registry formulas connect their diagrams, calculations, controls,
-              variable focus, practice, and graphs through the same scientific interface.
+              All 21 registry formulas connect their diagrams, calculations, controls,
+              variable focus, practice, and graphs through twelve coherent workbenches.
             </p>
             <div>
               <span>Current scope</span>

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { getFormulaById } from './formulas'
+import { getFormulaById, mechanicsFormulas } from './formulas'
 import { findMechanicsTopic, mechanicsTopics } from './topics'
 
 describe('mechanicsTopics', () => {
@@ -27,6 +27,11 @@ describe('mechanicsTopics', () => {
       topic.formulaIds.forEach((formulaId) => expect(getFormulaById(formulaId).id).toBe(formulaId))
       topic.connections.forEach((connection) => expect(knownTopicIds.has(connection)).toBe(true))
     })
+  })
+
+  it('maps every V1 formula into at least one topic area', () => {
+    const mappedFormulaIds = new Set(mechanicsTopics.flatMap((topic) => topic.formulaIds))
+    expect(mappedFormulaIds).toEqual(new Set(mechanicsFormulas.map((formula) => formula.id)))
   })
 
   it('supports homepage aliases while falling back safely', () => {

@@ -11,6 +11,8 @@ describe('formula library controls', () => {
     })
 
     expect(first.id).toBe('linear-momentum')
+    expect(getFormulaLibraryResults({ query: 'normal force friction', topic: 'all', difficulty: 'all', sort: 'relevance' })[0].id).toBe('friction-force')
+    expect(getFormulaLibraryResults({ query: 'energy transfer rate', topic: 'all', difficulty: 'all', sort: 'relevance' })[0].id).toBe('power')
   })
 
   it('combines topic and difficulty filters', () => {
@@ -21,7 +23,10 @@ describe('formula library controls', () => {
       sort: 'name',
     })
 
-    expect(results.map((formula) => formula.id)).toEqual(['centripetal-acceleration'])
+    expect(results.map((formula) => formula.id)).toEqual([
+      'centripetal-acceleration',
+      'centripetal-force',
+    ])
   })
 
   it('sorts the complete registry alphabetically', () => {
@@ -32,7 +37,7 @@ describe('formula library controls', () => {
       sort: 'name',
     })
 
-    expect(results[0].name).toBe('Centripetal acceleration')
-    expect(results.at(-1)?.name).toBe('Vertical projectile position')
+    expect(results[0].name).toBe('Average acceleration')
+    expect(results.at(-1)?.name).toBe('Work done by a force')
   })
 })

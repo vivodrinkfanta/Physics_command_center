@@ -17,6 +17,7 @@ interface SpringMotionLabProps {
   onHighlightVariable: (variableId: PhysicsVariableId | null) => void
   setState: Dispatch<SetStateAction<SpringMotionState>>
   state: SpringMotionState
+  outputVariableId?: 'spring-force' | 'elastic-potential-energy'
 }
 
 const clamp = (value: number) => Math.max(28, Math.min(548, value))
@@ -26,6 +27,7 @@ export function SpringMotionLab({
   onHighlightVariable,
   setState,
   state,
+  outputVariableId = 'spring-force',
 }: SpringMotionLabProps) {
   const playback = useTimelinePlayback(state, setState, SPRING_TIME_LIMIT)
   const motion = calculateSpringMotion(
@@ -56,7 +58,7 @@ export function SpringMotionLab({
   const elasticFraction = motion.totalEnergy > 0 ? motion.elasticEnergy / motion.totalEnergy : 0
   const kineticFraction = motion.totalEnergy > 0 ? motion.kineticEnergy / motion.totalEnergy : 0
   const displacementLinked = instrumentLinkedClass(highlightedVariable, 'spring-displacement')
-  const forceLinked = instrumentLinkedClass(highlightedVariable, 'spring-force')
+  const forceLinked = instrumentLinkedClass(highlightedVariable, outputVariableId)
   const stiffnessLinked = instrumentLinkedClass(highlightedVariable, 'spring-constant')
   const massLinked = instrumentLinkedClass(highlightedVariable, 'mass')
 
@@ -120,8 +122,8 @@ export function SpringMotionLab({
         <header><span>Oscillator console</span><strong>Live · SI units</strong></header>
         <InstrumentControl highlightedVariable={highlightedVariable} label="Spring constant" max={SPRING_CONSTANT_RANGE.max} min={SPRING_CONSTANT_RANGE.min} onChange={(springConstant) => change({ springConstant })} onHighlightVariable={onHighlightVariable} step={SPRING_CONSTANT_RANGE.step} symbol="k" unit="N/m" value={state.springConstant} variableId="spring-constant" />
         <InstrumentControl highlightedVariable={highlightedVariable} label="Release displacement" max={SPRING_DISPLACEMENT_RANGE.max} min={SPRING_DISPLACEMENT_RANGE.min} onChange={(displacement) => change({ displacement })} onHighlightVariable={onHighlightVariable} step={SPRING_DISPLACEMENT_RANGE.step} symbol="A" unit="m" value={state.displacement} variableId="spring-displacement" />
-        <InstrumentControl highlightedVariable={highlightedVariable} label="Attached mass" max={SPRING_MASS_RANGE.max} min={SPRING_MASS_RANGE.min} onChange={(mass) => change({ mass })} onHighlightVariable={onHighlightVariable} step={SPRING_MASS_RANGE.step} symbol="m" unit="kg" value={state.mass} variableId="mass" />
-        <div className={`newton-result${forceLinked}`}><span>Instantaneous restoring force</span><output><var>F</var> = {formatMeasurement(motion.force)} <small>N</small></output><code>−{formatMeasurement(state.springConstant, 1)} × ({formatMeasurement(motion.displacement, 2)})</code></div>
+        {outputVariableId === 'spring-force' && <InstrumentControl highlightedVariable={highlightedVariable} label="Attached mass" max={SPRING_MASS_RANGE.max} min={SPRING_MASS_RANGE.min} onChange={(mass) => change({ mass })} onHighlightVariable={onHighlightVariable} step={SPRING_MASS_RANGE.step} symbol="m" unit="kg" value={state.mass} variableId="mass" />}
+        <div className={`newton-result${forceLinked}`}><span>{outputVariableId === 'elastic-potential-energy' ? 'Instantaneous elastic energy' : 'Instantaneous restoring force'}</span><output><var>{outputVariableId === 'elastic-potential-energy' ? 'Eₑ' : 'F'}</var> = {formatMeasurement(outputVariableId === 'elastic-potential-energy' ? motion.elasticEnergy : motion.force)} <small>{outputVariableId === 'elastic-potential-energy' ? 'J' : 'N'}</small></output><code>{outputVariableId === 'elastic-potential-energy' ? `½ × ${formatMeasurement(state.springConstant, 1)} × (${formatMeasurement(motion.displacement, 2)})²` : `−${formatMeasurement(state.springConstant, 1)} × (${formatMeasurement(motion.displacement, 2)})`}</code></div>
         <p className="newton-console__note">The release displacement sets the amplitude. A stiffer spring shortens the period; a heavier attached mass lengthens it. Damping and non-linear stretching are neglected.</p>
       </aside>
     </div>

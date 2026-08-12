@@ -11,11 +11,13 @@ import {
   Ruler,
   Scale,
 } from 'lucide-react'
-import { useMemo, useState } from 'react'
+import { useMemo, useState, type Dispatch, type SetStateAction } from 'react'
 import { Link, Navigate, useParams, useSearchParams } from 'react-router-dom'
 import { CircularMotionGraphs } from '../components/inspector/CircularMotionGraphs'
 import { CircularMotionLab } from '../components/inspector/CircularMotionLab'
 import { EquationRearranger } from '../components/inspector/EquationRearranger'
+import { ExpandedMechanicsGraphs } from '../components/inspector/ExpandedMechanicsGraphs'
+import { ExpandedMechanicsLab } from '../components/inspector/ExpandedMechanicsLab'
 import { DimensionCheckerPanel } from '../components/inspector/DimensionCheckerPanel'
 import { FormulaPractice } from '../components/inspector/FormulaPractice'
 import { FormulaIntegrityBar } from '../components/inspector/FormulaIntegrityBar'
@@ -36,10 +38,17 @@ import { SpringMotionGraphs } from '../components/inspector/SpringMotionGraphs'
 import { SpringMotionLab } from '../components/inspector/SpringMotionLab'
 import { UnitConverterPanel } from '../components/inspector/UnitConverterPanel'
 import { FittedFormulaExpression } from '../components/math/FittedFormulaExpression'
-import { findFormulaById } from '../data/formulas'
+import { findFormulaById, mechanicsFormulas } from '../data/formulas'
 import { getVariableDefinition } from '../data/variables'
 import type { FormulaRecord, PhysicsVariableId } from '../types/formula'
 import type { CircularMotionState } from '../utils/circularMotion'
+import {
+  createFormulaInputStates,
+  isExpandedFormulaId,
+  type ExpandedFormulaId,
+  type FormulaInputStates,
+  type FormulaValueState,
+} from '../utils/expandedMechanics'
 import type { KinematicsState } from '../utils/kinematics'
 import type { KineticEnergyState } from '../utils/kineticEnergy'
 import type { MomentumState } from '../utils/momentum'
@@ -171,6 +180,9 @@ export function FormulaInspectorPage() {
     springConstant: 40,
     time: 0,
   })
+  const [expandedStates, setExpandedStates] = useState<FormulaInputStates>(() =>
+    createFormulaInputStates(mechanicsFormulas),
+  )
   const variableDefinitions = useMemo(
     () => formula?.variables.map(({ id }) => getVariableDefinition(id)) ?? [],
     [formula],
@@ -184,8 +196,19 @@ export function FormulaInspectorPage() {
   const isProjectileBenchmark = formula.id === 'projectile-vertical-position'
   const isMomentumBenchmark = formula.id === 'linear-momentum'
   const isPotentialBenchmark = formula.id === 'gravitational-potential-energy'
-  const isCircularBenchmark = formula.id === 'centripetal-acceleration'
-  const isSpringBenchmark = formula.id === 'hookes-law'
+  const isCircularBenchmark =
+    formula.id === 'centripetal-acceleration' || formula.id === 'centripetal-force'
+  const isSpringBenchmark =
+    formula.id === 'hookes-law' || formula.id === 'elastic-potential-energy'
+  const isExpandedBenchmark = isExpandedFormulaId(formula.id)
+  const expandedFormula = formula as FormulaRecord & { id: ExpandedFormulaId }
+  const expandedState = expandedStates[formula.id] ?? {}
+  const setExpandedState: Dispatch<SetStateAction<FormulaValueState>> = (update) =>
+    setExpandedStates((current) => {
+      const previous = current[formula.id] ?? {}
+      const next = typeof update === 'function' ? update(previous) : update
+      return { ...current, [formula.id]: next }
+    })
   const hasLiveSimulation =
     isNewtonBenchmark ||
     isKineticBenchmark ||
@@ -194,7 +217,8 @@ export function FormulaInspectorPage() {
     isMomentumBenchmark ||
     isPotentialBenchmark ||
     isCircularBenchmark ||
-    isSpringBenchmark
+    isSpringBenchmark ||
+    isExpandedBenchmark
   const selectTab = (tab: InspectorTabId) => {
     const next = new URLSearchParams(searchParams)
     if (tab === 'simulate') next.delete('tab')
@@ -369,6 +393,7 @@ export function FormulaInspectorPage() {
               onHighlightVariable={setHighlightedVariable}
               setState={setCircularState}
               state={circularState}
+              outputVariableId={formula.id === 'centripetal-force' ? 'centripetal-force' : 'centripetal-acceleration'}
             />
           ) : isSpringBenchmark ? (
             <SpringMotionLab
@@ -376,6 +401,15 @@ export function FormulaInspectorPage() {
               onHighlightVariable={setHighlightedVariable}
               setState={setSpringState}
               state={springState}
+              outputVariableId={formula.id === 'elastic-potential-energy' ? 'elastic-potential-energy' : 'spring-force'}
+            />
+          ) : isExpandedBenchmark ? (
+            <ExpandedMechanicsLab
+              formula={expandedFormula}
+              highlightedVariable={highlightedVariable}
+              onHighlightVariable={setHighlightedVariable}
+              setState={setExpandedState}
+              state={expandedState}
             />
           ) : (
             null
@@ -418,9 +452,15 @@ export function FormulaInspectorPage() {
           ) : isPotentialBenchmark ? (
             <PotentialEnergyGraphs highlightedVariable={highlightedVariable} state={potentialState} />
           ) : isCircularBenchmark ? (
-            <CircularMotionGraphs highlightedVariable={highlightedVariable} state={circularState} />
+            <CircularMotionGraphs highlightedVariable={highlightedVariable} outputVariableId={formula.id === 'centripetal-force' ? 'centripetal-force' : 'centripetal-acceleration'} state={circularState} />
           ) : isSpringBenchmark ? (
-            <SpringMotionGraphs highlightedVariable={highlightedVariable} state={springState} />
+            <SpringMotionGraphs highlightedVariable={highlightedVariable} outputVariableId={formula.id === 'elastic-potential-energy' ? 'elastic-potential-energy' : 'spring-force'} state={springState} />
+          ) : isExpandedBenchmark ? (
+            <ExpandedMechanicsGraphs
+              formula={expandedFormula}
+              highlightedVariable={highlightedVariable}
+              state={expandedState}
+            />
           ) : (
             null
           ))}

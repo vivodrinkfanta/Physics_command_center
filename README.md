@@ -2,8 +2,8 @@
 
 Physics Command Center is an interactive mechanics workspace for exploring equations as physical
 models rather than isolated facts. It combines a searchable formula registry, reusable Formula
-Inspectors, unit and dimension tools, practice problems, relationship mapping, and eight calibrated
-mechanics simulations spanning forces, motion, projectiles, momentum, energy, and oscillations.
+Inspectors, unit and dimension tools, practice problems, relationship mapping, and twelve calibrated
+mechanics workbenches spanning forces, motion, projectiles, momentum, energy, and oscillations.
 
 - Cloudflare Pages: [physics-command-center.pages.dev](https://physics-command-center.pages.dev/)
 - GitHub Pages: [vivodrinkfanta.github.io/Physics_command_center](https://vivodrinkfanta.github.io/Physics_command_center/)
@@ -11,7 +11,7 @@ mechanics simulations spanning forces, motion, projectiles, momentum, energy, an
 
 ## Current scope
 
-The V1 scope is mechanics. Eight formula records currently cover Kinematics, Forces, Energy,
+The V1 scope is mechanics. Twenty-one formula records currently cover Kinematics, Forces, Energy,
 Momentum, Circular Motion, Projectiles, and Oscillations.
 
 | Area | Status |
@@ -19,12 +19,16 @@ Momentum, Circular Motion, Projectiles, and Oscillations.
 | Application shell, persistent collapsible unit navigation, and command palette | Complete |
 | Homepage projectile instrument and mechanics topic atlas | Complete |
 | Formula Library and reusable Formula Inspector | Complete |
-| Units, dimensions, rearranging, examples, practice, and relationships | Complete for all eight registry formulas |
+| Units, dimensions, rearranging, examples, practice, and relationships | Complete for all 21 registry formulas |
 | Newton’s Second Law simulation, graphs, prediction, and synchronized motion | Benchmark complete |
 | Kinetic Energy simulation, graphs, and synchronized motion | Benchmark complete |
 | Kinematics and Projectile simulations with synchronized graphs | Benchmark complete |
 | Momentum collision and Gravitational Potential Energy simulations | Benchmark complete |
 | Circular Motion and Hooke’s Law simulations with synchronized graphs | Benchmark complete |
+| Speed, acceleration, complete SUVAT family, and free-fall modeling | Complete |
+| Weight, friction, normal/tension diagrams, and inclined-plane guidance | Complete |
+| Work, power, elastic energy, and conservation accounting | Complete |
+| Impulse, momentum change, and centripetal resultant force | Complete |
 
 Every registered V1 formula now has a specialized physical instrument and live graph mode. Future
 formulas should be added only with the same calculation, interaction, accessibility, and responsive
@@ -116,20 +120,22 @@ Inspector shell.
 
 ### Phase 2 — Benchmark simulations
 
-Newton’s Second Law, Kinetic Energy, Kinematics, Projectile Motion, Momentum/Collisions,
-Gravitational Potential Energy, Circular Motion, and Hooke’s Law are complete.
+The original eight benchmark laboratories and four shared expansion workbenches are complete. They
+cover Newton’s laws, the complete constant-acceleration family, free fall, contact forces, energy
+transfer and conservation, collisions and impulse, projectiles, circular motion, and springs.
 
 The homepage projectile is a compact demonstration, not the finished Projectile Formula Inspector.
 
 ### Phase 3 — Learning instruments
 
 The shared rearranging, units, dimensions, practice, prediction, and relationship systems are in
-place. Live graph and simulation synchronization is complete across all eight V1 formulas.
+place. Live graph and simulation synchronization is complete across all 21 V1 formulas.
 
 ### Phase 4 — Remaining mechanics depth
 
-The seven-domain atlas, reusable data architecture, and all eight V1 mechanics instruments are
-complete. Future scope can deepen mechanics or introduce a new subject without placeholder modules.
+The seven-domain atlas, reusable data architecture, 21 V1 formulas, and twelve mechanics
+workbenches are complete. Future scope can deepen mechanics or introduce a new subject without
+placeholder modules.
 
 ## Deployment
 

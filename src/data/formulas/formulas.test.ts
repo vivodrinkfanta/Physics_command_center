@@ -10,7 +10,7 @@ const expressionVariableIds = (expression: FormulaExpression) =>
 
 describe('formula data architecture', () => {
   it('registers one complete benchmark formula for every mechanics topic plus GPE', () => {
-    expect(mechanicsFormulas).toHaveLength(8)
+    expect(mechanicsFormulas).toHaveLength(21)
     expect(new Set(mechanicsFormulas.map((formula) => formula.id)).size).toBe(mechanicsFormulas.length)
     expect(getFormulaById('newton-second-law').name).toBe('Newton’s Second Law')
   })

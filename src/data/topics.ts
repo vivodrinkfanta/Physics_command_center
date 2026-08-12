@@ -10,7 +10,14 @@ export const mechanicsTopics: MechanicsTopic[] = [
     summary:
       'Describe how position and velocity change through time, without yet asking what caused the motion.',
     featuredFormulaId: 'constant-acceleration-velocity',
-    formulaIds: ['constant-acceleration-velocity'],
+    formulaIds: [
+      'average-speed',
+      'average-acceleration',
+      'constant-acceleration-velocity',
+      'constant-acceleration-displacement',
+      'velocity-displacement',
+      'mean-velocity-displacement',
+    ],
     insight:
       'Acceleration sets the slope of a velocity–time graph. The area beneath that graph accumulates displacement.',
     concepts: [
@@ -34,6 +41,11 @@ export const mechanicsTopics: MechanicsTopic[] = [
         symbol: 'x(t)',
         description: 'Position, velocity, and acceleration shown as linked functions of time.',
       },
+      {
+        name: 'Free fall',
+        symbol: 'a = −g',
+        description: 'One-dimensional constant-acceleration motion under gravity with drag neglected.',
+      },
     ],
     investigation: {
       title: 'Read motion from a graph',
@@ -48,11 +60,11 @@ export const mechanicsTopics: MechanicsTopic[] = [
     icon: 'forces',
     name: 'Forces',
     sequence: 2,
-    aliases: ['newton', 'dynamics', 'f=ma', 'weight', 'friction'],
+    aliases: ['newton', 'dynamics', 'f=ma', 'weight', 'friction', 'normal force', 'tension', 'free body diagram', 'inclined plane'],
     summary:
       'Connect interactions to changes in motion using free-body diagrams and Newton’s laws.',
     featuredFormulaId: 'newton-second-law',
-    formulaIds: ['newton-second-law'],
+    formulaIds: ['newton-second-law', 'weight', 'friction-force'],
     insight:
       'Acceleration follows the resultant force, not any single force. Balanced forces can exist while an object is moving.',
     concepts: [
@@ -76,6 +88,21 @@ export const mechanicsTopics: MechanicsTopic[] = [
         symbol: 'N, f, T',
         description: 'Normal force, friction, and tension created through interactions.',
       },
+      {
+        name: 'Newton’s First Law',
+        symbol: 'ΣF = 0',
+        description: 'Zero resultant force means constant velocity, including rest.',
+      },
+      {
+        name: 'Newton’s Third Law',
+        symbol: 'Fₐᵦ = −Fᵦₐ',
+        description: 'Interaction forces act on different bodies with equal magnitude and opposite direction.',
+      },
+      {
+        name: 'Inclined planes',
+        symbol: 'mg sinθ',
+        description: 'Resolve weight parallel and perpendicular to a sloped contact surface.',
+      },
     ],
     investigation: {
       title: 'Separate force from motion',
@@ -94,7 +121,14 @@ export const mechanicsTopics: MechanicsTopic[] = [
     summary:
       'Track how physical systems store, transfer, and dissipate the capacity to cause change.',
     featuredFormulaId: 'kinetic-energy',
-    formulaIds: ['kinetic-energy', 'gravitational-potential-energy'],
+    formulaIds: [
+      'kinetic-energy',
+      'gravitational-potential-energy',
+      'elastic-potential-energy',
+      'work',
+      'power',
+      'mechanical-energy-conservation',
+    ],
     insight:
       'Velocity is squared: doubling speed makes kinetic energy four times larger while doubling mass only doubles it.',
     concepts: [
@@ -118,6 +152,11 @@ export const mechanicsTopics: MechanicsTopic[] = [
         symbol: 'P',
         description: 'Rate at which energy is transferred or work is done.',
       },
+      {
+        name: 'Conservation accounting',
+        symbol: 'Eᵢ = Eꜰ + Eᵈ',
+        description: 'Energy changes store or leaves the mechanical account but is never destroyed.',
+      },
     ],
     investigation: {
       title: 'Predict a nonlinear change',
@@ -136,7 +175,7 @@ export const mechanicsTopics: MechanicsTopic[] = [
     summary:
       'Analyze interactions over time and predict motion before and after collisions.',
     featuredFormulaId: 'linear-momentum',
-    formulaIds: ['linear-momentum'],
+    formulaIds: ['linear-momentum', 'impulse'],
     insight:
       'Momentum keeps the sign of velocity. Two objects can have equal kinetic energies but opposite momenta.',
     concepts: [
@@ -178,7 +217,7 @@ export const mechanicsTopics: MechanicsTopic[] = [
     summary:
       'Understand why continuous inward acceleration is required even when speed stays constant.',
     featuredFormulaId: 'centripetal-acceleration',
-    formulaIds: ['centripetal-acceleration'],
+    formulaIds: ['centripetal-acceleration', 'centripetal-force'],
     insight:
       'The velocity vector is always tangent to the path while acceleration points toward the center, changing direction rather than speed.',
     concepts: [
@@ -262,7 +301,7 @@ export const mechanicsTopics: MechanicsTopic[] = [
     summary:
       'Study repeating motion produced by restoring forces, beginning with an ideal mass–spring system.',
     featuredFormulaId: 'hookes-law',
-    formulaIds: ['hookes-law'],
+    formulaIds: ['hookes-law', 'elastic-potential-energy'],
     insight:
       'The minus sign carries physical meaning: the restoring force always points opposite to displacement from equilibrium.',
     concepts: [

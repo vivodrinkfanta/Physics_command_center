@@ -138,6 +138,24 @@ const formulaCommands: CommandPaletteItem[] = mechanicsFormulas.map((formula) =>
   meta: formula.expression.plainText,
 }))
 
+const namedSimulationIds = new Set(
+  navigationCommands
+    .filter((item) => item.section === 'Simulate')
+    .map((item) => item.href.replace('/formulas/', '')),
+)
+
+const registrySimulationCommands: CommandPaletteItem[] = mechanicsFormulas
+  .filter((formula) => formula.simulationType && !namedSimulationIds.has(formula.id))
+  .map((formula) => ({
+    id: `simulate-${formula.id}`,
+    label: `Run ${formula.name}`,
+    description: `Open the live ${formula.subtopic.toLowerCase()} instrument and graphs.`,
+    href: `/formulas/${formula.id}`,
+    section: 'Simulate',
+    keywords: ['simulation', 'interactive', formula.subtopic, ...formula.tags],
+    meta: formula.expression.plainText,
+  }))
+
 const topicCommands: CommandPaletteItem[] = mechanicsTopics.map((topic) => ({
   id: `topic-${topic.id}`,
   label: topic.name,
@@ -160,6 +178,7 @@ const practiceCommands: CommandPaletteItem[] = mechanicsFormulas.map((formula) =
 
 export const commandPaletteItems: readonly CommandPaletteItem[] = [
   ...navigationCommands,
+  ...registrySimulationCommands,
   ...formulaCommands,
   ...topicCommands,
   ...practiceCommands,

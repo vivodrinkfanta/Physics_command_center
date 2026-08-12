@@ -30,21 +30,43 @@ const valueFor = (values: PracticeValues, variableId: PhysicsVariableId) => {
 }
 
 const evaluators: Record<FormulaId, (values: PracticeValues) => number> = {
+  'average-speed': (values) => valueFor(values, 'distance') / valueFor(values, 'time'),
+  'average-acceleration': (values) => valueFor(values, 'change-velocity') / valueFor(values, 'time'),
   'constant-acceleration-velocity': (values) =>
     valueFor(values, 'initial-velocity') +
     valueFor(values, 'acceleration') * valueFor(values, 'time'),
+  'constant-acceleration-displacement': (values) => {
+    const time = valueFor(values, 'time')
+    return valueFor(values, 'initial-velocity') * time + 0.5 * valueFor(values, 'acceleration') * time ** 2
+  },
+  'velocity-displacement': (values) =>
+    Math.sqrt(valueFor(values, 'initial-velocity') ** 2 + 2 * valueFor(values, 'acceleration') * valueFor(values, 'displacement')),
+  'mean-velocity-displacement': (values) =>
+    0.5 * (valueFor(values, 'initial-velocity') + valueFor(values, 'final-velocity')) * valueFor(values, 'time'),
   'newton-second-law': (values) =>
     valueFor(values, 'resultant-force') / valueFor(values, 'mass'),
+  weight: (values) => valueFor(values, 'mass') * valueFor(values, 'gravitational-field-strength'),
+  'friction-force': (values) => valueFor(values, 'friction-coefficient') * valueFor(values, 'normal-force'),
   'kinetic-energy': (values) =>
     0.5 * valueFor(values, 'mass') * valueFor(values, 'speed') ** 2,
   'gravitational-potential-energy': (values) =>
     valueFor(values, 'mass') *
     valueFor(values, 'gravitational-field-strength') *
     valueFor(values, 'height'),
+  'elastic-potential-energy': (values) =>
+    0.5 * valueFor(values, 'spring-constant') * valueFor(values, 'spring-displacement') ** 2,
+  work: (values) =>
+    valueFor(values, 'applied-force') * valueFor(values, 'displacement') * Math.cos(valueFor(values, 'force-angle')),
+  power: (values) => valueFor(values, 'work') / valueFor(values, 'time'),
+  'mechanical-energy-conservation': (values) =>
+    valueFor(values, 'final-mechanical-energy') + valueFor(values, 'energy-dissipated'),
   'linear-momentum': (values) =>
     valueFor(values, 'mass') * valueFor(values, 'velocity'),
+  impulse: (values) => valueFor(values, 'resultant-force') * valueFor(values, 'time'),
   'centripetal-acceleration': (values) =>
     valueFor(values, 'speed') ** 2 / valueFor(values, 'radius'),
+  'centripetal-force': (values) =>
+    valueFor(values, 'mass') * valueFor(values, 'speed') ** 2 / valueFor(values, 'radius'),
   'projectile-vertical-position': (values) => {
     const time = valueFor(values, 'time')
     return (
