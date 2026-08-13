@@ -1,130 +1,27 @@
 import { FormEvent, useMemo, useRef, useState } from 'react'
-import {
-  ArrowRight,
-  Atom,
-  Boxes,
-  CircuitBoard,
-  Crosshair,
-  Gauge,
-  MoveUpRight,
-  Orbit,
-  RefreshCcw,
-  Search,
-  Waves,
-  Zap,
-} from 'lucide-react'
+import { ArrowRight, Atom, BookOpenCheck, Gauge, MoveUpRight, Orbit, RefreshCcw, Search, Zap } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ProjectilePreview } from '../components/home/ProjectilePreview'
 import { FormulaExpression } from '../components/math/FormulaExpression'
 import { getFormulaById, searchFormulas } from '../data/formulas'
-import type { FormulaId } from '../types/formula'
+import { findCurriculumTopic } from '../data/ibPhysicsCurriculum'
+import { activeCurriculumTopics } from '../utils/curriculum'
+import { loadStudentProgress } from '../utils/studentProgress'
 import '../styles/home.css'
 
-interface HomeTopic {
-  available: boolean
-  description: string
-  equation?: string
-  formulaId?: FormulaId
-  icon: typeof Gauge
-  name: string
-  slug: string
-}
-
-const topics: HomeTopic[] = [
-  {
-    name: 'Motion',
-    description: 'Position, velocity and acceleration through time.',
-    formulaId: 'constant-acceleration-velocity',
-    icon: Gauge,
-    slug: 'kinematics',
-    available: true,
-  },
-  {
-    name: 'Forces',
-    description: 'Understand how interactions change motion.',
-    formulaId: 'newton-second-law',
-    icon: MoveUpRight,
-    slug: 'forces',
-    available: true,
-  },
-  {
-    name: 'Energy',
-    description: 'Track work, power and energy transfers.',
-    formulaId: 'kinetic-energy',
-    icon: Zap,
-    slug: 'energy',
-    available: true,
-  },
-  {
-    name: 'Momentum',
-    description: 'Investigate impulse and colliding systems.',
-    formulaId: 'linear-momentum',
-    icon: Boxes,
-    slug: 'momentum',
-    available: true,
-  },
-  {
-    name: 'Circular Motion',
-    description: 'Explore inward force and radial acceleration.',
-    formulaId: 'centripetal-acceleration',
-    icon: Orbit,
-    slug: 'circular-motion',
-    available: true,
-  },
-  {
-    name: 'Projectiles',
-    description: 'Resolve a launch into linked horizontal and vertical motion.',
-    formulaId: 'projectile-vertical-position',
-    icon: Crosshair,
-    slug: 'projectiles',
-    available: true,
-  },
-  {
-    name: 'Oscillations',
-    description: 'Connect displacement, restoring force and periodic motion.',
-    formulaId: 'hookes-law',
-    icon: RefreshCcw,
-    slug: 'oscillations',
-    available: true,
-  },
-  {
-    name: 'Waves',
-    description: 'Frequency, wavelength and wave behaviour.',
-    equation: 'v = fλ',
-    icon: Waves,
-    slug: 'waves',
-    available: false,
-  },
-  {
-    name: 'Electricity',
-    description: 'Charge, current and electric circuits.',
-    equation: 'V = IR',
-    icon: CircuitBoard,
-    slug: 'electricity',
-    available: false,
-  },
-]
+const topicIcons = { 'A.1': Gauge, 'A.2': MoveUpRight, 'A.3': Zap, 'C.1': RefreshCcw, 'D.1': Orbit } as const
 
 export function HomePage() {
   const [query, setQuery] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
   const navigate = useNavigate()
-
-  const results = useMemo(() => {
-    const normalizedQuery = query.trim().toLowerCase()
-    if (!normalizedQuery) return []
-
-    return searchFormulas(normalizedQuery).slice(0, 4)
-  }, [query])
+  const lastTopic = findCurriculumTopic(loadStudentProgress().lastVisitedModule ?? undefined)
+  const results = useMemo(() => query.trim() ? searchFormulas(query.trim().toLowerCase()).slice(0, 4) : [], [query])
 
   const submitSearch = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const trimmedQuery = query.trim()
-    if (!trimmedQuery) {
-      inputRef.current?.focus()
-      return
-    }
-
+    if (!trimmedQuery) return inputRef.current?.focus()
     navigate(`/formulas?q=${encodeURIComponent(trimmedQuery)}`)
   }
 
@@ -132,163 +29,40 @@ export function HomePage() {
     <div className="home-view">
       <section className="home-hero" aria-labelledby="home-title">
         <div className="home-hero__copy">
-          <p className="home-kicker">
-            <Atom aria-hidden="true" size={14} />
-            Interactive mechanics laboratory
-          </p>
-          <h1 id="home-title">
-            Explore physical
-            <br />
-            <span>relationships.</span>
-          </h1>
-          <p className="home-hero__intro">
-            Move beyond memorising equations. Change the variables, observe the system, and see the
-            mathematics respond.
-          </p>
-
+          <p className="home-kicker"><Atom aria-hidden="true" size={14} /> IB-aligned interactive mechanics</p>
+          <h1 id="home-title">Explore physical<br /><span>relationships.</span></h1>
+          <p className="home-hero__intro">Move beyond memorising equations. Choose an IB syllabus module, change the variables, observe the system, and see the mathematics respond.</p>
           <form className="physics-search" onSubmit={submitSearch} role="search">
             <Search aria-hidden="true" className="physics-search__icon" size={20} strokeWidth={1.7} />
-            <label className="sr-only" htmlFor="physics-search-input">
-              Search equations, concepts, or variables
-            </label>
-            <input
-              autoComplete="off"
-              id="physics-search-input"
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search equations, concepts or variables…"
-              ref={inputRef}
-              type="search"
-              value={query}
-            />
+            <label className="sr-only" htmlFor="physics-search-input">Search equations, concepts, or variables</label>
+            <input autoComplete="off" id="physics-search-input" onChange={(event) => setQuery(event.target.value)} placeholder="Search equations, concepts or variables…" ref={inputRef} type="search" value={query} />
             <kbd>Enter</kbd>
-
-            {query.trim() && (
-              <div className="search-results" aria-label="Search suggestions">
-                {results.length > 0 ? (
-                  results.map((result) => (
-                    <button
-                      key={result.name}
-                      onClick={() => navigate(`/formulas?q=${encodeURIComponent(result.name)}`)}
-                      type="button"
-                    >
-                      <FormulaExpression
-                        className="search-results__formula"
-                        expression={result.expression}
-                      />
-                      <span className="search-results__copy">
-                        <strong>{result.name}</strong>
-                        <small>{result.description}</small>
-                      </span>
-                      <span className="search-results__topic">{result.subtopic}</span>
-                      <ArrowRight aria-hidden="true" size={15} />
-                    </button>
-                  ))
-                ) : (
-                  <p>No matching mechanics concepts yet.</p>
-                )}
-              </div>
-            )}
+            {query.trim() && <div className="search-results" aria-label="Search suggestions">{results.length ? results.map((result) => <button key={result.name} onClick={() => navigate(`/formulas?q=${encodeURIComponent(result.name)}`)} type="button"><FormulaExpression className="search-results__formula" expression={result.expression} /><span className="search-results__copy"><strong>{result.name}</strong><small>{result.description}</small></span><span className="search-results__topic">{result.subtopic}</span><ArrowRight aria-hidden="true" size={15} /></button>) : <p>No matching mechanics concepts yet.</p>}</div>}
           </form>
-
-          <div className="search-examples" aria-label="Example searches">
-            <span>Try</span>
-            {['force', 'kinetic energy', 'v = u + at'].map((example) => (
-              <button key={example} onClick={() => setQuery(example)} type="button">
-                {example}
-              </button>
-            ))}
-          </div>
+          <div className="search-examples" aria-label="Example searches"><span>Try</span>{['force', 'kinetic energy', 'v = u + at'].map((example) => <button key={example} onClick={() => setQuery(example)} type="button">{example}</button>)}</div>
+          <Link className="home-study-cta" to={lastTopic && lastTopic.coverage !== 'planned' ? `/curriculum/${lastTopic.slug}` : '/curriculum'}><BookOpenCheck aria-hidden="true" size={17} /><span><strong>{lastTopic && lastTopic.coverage !== 'planned' ? `Continue ${lastTopic.code} ${lastTopic.title}` : 'Open the IB Study Map'}</strong><small>{lastTopic && lastTopic.coverage !== 'planned' ? 'Resume from your last visited syllabus module.' : 'Choose SL, HL, or All and start with an official module code.'}</small></span><ArrowRight aria-hidden="true" size={16} /></Link>
         </div>
-
         <ProjectilePreview />
       </section>
 
       <section className="learning-loop" aria-labelledby="learning-loop-heading">
-        <header className="learning-loop__intro">
-          <p>Recommended first run</p>
-          <h2 id="learning-loop-heading">Complete the learning loop.</h2>
-          <span>
-            Start with one relationship, then move from intuition to evidence and calculation.
-          </span>
-        </header>
-
+        <header className="learning-loop__intro"><p>Recommended first run</p><h2 id="learning-loop-heading">Complete the learning loop.</h2><span>Move from the syllabus map to a module, a live model, and functional practice.</span></header>
         <div className="learning-loop__steps">
-          <Link to="/formulas/newton-second-law">
-            <span>01</span>
-            <strong>Simulate</strong>
-            <small>Predict, then manipulate force, mass, and time.</small>
-            <ArrowRight aria-hidden="true" size={15} />
-          </Link>
-          <Link to="/formulas/newton-second-law?tab=explain">
-            <span>02</span>
-            <strong>Explain</strong>
-            <small>Connect the equation to forces, inertia, and units.</small>
-            <ArrowRight aria-hidden="true" size={15} />
-          </Link>
-          <Link to="/formulas/newton-second-law?tab=graph">
-            <span>03</span>
-            <strong>Trace</strong>
-            <small>Read how acceleration responds across two live graphs.</small>
-            <ArrowRight aria-hidden="true" size={15} />
-          </Link>
-          <Link to="/formulas/newton-second-law?tab=practice">
-            <span>04</span>
-            <strong>Solve</strong>
-            <small>Check a numerical answer and reveal hints only as needed.</small>
-            <ArrowRight aria-hidden="true" size={15} />
-          </Link>
+          <Link to="/curriculum"><span>01</span><strong>Choose</strong><small>Select your level and official syllabus module.</small><ArrowRight aria-hidden="true" size={15} /></Link>
+          <Link to="/curriculum/a-2"><span>02</span><strong>Study</strong><small>Follow A.2 concepts, formulae, examples, and prerequisites.</small><ArrowRight aria-hidden="true" size={15} /></Link>
+          <Link to="/formulas/newton-second-law"><span>03</span><strong>Simulate</strong><small>Predict, then manipulate force, mass, and time.</small><ArrowRight aria-hidden="true" size={15} /></Link>
+          <Link to="/practice?topic=A.2"><span>04</span><strong>Solve</strong><small>Answer original assessment-style questions and retain progress.</small><ArrowRight aria-hidden="true" size={15} /></Link>
         </div>
       </section>
 
       <section className="topic-section" aria-labelledby="topic-heading">
-        <header className="section-heading">
-          <div>
-            <p>Explore by system</p>
-            <h2 id="topic-heading">Physics domains</h2>
-          </div>
-          <Link to="/explore">
-            Open topic explorer
-            <ArrowRight aria-hidden="true" size={16} />
-          </Link>
-        </header>
-
+        <header className="section-heading"><div><p>Organized by syllabus</p><h2 id="topic-heading">Current IB module pathways</h2></div><Link to="/curriculum">Open full Study Map <ArrowRight aria-hidden="true" size={16} /></Link></header>
         <div className="topic-grid">
-          {topics.map(({ available, description, equation, formulaId, icon: Icon, name, slug }) =>
-            available ? (
-              <Link className="topic-card" key={slug} to={`/explore?topic=${slug}`}>
-                <div className="topic-card__topline">
-                  <span className="topic-card__icon">
-                    <Icon aria-hidden="true" size={19} strokeWidth={1.6} />
-                  </span>
-                  <ArrowRight aria-hidden="true" className="topic-card__arrow" size={16} />
-                </div>
-                <div>
-                  <h3>{name}</h3>
-                  <p>{description}</p>
-                </div>
-                {formulaId && (
-                  <FormulaExpression
-                    className="topic-card__formula"
-                    expression={getFormulaById(formulaId).expression}
-                  />
-                )}
-              </Link>
-            ) : (
-              <article aria-disabled="true" className="topic-card topic-card--planned" key={slug}>
-                <div className="topic-card__topline">
-                  <span className="topic-card__icon">
-                    <Icon aria-hidden="true" size={19} strokeWidth={1.6} />
-                  </span>
-                  <span className="planned-label">Planned</span>
-                </div>
-                <div>
-                  <h3>{name}</h3>
-                  <p>{description}</p>
-                </div>
-                <span className="topic-card__planned-formula">{equation}</span>
-              </article>
-            ),
-          )}
+          {activeCurriculumTopics.map((topic) => {
+            const Icon = topicIcons[topic.code as keyof typeof topicIcons] ?? BookOpenCheck
+            const formula = topic.formulaIds[0] ? getFormulaById(topic.formulaIds[0]) : undefined
+            return <Link className="topic-card" key={topic.code} to={`/curriculum/${topic.slug}`}><div className="topic-card__topline"><span className="topic-card__icon"><Icon aria-hidden="true" size={19} strokeWidth={1.6} /></span><span className="home-topic-code">{topic.code}</span></div><div><h3>{topic.title}</h3><p>{topic.summary}</p></div>{formula && <FormulaExpression className="topic-card__formula" expression={formula.expression} />}</Link>
+          })}
         </div>
       </section>
     </div>

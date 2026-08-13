@@ -9,6 +9,8 @@ import './styles/math.css'
 import './styles/formula-library.css'
 import './styles/formula-inspector.css'
 import './styles/module-index.css'
+import './styles/curriculum.css'
+import './styles/ib-practice.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

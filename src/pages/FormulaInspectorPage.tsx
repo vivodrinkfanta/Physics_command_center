@@ -39,6 +39,7 @@ import { SpringMotionLab } from '../components/inspector/SpringMotionLab'
 import { UnitConverterPanel } from '../components/inspector/UnitConverterPanel'
 import { FittedFormulaExpression } from '../components/math/FittedFormulaExpression'
 import { findFormulaById, mechanicsFormulas } from '../data/formulas'
+import { findCurriculumTopic } from '../data/ibPhysicsCurriculum'
 import { getVariableDefinition } from '../data/variables'
 import type { FormulaRecord, PhysicsVariableId } from '../types/formula'
 import type { CircularMotionState } from '../utils/circularMotion'
@@ -133,6 +134,7 @@ export function FormulaInspectorPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const formula = findFormulaById(formulaId)
   const requestedTab = searchParams.get('tab')
+  const sourceTopic = findCurriculumTopic(searchParams.get('from') ?? undefined)
   const activeTab: InspectorTabId = inspectorTabs.some((tab) => tab.id === requestedTab)
     ? (requestedTab as InspectorTabId)
     : 'simulate'
@@ -243,8 +245,8 @@ export function FormulaInspectorPage() {
 
   return (
     <div className={`formula-inspector${activeTab === 'practice' ? ' formula-inspector--practice' : ''}`}>
-      <Link className="formula-inspector__back" to="/formulas">
-        <ArrowLeft aria-hidden="true" size={15} /> Formula Library
+      <Link className="formula-inspector__back" to={sourceTopic ? `/curriculum/${sourceTopic.slug}` : '/formulas'}>
+        <ArrowLeft aria-hidden="true" size={15} /> {sourceTopic ? `${sourceTopic.code} ${sourceTopic.title}` : 'Formula Library'}
       </Link>
 
       <header className="formula-inspector__header">

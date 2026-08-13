@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
-import { ArrowRight, Atom, BookOpen, Boxes, ChevronDown } from 'lucide-react'
+import { ArrowRight, Atom, BookOpenCheck, Boxes, ChevronDown } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { mechanicsFormulas } from '../../data/formulas'
-import { mechanicsTopics } from '../../data/topics'
+import { activeCurriculumTopics } from '../../utils/curriculum'
 
 export function ScopeMenu() {
   const [open, setOpen] = useState(false)
@@ -37,7 +37,7 @@ export function ScopeMenu() {
       <button
         aria-controls={panelId}
         aria-expanded={open}
-        aria-label="Open mechanics curriculum scope"
+        aria-label="Open IB-aligned curriculum scope"
         className="scope-badge"
         onClick={() => setOpen((current) => !current)}
         onKeyDown={(event) => {
@@ -52,22 +52,22 @@ export function ScopeMenu() {
         type="button"
       >
         <span className="scope-badge__pulse" aria-hidden="true" />
-        <span>Mechanics · V1</span>
+        <span>IB Physics · Mechanics</span>
         <ChevronDown aria-hidden="true" className={open ? 'is-open' : ''} size={14} />
       </button>
 
       {open && (
-        <section aria-label="Mechanics curriculum scope" className="scope-panel" id={panelId}>
+        <section aria-label="IB-aligned curriculum scope" className="scope-panel" id={panelId}>
           <header>
             <span>Active curriculum</span>
-            <strong>Mechanics · Version 1</strong>
-            <p>Explore validated models without mixing in unfinished subject areas.</p>
+            <strong>First assessment 2025 pathway</strong>
+            <p>Official syllabus codes organize the current mechanics coverage without claiming full-course completion.</p>
           </header>
 
           <dl>
             <div>
               <dt>Mapped topics</dt>
-              <dd>{String(mechanicsTopics.length).padStart(2, '0')}</dd>
+              <dd>{String(activeCurriculumTopics.length).padStart(2, '0')}</dd>
             </div>
             <div>
               <dt>Formula models</dt>
@@ -79,12 +79,12 @@ export function ScopeMenu() {
             </div>
           </dl>
 
-          <nav aria-label="Mechanics scope destinations">
-            <Link onClick={close} to="/explore">
-              <BookOpen aria-hidden="true" size={16} />
+          <nav aria-label="IB-aligned scope destinations">
+            <Link onClick={close} to="/curriculum">
+              <BookOpenCheck aria-hidden="true" size={16} />
               <span>
-                <strong>Open topic atlas</strong>
-                <small>Seven connected mechanics domains</small>
+                <strong>Open IB Study Map</strong>
+                <small>Five official themes · honest coverage status</small>
               </span>
               <ArrowRight aria-hidden="true" size={14} />
             </Link>
@@ -106,7 +106,7 @@ export function ScopeMenu() {
             </Link>
           </nav>
 
-          <footer>Waves and electricity remain planned, not presented as completed modules.</footer>
+          <footer>Independent IB-aligned tool. Partial and planned modules are never presented as complete.</footer>
         </section>
       )}
     </div>

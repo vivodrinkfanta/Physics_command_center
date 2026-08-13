@@ -5,22 +5,23 @@ import {
   FlaskConical,
   Orbit,
   House,
+  Map,
   PanelLeftClose,
   PanelLeftOpen,
 } from 'lucide-react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { useId } from 'react'
 import { LabMark } from '../brand/LabMark'
-import { topicIcons } from '../explore/topicIcons'
 import { findFormulaById } from '../../data/formulas'
-import { mechanicsTopics } from '../../data/topics'
+import { activeCurriculumTopics } from '../../utils/curriculum'
 
 const navigation = [
   { label: 'Home', path: '/', icon: House, end: true },
-  { label: 'Explore', path: '/explore', icon: Orbit },
+  { label: 'IB Study Map', path: '/curriculum', icon: Map },
   { label: 'Formula Library', path: '/formulas', icon: BookOpen },
   { label: 'Simulations', path: '/simulations', icon: Boxes },
   { label: 'Practice', path: '/practice', icon: FlaskConical },
+  { label: 'Mechanics Atlas', path: '/explore', icon: Orbit },
 ]
 
 interface SidebarProps {
@@ -31,15 +32,13 @@ interface SidebarProps {
 export function Sidebar({ collapsed = false, onToggleCollapsed }: SidebarProps) {
   const systemCardTitleId = useId()
   const location = useLocation()
-  const selectedTopicId = new URLSearchParams(location.search).get('topic')
   const selectedFormula = location.pathname.startsWith('/formulas/')
     ? findFormulaById(location.pathname.slice('/formulas/'.length))
     : undefined
-  const activeTopicId =
-    (location.pathname === '/explore' && selectedTopicId) ||
-    mechanicsTopics.find((topic) =>
-      selectedFormula ? topic.formulaIds.includes(selectedFormula.id) : false,
-    )?.id
+  const activeTopic = activeCurriculumTopics.find((topic) =>
+    location.pathname === `/curriculum/${topic.slug}` ||
+    (selectedFormula ? topic.formulaIds.includes(selectedFormula.id) : false),
+  )
 
   return (
     <div className={`sidebar${collapsed ? ' sidebar--collapsed' : ''}`}>
@@ -96,24 +95,23 @@ export function Sidebar({ collapsed = false, onToggleCollapsed }: SidebarProps) 
         </ul>
       </nav>
 
-      <nav className="unit-nav" aria-label="Mechanics units">
-        <p className="nav-label">Mechanics units</p>
+      <nav className="unit-nav" aria-label="IB modules with current coverage">
+        <p className="nav-label">IB modules online</p>
         <ol>
-          {mechanicsTopics.map((topic) => {
-            const Icon = topicIcons[topic.icon]
-            const isActive = activeTopicId === topic.id
+          {activeCurriculumTopics.map((topic) => {
+            const isActive = activeTopic?.code === topic.code
             return (
-              <li key={topic.id}>
+              <li key={topic.code}>
                 <NavLink
                   aria-current={isActive ? 'page' : undefined}
-                  aria-label={`Unit ${topic.sequence}: ${topic.name}`}
+                  aria-label={`${topic.code}: ${topic.title}`}
                   className={`unit-nav__item${isActive ? ' unit-nav__item--active' : ''}`}
-                  title={collapsed ? `Unit ${topic.sequence}: ${topic.name}` : undefined}
-                  to={`/explore?topic=${topic.id}`}
+                  title={collapsed ? `${topic.code}: ${topic.title}` : undefined}
+                  to={`/curriculum/${topic.slug}`}
                 >
-                  <span>{String(topic.sequence).padStart(2, '0')}</span>
-                  <Icon aria-hidden="true" size={14} strokeWidth={1.7} />
-                  <strong>{topic.name}</strong>
+                  <span>{topic.code}</span>
+                  <BookOpen aria-hidden="true" size={14} strokeWidth={1.7} />
+                  <strong>{topic.title}</strong>
                 </NavLink>
               </li>
             )
@@ -130,7 +128,7 @@ export function Sidebar({ collapsed = false, onToggleCollapsed }: SidebarProps) 
         </div>
         <div className="system-card__reading">
           <span>Environment</span>
-          <strong>Mechanics</strong>
+          <strong>IB aligned</strong>
         </div>
         <div className="system-card__reading">
           <span>Status</span>
@@ -138,7 +136,7 @@ export function Sidebar({ collapsed = false, onToggleCollapsed }: SidebarProps) 
         </div>
       </section>
 
-      <p className="build-label">Build 17 · Complete mechanics shell</p>
+      <p className="build-label">Build 18 · IB syllabus pathway</p>
     </div>
   )
 }

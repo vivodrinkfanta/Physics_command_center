@@ -1,5 +1,7 @@
 import { mechanicsFormulas } from '../data/formulas'
-import { mechanicsTopics } from '../data/topics'
+import { ibPracticeQuestions } from '../data/ibPracticeQuestions'
+import { activeCurriculumTopics } from './curriculum'
+import { practiceStyleLabels } from './ibPractice'
 
 export type CommandSection = 'Navigate' | 'Simulate' | 'Formula' | 'Topic' | 'Practice'
 
@@ -14,6 +16,14 @@ export interface CommandPaletteItem {
 }
 
 const navigationCommands: CommandPaletteItem[] = [
+  {
+    id: 'navigate-curriculum',
+    label: 'IB Study Map',
+    description: 'Choose SL, HL, or All and open an official syllabus module.',
+    href: '/curriculum',
+    section: 'Navigate',
+    keywords: ['syllabus', 'curriculum', 'ib physics', 'study pathway', 'module'],
+  },
   {
     id: 'navigate-home',
     label: 'Home laboratory',
@@ -156,14 +166,14 @@ const registrySimulationCommands: CommandPaletteItem[] = mechanicsFormulas
     meta: formula.expression.plainText,
   }))
 
-const topicCommands: CommandPaletteItem[] = mechanicsTopics.map((topic) => ({
-  id: `topic-${topic.id}`,
-  label: topic.name,
+const topicCommands: CommandPaletteItem[] = activeCurriculumTopics.map((topic) => ({
+  id: `topic-${topic.slug}`,
+  label: `${topic.code} ${topic.title}`,
   description: topic.summary,
-  href: `/explore?topic=${topic.id}`,
+  href: `/curriculum/${topic.slug}`,
   section: 'Topic',
-  keywords: [...topic.aliases, ...topic.concepts.map((concept) => concept.name)],
-  meta: `Topic ${String(topic.sequence).padStart(2, '0')}`,
+  keywords: [topic.code, topic.title, ...topic.concepts, ...topic.skills],
+  meta: topic.coverage,
 }))
 
 const practiceCommands: CommandPaletteItem[] = mechanicsFormulas.map((formula) => ({
@@ -176,11 +186,22 @@ const practiceCommands: CommandPaletteItem[] = mechanicsFormulas.map((formula) =
   meta: formula.expression.plainText,
 }))
 
+const ibQuestionCommands: CommandPaletteItem[] = ibPracticeQuestions.map((question) => ({
+  id: `ib-question-${question.id}`,
+  label: question.title,
+  description: `${question.topicCode} · ${practiceStyleLabels[question.style]}`,
+  href: `/practice/${question.id}`,
+  section: 'Practice',
+  keywords: [question.topicCode, question.prompt, ...question.tags],
+  meta: `${question.marks} ${question.marks === 1 ? 'mark' : 'marks'}`,
+}))
+
 export const commandPaletteItems: readonly CommandPaletteItem[] = [
   ...navigationCommands,
   ...registrySimulationCommands,
   ...formulaCommands,
   ...topicCommands,
+  ...ibQuestionCommands,
   ...practiceCommands,
 ]
 
@@ -189,6 +210,7 @@ const suggestedCommandIds = [
   'simulate-kinetic-energy',
   'simulate-kinematics',
   'simulate-projectile',
+  'navigate-curriculum',
   'navigate-formulas',
   'navigate-practice',
 ]

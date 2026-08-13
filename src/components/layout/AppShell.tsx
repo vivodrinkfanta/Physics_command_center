@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { Menu, Search, X } from 'lucide-react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { findFormulaById } from '../../data/formulas'
+import { findCurriculumTopic } from '../../data/ibPhysicsCurriculum'
+import { findIbPracticeQuestion } from '../../data/ibPracticeQuestions'
 import { useModalDialog } from '../../hooks/useModalDialog'
 import { isPhysicsSearchShortcut } from '../../utils/shortcuts'
 import { CommandPalette } from './CommandPalette'
@@ -11,6 +13,7 @@ import { Sidebar } from './Sidebar'
 const pageNames: Record<string, string> = {
   '/': 'Home',
   '/explore': 'Explore',
+  '/curriculum': 'IB Study Map',
   '/formulas': 'Formula Library',
   '/simulations': 'Simulations',
   '/practice': 'Practice',
@@ -53,8 +56,16 @@ export function AppShell() {
   const selectedFormula = location.pathname.startsWith('/formulas/')
     ? findFormulaById(location.pathname.slice('/formulas/'.length))
     : undefined
+  const selectedCurriculumTopic = location.pathname.startsWith('/curriculum/')
+    ? findCurriculumTopic(location.pathname.slice('/curriculum/'.length))
+    : undefined
+  const selectedQuestion = location.pathname.startsWith('/practice/')
+    ? findIbPracticeQuestion(location.pathname.slice('/practice/'.length))
+    : undefined
   const pageName =
     pageNames[location.pathname] ??
+    (selectedCurriculumTopic ? `${selectedCurriculumTopic.code} ${selectedCurriculumTopic.title}` : undefined) ??
+    selectedQuestion?.title ??
     selectedFormula?.name ??
     (location.pathname.startsWith('/formulas/') ? 'Formula Inspector' : 'Workspace')
 

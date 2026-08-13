@@ -14,10 +14,11 @@ describe('command palette registry', () => {
   })
 
   it('finds topic and practice destinations', () => {
-    expect(searchCommandPalette('projectile topic')[0]?.href).toBe('/explore?topic=projectiles')
+    expect(searchCommandPalette('A.2 forces momentum')[0]?.href).toBe('/curriculum/a-2')
     expect(searchCommandPalette('practice hooke')[0]?.href).toBe(
       '/formulas/hookes-law?tab=practice',
     )
+    expect(searchCommandPalette('stopping distance')[0]?.href).toBe('/practice/a1-stopping-distance')
   })
 
   it('finds every completed benchmark simulation', () => {
@@ -48,7 +49,7 @@ describe('command palette registry', () => {
 
   it('returns a concise suggested set for an empty query', () => {
     const suggestions = searchCommandPalette('')
-    expect(suggestions).toHaveLength(6)
+    expect(suggestions).toHaveLength(7)
     expect(suggestions[0]?.id).toBe('simulate-newton')
   })
 })
