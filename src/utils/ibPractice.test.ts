@@ -4,7 +4,7 @@ import { ibPracticeQuestions } from '../data/ibPracticeQuestions'
 import { mechanicsFormulas } from '../data/formulas'
 import { curriculumRelationshipById } from '../data/curriculumRelationships'
 import { createEmptyStudentProgress } from './studentProgress'
-import { evaluateIbPracticeAnswer, filterIbPracticeQuestions } from './ibPractice'
+import { evaluateIbPracticeAnswer, filterIbPracticeQuestions, practiceSkillLabels } from './ibPractice'
 
 describe('IB-aligned practice registry', () => {
   it('has unique identifiers and valid metadata', () => {
@@ -50,13 +50,28 @@ describe('IB-aligned practice registry', () => {
         expect(question.answer.tolerance).toBeGreaterThanOrEqual(0)
       }
       expect((question.relationshipIds ?? []).every((id) => curriculumRelationshipById.get(id)?.topicCode === question.topicCode)).toBe(true)
+      expect(question.skillFocus.length).toBeGreaterThan(0)
+      expect(new Set(question.skillFocus).size).toBe(question.skillFocus.length)
+    }
+  })
+
+  it('covers and filters every promised physics skill', () => {
+    const progress = createEmptyStudentProgress()
+    const representedSkills = new Set(ibPracticeQuestions.flatMap((question) => question.skillFocus))
+    expect(representedSkills).toEqual(new Set(Object.keys(practiceSkillLabels)))
+    for (const skill of representedSkills) {
+      const results = filterIbPracticeQuestions({
+        query: '', topicCode: 'all', level: 'all', style: 'all', difficulty: 'all', skill, status: 'all',
+      }, progress)
+      expect(results.length).toBeGreaterThan(0)
+      expect(results.every((question) => question.skillFocus.includes(skill))).toBe(true)
     }
   })
 
   it('filters by topic, level, style, difficulty, status, and search', () => {
     const progress = createEmptyStudentProgress()
     const results = filterIbPracticeQuestions({
-      query: 'collision', topicCode: 'A.2', level: 'sl', style: 'numerical', difficulty: 'standard', status: 'unanswered',
+      query: 'collision', topicCode: 'A.2', level: 'sl', style: 'numerical', difficulty: 'standard', skill: 'multistep', status: 'unanswered',
     }, progress)
     expect(results.map((question) => question.id)).toEqual(['a2-inelastic-collision'])
   })

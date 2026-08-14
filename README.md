@@ -1,9 +1,9 @@
 # Physics Command Center
 
-Physics Command Center is an interactive mechanics workspace for exploring equations as physical
-models rather than isolated facts. It combines a searchable formula registry, reusable Formula
-Inspectors, unit and dimension tools, practice problems, relationship mapping, and twelve calibrated
-mechanics workbenches spanning forces, motion, projectiles, momentum, energy, and oscillations.
+Physics Command Center is an independent IB-aligned Physics pathway organized around the syllabus
+for first assessment 2025. It combines 24 released A–E study modules with a searchable mechanics
+formula registry, reusable Formula Inspectors, unit and dimension tools, original practice,
+relationship mapping, and twelve calibrated mechanics workbenches.
 
 - Cloudflare Pages: [physics-command-center.pages.dev](https://physics-command-center.pages.dev/)
 - GitHub Pages: [vivodrinkfanta.github.io/Physics_command_center](https://vivodrinkfanta.github.io/Physics_command_center/)
@@ -11,11 +11,21 @@ mechanics workbenches spanning forces, motion, projectiles, momentum, energy, an
 
 ## Current scope
 
-The V1 scope is mechanics. Twenty-one formula records currently cover Kinematics, Forces, Energy,
-Momentum, Circular Motion, Projectiles, and Oscillations.
+The student pathway covers all 24 official topic codes with guided notes, representative
+relationships, worked reasoning, interactive evidence inquiries, and 243 original questions. The
+deep numerical-instrument layer remains deliberately mechanics-focused: 21 formula records cover
+Kinematics, Forces, Energy, Momentum, Circular Motion, Projectiles, and Oscillations.
+
+This project is not endorsed, licensed, or certified by the International Baccalaureate. “Released”
+means the module passes the repository's learning-pathway contract; it does not mean every equation
+has a dedicated numerical Formula Inspector or that the tool replaces the official subject guide.
 
 | Area | Status |
 | --- | --- |
+| IB Study Map with SL, HL, and All pathways across themes A–E | Complete for all 24 topic codes |
+| Guided module notes, worked reasoning, relationship assumptions, and evidence inquiries | Complete under the release contract |
+| Original practice with module, level, style, difficulty, skill, and progress filters | 243 functional questions |
+| Versioned local attempts, best scores, hint use, mastery, reset, and continue studying | Complete |
 | Application shell, persistent collapsible unit navigation, and command palette | Complete |
 | Homepage projectile instrument and mechanics topic atlas | Complete |
 | Formula Library and reusable Formula Inspector | Complete |
@@ -38,10 +48,13 @@ quality standard rather than as placeholder modules.
 
 - `/` — interactive homepage
 - `/explore` — mechanics topic atlas
+- `/curriculum` — IB-aligned A–E Study Map
+- `/curriculum/:topicCode` — released syllabus-module pathway
 - `/formulas` — searchable Formula Library
 - `/formulas/:formulaId` — registry-driven Formula Inspector
 - `/simulations` — simulation readiness index
 - `/practice` — practice catalog
+- `/practice/:questionId` — functional question, hints, evaluation, and guidance
 
 The Formula Inspector supports Simulate, Explain, Rearrange, Units, Dimensions, Graph, Example,
 Practice, and Related modes. Each mode is a deep link that can be opened or dragged into another
@@ -91,7 +104,7 @@ pnpm build:github-pages
 ```text
 src/
 ├── components/     Reusable interface, inspector, graph, and simulation components
-├── data/           Formula, topic, and variable registries
+├── data/           Curriculum, relationship, practice, formula, topic, route, and variable registries
 ├── hooks/          Shared interaction behavior
 ├── pages/          Route-level composition
 ├── styles/         Design tokens and feature-scoped responsive styles
@@ -136,6 +149,13 @@ place. Live graph and simulation synchronization is complete across all 21 V1 fo
 The seven-domain atlas, reusable data architecture, 21 V1 formulas, and twelve mechanics
 workbenches are complete. Future scope can deepen mechanics or introduce a new subject without
 placeholder modules.
+
+### Phase 5 — IB-aligned student pathway
+
+Complete: official A–E topic structure, SL/HL availability, 24 release-gated module pages, local
+student progress, 243 original assessment-style questions, explicit physics-skill filtering, and a
+generated 462-deep-link production route manifest. Future additions must stay outside student
+navigation until their content and route contracts pass.
 
 ## Deployment
 

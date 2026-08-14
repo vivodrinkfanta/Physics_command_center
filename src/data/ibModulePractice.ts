@@ -46,7 +46,7 @@ function buildQuestions(seed: ModulePracticeSeed, seedIndex: number): IbPractice
   const correctChoiceId = String.fromCharCode(97 + correctIndex)
   return [
     {
-      id: `${seed.slug}-concept`, topicCode: seed.code, level: seed.level, style: 'paper-1a', difficulty: 'standard',
+      id: `${seed.slug}-concept`, topicCode: seed.code, level: seed.level, style: 'paper-1a', difficulty: 'standard', skillFocus: ['conceptual', 'model-selection'],
       title: `${seed.code} concept check`, scenario: seed.scenario, prompt: seed.prompt,
       choices: labels.map((label, index) => ({ id: String.fromCharCode(97 + index), label })),
       answer: { kind: 'choice', correctChoiceId }, marks: 1,
@@ -55,7 +55,7 @@ function buildQuestions(seed: ModulePracticeSeed, seedIndex: number): IbPractice
       tags: [seed.code, 'concept', 'model selection'],
     },
     {
-      id: `${seed.slug}-reasoning`, topicCode: seed.code, level: seed.level, style: 'paper-2-extended', difficulty: 'challenge',
+      id: `${seed.slug}-reasoning`, topicCode: seed.code, level: seed.level, style: 'paper-2-extended', difficulty: 'challenge', skillFocus: ['assumptions', 'evaluation'],
       title: `${seed.code} evidence reasoning`, scenario: seed.scenario, prompt: seed.reasonPrompt,
       answer: { kind: 'text', requiredGroups: seed.requiredGroups }, marks: seed.requiredGroups.length,
       hints: ['Name the governing model and the quantities that change.', 'Connect the observation to the model, then state the physical conclusion.'],

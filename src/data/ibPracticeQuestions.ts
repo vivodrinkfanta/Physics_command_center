@@ -4,7 +4,7 @@ import { ibPracticeExtensions } from './ibPracticeExtensions'
 
 const mechanicsPracticeQuestions: readonly IbPracticeQuestion[] = [
   {
-    id: 'a1-velocity-area', topicCode: 'A.1', level: 'sl', style: 'paper-1a', difficulty: 'foundation',
+    id: 'a1-velocity-area', topicCode: 'A.1', level: 'sl', style: 'paper-1a', difficulty: 'foundation', skillFocus: ['graph-interpretation', 'conceptual'],
     title: 'Reading a velocity–time graph',
     scenario: 'A cart moves along a straight track. Its velocity–time graph remains above the time axis.',
     prompt: 'Which physical quantity is represented by the area between the graph and the time axis?',
@@ -19,7 +19,7 @@ const mechanicsPracticeQuestions: readonly IbPracticeQuestion[] = [
     tags: ['graph', 'velocity', 'displacement', 'area'],
   },
   {
-    id: 'a1-trolley-data', topicCode: 'A.1', level: 'sl', style: 'paper-1b', difficulty: 'standard',
+    id: 'a1-trolley-data', topicCode: 'A.1', level: 'sl', style: 'paper-1b', difficulty: 'standard', skillFocus: ['data-analysis', 'graph-interpretation'],
     title: 'Estimate acceleration from data',
     scenario: 'A motion sensor records a trolley moving in one dimension. Treat the uncertainty in time as negligible.',
     prompt: 'Use the first and last readings to calculate the trolley’s average acceleration in m s⁻².',
@@ -31,7 +31,7 @@ const mechanicsPracticeQuestions: readonly IbPracticeQuestion[] = [
     tags: ['data', 'acceleration', 'gradient', 'sensor'],
   },
   {
-    id: 'a1-stopping-distance', topicCode: 'A.1', level: 'sl', style: 'paper-2-short', difficulty: 'challenge',
+    id: 'a1-stopping-distance', topicCode: 'A.1', level: 'sl', style: 'paper-2-short', difficulty: 'challenge', skillFocus: ['multistep', 'model-selection'],
     title: 'Two-stage stopping distance',
     scenario: 'A car travels at 18.0 m s⁻¹. The driver reacts for 0.70 s, then the car brakes with constant acceleration −6.0 m s⁻² until it stops.',
     prompt: 'Calculate the total stopping distance in metres. Give your answer to three significant figures.',
@@ -42,7 +42,7 @@ const mechanicsPracticeQuestions: readonly IbPracticeQuestion[] = [
     tags: ['multistep', 'braking', 'constant acceleration', 'model'],
   },
   {
-    id: 'a1-acceleration-recall', topicCode: 'A.1', level: 'sl', style: 'numerical', difficulty: 'foundation',
+    id: 'a1-acceleration-recall', topicCode: 'A.1', level: 'sl', style: 'numerical', difficulty: 'foundation', skillFocus: ['conceptual'],
     title: 'Acceleration recall',
     scenario: 'A runner’s velocity increases uniformly from 4.0 m s⁻¹ to 16.0 m s⁻¹ in 3.0 s.',
     prompt: 'Calculate the acceleration in m s⁻².',
@@ -52,7 +52,7 @@ const mechanicsPracticeQuestions: readonly IbPracticeQuestion[] = [
     formulaIds: ['average-acceleration'], simulationHref: '/formulas/average-acceleration', tags: ['formula', 'acceleration', 'recall'],
   },
   {
-    id: 'a1-speed-uncertainty', topicCode: 'A.1', level: 'sl', style: 'paper-1b', difficulty: 'challenge',
+    id: 'a1-speed-uncertainty', topicCode: 'A.1', level: 'sl', style: 'paper-1b', difficulty: 'challenge', skillFocus: ['data-analysis', 'units-uncertainty'],
     title: 'Propagate measurement uncertainty',
     scenario: 'A student calculates average speed from d = (2.40 ± 0.03) m and t = (1.20 ± 0.02) s. Treat the stated uncertainties as absolute uncertainties.',
     prompt: 'Using the maximum fractional-uncertainty method for a quotient, calculate the percentage uncertainty in the speed.',
@@ -63,7 +63,7 @@ const mechanicsPracticeQuestions: readonly IbPracticeQuestion[] = [
     formulaIds: ['average-speed'], simulationHref: '/formulas/average-speed', tags: ['uncertainty', 'data', 'units', 'measurement'],
   },
   {
-    id: 'a2-banked-force-model', topicCode: 'A.2', level: 'sl', style: 'paper-1a', difficulty: 'standard',
+    id: 'a2-banked-force-model', topicCode: 'A.2', level: 'sl', style: 'paper-1a', difficulty: 'standard', skillFocus: ['conceptual', 'model-selection'],
     title: 'Choose the inward-force model',
     scenario: 'A car travels at constant speed around a flat, horizontal circular track without slipping.',
     prompt: 'Which interaction supplies the horizontal resultant force toward the centre of the track?',
@@ -77,7 +77,7 @@ const mechanicsPracticeQuestions: readonly IbPracticeQuestion[] = [
     formulaIds: ['friction-force', 'centripetal-force'], simulationHref: '/formulas/centripetal-force', tags: ['circular motion', 'friction', 'force model'],
   },
   {
-    id: 'a2-inelastic-collision', topicCode: 'A.2', level: 'sl', style: 'numerical', difficulty: 'standard',
+    id: 'a2-inelastic-collision', topicCode: 'A.2', level: 'sl', style: 'numerical', difficulty: 'standard', skillFocus: ['multistep', 'model-selection'],
     title: 'Shared velocity after collision',
     scenario: 'A 0.40 kg cart moving at +6.0 m s⁻¹ collides with a 0.60 kg cart moving at −1.0 m s⁻¹. They stick together. External impulse is negligible.',
     prompt: 'Calculate their shared velocity in m s⁻¹, including its sign.',
@@ -87,7 +87,7 @@ const mechanicsPracticeQuestions: readonly IbPracticeQuestion[] = [
     formulaIds: ['linear-momentum'], simulationHref: '/formulas/linear-momentum', tags: ['collision', 'momentum conservation', 'sign'],
   },
   {
-    id: 'a2-ball-impulse', topicCode: 'A.2', level: 'sl', style: 'paper-2-short', difficulty: 'challenge',
+    id: 'a2-ball-impulse', topicCode: 'A.2', level: 'sl', style: 'paper-2-short', difficulty: 'challenge', skillFocus: ['multistep', 'model-selection'],
     title: 'Signed force during impact',
     scenario: 'A 0.150 kg ball initially moves at +12.0 m s⁻¹. A bat reverses it to −8.0 m s⁻¹ in 0.020 s. Treat the force as constant.',
     prompt: 'Calculate the average force on the ball in newtons, including its sign.',
@@ -97,7 +97,7 @@ const mechanicsPracticeQuestions: readonly IbPracticeQuestion[] = [
     formulaIds: ['linear-momentum', 'impulse'], simulationHref: '/formulas/impulse', tags: ['impulse', 'force', 'momentum', 'multistep'],
   },
   {
-    id: 'a2-falling-model', topicCode: 'A.2', level: 'sl', style: 'paper-2-extended', difficulty: 'standard',
+    id: 'a2-falling-model', topicCode: 'A.2', level: 'sl', style: 'paper-2-extended', difficulty: 'standard', skillFocus: ['assumptions', 'evaluation'],
     title: 'Evaluate a falling-object claim',
     scenario: 'A student claims that, in a vacuum near Earth, an object with twice the mass must fall with twice the acceleration because its weight is twice as large.',
     prompt: 'Evaluate the claim. Explain how both force and inertia change when mass doubles.',
@@ -107,7 +107,7 @@ const mechanicsPracticeQuestions: readonly IbPracticeQuestion[] = [
     formulaIds: ['weight', 'newton-second-law'], simulationHref: '/formulas/weight', tags: ['explanation', 'assumptions', 'vacuum', 'evaluation'],
   },
   {
-    id: 'a3-efficiency-data', topicCode: 'A.3', level: 'sl', style: 'paper-1b', difficulty: 'standard',
+    id: 'a3-efficiency-data', topicCode: 'A.3', level: 'sl', style: 'paper-1b', difficulty: 'standard', skillFocus: ['data-analysis', 'multistep'],
     title: 'Energy-transfer efficiency',
     scenario: 'A lifting system is tested while raising the same load. The energy transfers are measured for one lift.',
     prompt: 'Calculate the efficiency as a percentage.',
@@ -118,7 +118,7 @@ const mechanicsPracticeQuestions: readonly IbPracticeQuestion[] = [
     formulaIds: ['gravitational-potential-energy', 'mechanical-energy-conservation'], simulationHref: '/formulas/mechanical-energy-conservation', tags: ['data', 'efficiency', 'energy transfer'],
   },
   {
-    id: 'a3-stair-power', topicCode: 'A.3', level: 'sl', style: 'paper-2-short', difficulty: 'standard',
+    id: 'a3-stair-power', topicCode: 'A.3', level: 'sl', style: 'paper-2-short', difficulty: 'standard', skillFocus: ['multistep', 'model-selection'],
     title: 'Power on a staircase',
     scenario: 'A 60.0 kg student climbs a vertical height of 4.50 m in 6.00 s. Use g = 9.81 m s⁻² and neglect changes in kinetic energy.',
     prompt: 'Calculate the student’s average mechanical power in watts.',
@@ -128,7 +128,7 @@ const mechanicsPracticeQuestions: readonly IbPracticeQuestion[] = [
     formulaIds: ['gravitational-potential-energy', 'power'], simulationHref: '/formulas/power', tags: ['power', 'potential energy', 'multistep'],
   },
   {
-    id: 'a3-dissipation-claim', topicCode: 'A.3', level: 'sl', style: 'paper-2-extended', difficulty: 'challenge',
+    id: 'a3-dissipation-claim', topicCode: 'A.3', level: 'sl', style: 'paper-2-extended', difficulty: 'challenge', skillFocus: ['assumptions', 'evaluation'],
     title: 'Evaluate “lost energy”',
     scenario: 'A block slides across a rough floor and comes to rest. A student writes: “The block’s mechanical energy disappears, so energy is not conserved.”',
     prompt: 'Evaluate the statement by identifying the transfer and choosing a suitable system boundary.',
@@ -138,7 +138,7 @@ const mechanicsPracticeQuestions: readonly IbPracticeQuestion[] = [
     formulaIds: ['work', 'mechanical-energy-conservation'], simulationHref: '/formulas/mechanical-energy-conservation', tags: ['evaluation', 'dissipation', 'system', 'assumptions'],
   },
   {
-    id: 'a3-kinetic-energy-recall', topicCode: 'A.3', level: 'sl', style: 'numerical', difficulty: 'foundation',
+    id: 'a3-kinetic-energy-recall', topicCode: 'A.3', level: 'sl', style: 'numerical', difficulty: 'foundation', skillFocus: ['conceptual'],
     title: 'Kinetic energy recall',
     scenario: 'A 1200 kg car travels at 15.0 m s⁻¹.',
     prompt: 'Calculate its kinetic energy in joules.',

@@ -1,6 +1,7 @@
 import { ArrowRight, BookOpenCheck, RotateCcw, ShieldCheck } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
+import { ResetProgressConfirmation } from '../components/progress/ResetProgressConfirmation'
 import { ibPhysicsThemes } from '../data/ibPhysicsCurriculum'
 import { ibPracticeQuestions } from '../data/ibPracticeQuestions'
 import { filterCurriculumTopics, formatAvailability, getTopicsForTheme, type CurriculumLevelFilter } from '../utils/curriculum'
@@ -71,10 +72,14 @@ export function CurriculumMapPage() {
       </section>
 
       {confirmReset && (
-        <section className="reset-confirmation" role="alertdialog" aria-labelledby="reset-progress-title">
-          <div><strong id="reset-progress-title">Reset local study progress?</strong><p>This removes attempts, scores, hints, module completion, and your last visited module on this device.</p></div>
-          <div><button onClick={() => setConfirmReset(false)} type="button">Keep progress</button><button className="is-destructive" onClick={resetProgress} type="button">Reset progress</button></div>
-        </section>
+        <ResetProgressConfirmation
+          confirmLabel="Reset progress"
+          description="This removes attempts, scores, hints, module completion, and your last visited module on this device."
+          id="curriculum-reset"
+          onCancel={() => setConfirmReset(false)}
+          onConfirm={resetProgress}
+          title="Reset local study progress?"
+        />
       )}
 
       <div className="curriculum-themes">

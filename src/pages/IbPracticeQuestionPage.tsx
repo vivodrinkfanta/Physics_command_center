@@ -4,7 +4,7 @@ import { Link, Navigate, useParams } from 'react-router-dom'
 import { findIbPracticeQuestion, ibPracticeQuestions } from '../data/ibPracticeQuestions'
 import { getFormulaById } from '../data/formulas'
 import { getCurriculumRelationships } from '../data/curriculumRelationships'
-import { evaluateIbPracticeAnswer, practiceStyleLabels } from '../utils/ibPractice'
+import { evaluateIbPracticeAnswer, practiceSkillLabels, practiceStyleLabels } from '../utils/ibPractice'
 import { loadStudentProgress, recordQuestionResult, saveStudentProgress } from '../utils/studentProgress'
 import type { PracticeEvaluation } from '../types/ibPractice'
 
@@ -40,7 +40,7 @@ export function IbPracticeQuestionPage() {
       <Link className="practice-question__back" to={`/practice?topic=${encodeURIComponent(question.topicCode)}`}><ArrowLeft aria-hidden="true" size={15} /> Back to {question.topicCode} practice</Link>
       <header className="practice-question__header">
         <div><p className="eyebrow">{question.topicCode} · {practiceStyleLabels[question.style]}</p><h1>{question.title}</h1><p>{question.scenario}</p></div>
-        <dl><div><dt>Level</dt><dd>{question.level === 'sl' ? 'SL core' : 'HL only'}</dd></div><div><dt>Difficulty</dt><dd>{question.difficulty}</dd></div><div><dt>Marks</dt><dd>{question.marks}</dd></div>{saved && <div><dt>Best</dt><dd>{saved.bestScore}/{question.marks}</dd></div>}</dl>
+        <dl><div><dt>Level</dt><dd>{question.level === 'sl' ? 'SL core' : 'HL only'}</dd></div><div><dt>Difficulty</dt><dd>{question.difficulty}</dd></div><div><dt>Focus</dt><dd>{practiceSkillLabels[question.skillFocus[0]]}</dd></div><div><dt>Marks</dt><dd>{question.marks}</dd></div>{saved && <div><dt>Best</dt><dd>{saved.bestScore}/{question.marks}</dd></div>}</dl>
       </header>
 
       <section className="question-workspace" aria-labelledby="question-prompt">

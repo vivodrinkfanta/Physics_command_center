@@ -52,7 +52,7 @@ export function ScopeMenu() {
         type="button"
       >
         <span className="scope-badge__pulse" aria-hidden="true" />
-        <span>IB Physics · Mechanics</span>
+        <span>IB Physics · 2025</span>
         <ChevronDown aria-hidden="true" className={open ? 'is-open' : ''} size={14} />
       </button>
 
@@ -61,7 +61,7 @@ export function ScopeMenu() {
           <header>
             <span>Active curriculum</span>
             <strong>First assessment 2025 pathway</strong>
-            <p>Official syllabus codes organize the current mechanics coverage without claiming full-course completion.</p>
+            <p>All 24 syllabus modules have released study, evidence, relationship, and practice pathways. Dedicated numerical workbenches remain mechanics-focused.</p>
           </header>
 
           <dl>
@@ -84,7 +84,7 @@ export function ScopeMenu() {
               <BookOpenCheck aria-hidden="true" size={16} />
               <span>
                 <strong>Open IB Study Map</strong>
-                <small>Five official themes · honest coverage status</small>
+                <small>Five official themes · 24 released modules</small>
               </span>
               <ArrowRight aria-hidden="true" size={14} />
             </Link>
@@ -106,7 +106,7 @@ export function ScopeMenu() {
             </Link>
           </nav>
 
-          <footer>Independent IB-aligned tool. Partial and planned modules are never presented as complete.</footer>
+          <footer>Independent IB-aligned tool, not endorsed or certified by the IB. Unreleased work is excluded from student navigation.</footer>
         </section>
       )}
     </div>

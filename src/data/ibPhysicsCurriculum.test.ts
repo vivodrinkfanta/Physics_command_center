@@ -61,4 +61,13 @@ describe('IB Physics curriculum registry', () => {
     expect(filterCurriculumTopics('hl')).toHaveLength(24)
     expect(getTopicsForTheme('A', 'sl').map((topic) => topic.code)).toEqual(['A.1', 'A.2', 'A.3'])
   })
+
+  it('keeps the original mechanics instruments inside their official syllabus modules', () => {
+    const topic = (code: string) => ibPhysicsTopics.find((item) => item.code === code)!
+    expect(topic('A.1').formulaIds).toEqual(expect.arrayContaining(['constant-acceleration-velocity', 'projectile-vertical-position']))
+    expect(topic('A.2').formulaIds).toEqual(expect.arrayContaining(['newton-second-law', 'linear-momentum', 'centripetal-force']))
+    expect(topic('A.3').formulaIds).toEqual(expect.arrayContaining(['kinetic-energy', 'elastic-potential-energy', 'mechanical-energy-conservation']))
+    expect(topic('C.1').formulaIds).toEqual(expect.arrayContaining(['hookes-law', 'elastic-potential-energy']))
+    expect(topic('D.1').formulaIds).toEqual(expect.arrayContaining(['weight', 'gravitational-potential-energy']))
+  })
 })

@@ -40,6 +40,7 @@ import { UnitConverterPanel } from '../components/inspector/UnitConverterPanel'
 import { FittedFormulaExpression } from '../components/math/FittedFormulaExpression'
 import { findFormulaById, mechanicsFormulas } from '../data/formulas'
 import { findCurriculumTopic } from '../data/ibPhysicsCurriculum'
+import { inspectorModes, type InspectorModeId } from '../data/inspectorModes'
 import { getVariableDefinition } from '../data/variables'
 import type { FormulaRecord, PhysicsVariableId } from '../types/formula'
 import type { CircularMotionState } from '../utils/circularMotion'
@@ -58,19 +59,20 @@ import type { PotentialEnergyState } from '../utils/potentialEnergy'
 import type { ProjectileLabState } from '../utils/projectile'
 import type { SpringMotionState } from '../utils/springMotion'
 
-const inspectorTabs = [
-  { id: 'simulate', label: 'Simulate', icon: Boxes },
-  { id: 'explain', label: 'Explain', icon: BookOpen },
-  { id: 'rearrange', label: 'Rearrange', icon: Calculator },
-  { id: 'units', label: 'Units', icon: Ruler },
-  { id: 'dimensions', label: 'Dimensions', icon: Scale },
-  { id: 'graph', label: 'Graph', icon: BarChart3 },
-  { id: 'example', label: 'Example', icon: GraduationCap },
-  { id: 'practice', label: 'Practice', icon: FlaskConical },
-  { id: 'related', label: 'Related', icon: Network },
-] as const
+const inspectorModeIcons: Record<InspectorModeId, typeof Boxes> = {
+  simulate: Boxes,
+  explain: BookOpen,
+  rearrange: Calculator,
+  units: Ruler,
+  dimensions: Scale,
+  graph: BarChart3,
+  example: GraduationCap,
+  practice: FlaskConical,
+  related: Network,
+}
 
-type InspectorTabId = (typeof inspectorTabs)[number]['id']
+const inspectorTabs = inspectorModes.map((mode) => ({ ...mode, icon: inspectorModeIcons[mode.id] }))
+type InspectorTabId = InspectorModeId
 
 function ExplainPanel({ formula }: { formula: FormulaRecord }) {
   return (

@@ -8,6 +8,15 @@ export type PracticeAssessmentStyle =
   | 'paper-2-extended'
   | 'numerical'
 export type PracticeDifficulty = 'foundation' | 'standard' | 'challenge'
+export type PracticeSkillFocus =
+  | 'assumptions'
+  | 'conceptual'
+  | 'data-analysis'
+  | 'evaluation'
+  | 'graph-interpretation'
+  | 'model-selection'
+  | 'multistep'
+  | 'units-uncertainty'
 
 export interface PracticeChoice {
   id: string
@@ -25,6 +34,7 @@ export interface IbPracticeQuestion {
   level: CurriculumLevel
   style: PracticeAssessmentStyle
   difficulty: PracticeDifficulty
+  skillFocus: PracticeSkillFocus[]
   title: string
   scenario: string
   prompt: string

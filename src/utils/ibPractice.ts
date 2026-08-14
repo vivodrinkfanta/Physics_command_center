@@ -5,6 +5,7 @@ import type {
   PracticeAssessmentStyle,
   PracticeDifficulty,
   PracticeEvaluation,
+  PracticeSkillFocus,
 } from '../types/ibPractice'
 import type { StudentProgress } from '../types/progress'
 
@@ -16,6 +17,7 @@ export interface PracticeFilters {
   level: 'all' | CurriculumLevel
   style: 'all' | PracticeAssessmentStyle
   difficulty: 'all' | PracticeDifficulty
+  skill: 'all' | PracticeSkillFocus
   status: PracticeStatusFilter
 }
 
@@ -81,6 +83,7 @@ export function filterIbPracticeQuestions(filters: PracticeFilters, progress: St
     if (filters.level === 'sl' && question.level !== 'sl') return false
     if (filters.style !== 'all' && question.style !== filters.style) return false
     if (filters.difficulty !== 'all' && question.difficulty !== filters.difficulty) return false
+    if (filters.skill !== 'all' && !question.skillFocus.includes(filters.skill)) return false
     if (filters.status !== 'all' && questionProgressStatus(question.id, progress) !== filters.status) return false
     if (!query) return true
     const searchable = normalizeText([
@@ -100,4 +103,15 @@ export const practiceStyleLabels: Record<PracticeAssessmentStyle, string> = {
   'paper-2-short': 'Paper 2-style short response',
   'paper-2-extended': 'Paper 2-style extended response',
   numerical: 'Numerical formula practice',
+}
+
+export const practiceSkillLabels: Record<PracticeSkillFocus, string> = {
+  assumptions: 'Assumptions',
+  conceptual: 'Conceptual understanding',
+  'data-analysis': 'Data analysis',
+  evaluation: 'Evaluation',
+  'graph-interpretation': 'Graph interpretation',
+  'model-selection': 'Model selection',
+  multistep: 'Multistep reasoning',
+  'units-uncertainty': 'Units and uncertainty',
 }

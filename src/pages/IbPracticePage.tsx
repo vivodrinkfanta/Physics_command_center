@@ -1,15 +1,17 @@
 import { ArrowRight, CheckCircle2, CircleDashed, FlaskConical, RotateCcw, Search } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
+import { ResetProgressConfirmation } from '../components/progress/ResetProgressConfirmation'
 import { activeCurriculumTopics } from '../utils/curriculum'
 import {
   filterIbPracticeQuestions,
   practiceStyleLabels,
+  practiceSkillLabels,
   questionProgressStatus,
   type PracticeFilters,
   type PracticeStatusFilter,
 } from '../utils/ibPractice'
-import type { PracticeAssessmentStyle, PracticeDifficulty } from '../types/ibPractice'
+import type { PracticeAssessmentStyle, PracticeDifficulty, PracticeSkillFocus } from '../types/ibPractice'
 import { createEmptyStudentProgress, loadStudentProgress, saveStudentProgress } from '../utils/studentProgress'
 
 const styleOptions: Array<{ label: string; value: 'all' | PracticeAssessmentStyle }> = [
@@ -24,6 +26,10 @@ const statusOptions: Array<{ label: string; value: PracticeStatusFilter }> = [
   { label: 'All progress', value: 'all' }, { label: 'Unanswered', value: 'unanswered' },
   { label: 'Attempted', value: 'attempted' }, { label: 'Completed', value: 'completed' },
 ]
+const skillOptions: Array<{ label: string; value: 'all' | PracticeSkillFocus }> = [
+  { label: 'All physics skills', value: 'all' },
+  ...Object.entries(practiceSkillLabels).map(([value, label]) => ({ value: value as PracticeSkillFocus, label })),
+]
 
 export function IbPracticePage() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -36,9 +42,10 @@ export function IbPracticePage() {
   const level: PracticeFilters['level'] = requestedLevel === 'hl' || requestedLevel === 'sl' ? requestedLevel : 'all'
   const style = styleOptions.some((option) => option.value === value('style')) ? value('style') as 'all' | PracticeAssessmentStyle : 'all'
   const difficulty = difficultyOptions.some((option) => option.value === value('difficulty')) ? value('difficulty') as 'all' | PracticeDifficulty : 'all'
+  const skill = skillOptions.some((option) => option.value === value('skill')) ? value('skill') as 'all' | PracticeSkillFocus : 'all'
   const status = statusOptions.some((option) => option.value === value('status')) ? value('status') as PracticeStatusFilter : 'all'
-  const filters = { query, topicCode, level, style, difficulty, status }
-  const questions = useMemo(() => filterIbPracticeQuestions(filters, progress), [difficulty, level, progress, query, status, style, topicCode])
+  const filters = { query, topicCode, level, style, difficulty, skill, status }
+  const questions = useMemo(() => filterIbPracticeQuestions(filters, progress), [difficulty, level, progress, query, skill, status, style, topicCode])
 
   const update = (key: string, nextValue: string, defaultValue = 'all') => {
     const next = new URLSearchParams(searchParams)
@@ -55,22 +62,23 @@ export function IbPracticePage() {
       <nav className="page-breadcrumbs" aria-label="Breadcrumb"><Link to="/curriculum">IB Study Map</Link><span>/</span><span>Practice</span></nav>
       <header className="practice-hero">
         <div><p className="eyebrow"><FlaskConical aria-hidden="true" size={14} /> Original IB-style practice</p><h1>Practise the skill the question actually tests.</h1><p>Filter by syllabus module, level, difficulty, assessment style, and local completion state. Every visible question has working answer logic, staged hints, and markscheme-style guidance.</p></div>
-        <dl><div><dt>Question bank</dt><dd>{String(filterIbPracticeQuestions({ query: '', topicCode: 'all', level: 'all', style: 'all', difficulty: 'all', status: 'all' }, progress).length).padStart(2, '0')}</dd></div><div><dt>Modules live</dt><dd>{String(activeCurriculumTopics.length).padStart(2, '0')}</dd></div><div><dt>Source</dt><dd>Original</dd></div></dl>
+        <dl><div><dt>Question bank</dt><dd>{String(filterIbPracticeQuestions({ query: '', topicCode: 'all', level: 'all', style: 'all', difficulty: 'all', skill: 'all', status: 'all' }, progress).length).padStart(2, '0')}</dd></div><div><dt>Modules live</dt><dd>{String(activeCurriculumTopics.length).padStart(2, '0')}</dd></div><div><dt>Source</dt><dd>Original</dd></div></dl>
       </header>
 
       <section className="practice-filters" aria-label="Practice filters">
         <label className="practice-search"><Search aria-hidden="true" size={17} /><span className="sr-only">Search questions</span><input type="search" value={query} onChange={(event) => update('q', event.target.value, '')} placeholder="Search scenarios, skills, or concepts" /></label>
         <div className="practice-filter-grid">
           <label><span>Syllabus module</span><select value={topicCode} onChange={(event) => update('topic', event.target.value)}><option value="all">All live modules</option>{activeCurriculumTopics.filter((topic) => topic.practiceAvailable).map((topic) => <option key={topic.code} value={topic.code}>{topic.code} {topic.title}</option>)}</select></label>
-          <label><span>Level</span><select value={level} onChange={(event) => update('level', event.target.value)}><option value="all">SL & HL</option><option value="sl">SL</option><option value="hl">HL</option></select></label>
+          <label><span>Level</span><select value={level} onChange={(event) => update('level', event.target.value)}><option value="all">All levels</option><option value="sl">SL pathway</option><option value="hl">HL pathway · includes SL</option></select></label>
           <label><span>Difficulty</span><select value={difficulty} onChange={(event) => update('difficulty', event.target.value)}>{difficultyOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select></label>
           <label><span>Assessment style</span><select value={style} onChange={(event) => update('style', event.target.value)}>{styleOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select></label>
+          <label><span>Physics skill</span><select value={skill} onChange={(event) => update('skill', event.target.value)}>{skillOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select></label>
           <label><span>Progress</span><select value={status} onChange={(event) => update('status', event.target.value)}>{statusOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select></label>
         </div>
         <div className="practice-filter-actions"><span aria-live="polite"><strong>{questions.length}</strong> {questions.length === 1 ? 'question' : 'questions'} match this setup</span><button onClick={() => setConfirmReset(true)} type="button"><RotateCcw aria-hidden="true" size={14} /> Reset local progress</button></div>
       </section>
 
-      {confirmReset && <section className="reset-confirmation" role="alertdialog" aria-labelledby="practice-reset-title"><div><strong id="practice-reset-title">Reset all practice progress?</strong><p>This cannot be undone on this device.</p></div><div><button onClick={() => setConfirmReset(false)} type="button">Cancel</button><button className="is-destructive" onClick={resetProgress} type="button">Reset progress</button></div></section>}
+      {confirmReset && <ResetProgressConfirmation confirmLabel="Reset progress" description="This removes every saved attempt, score, hint count, and module-completion value on this device." id="practice-reset" onCancel={() => setConfirmReset(false)} onConfirm={resetProgress} title="Reset all practice progress?" />}
 
       {questions.length ? (
         <section className="question-catalog" aria-label="Practice questions">
@@ -80,7 +88,7 @@ export function IbPracticePage() {
             return <Link key={question.id} to={`/practice/${question.id}`}>
               <div className="question-card__topline"><span>{question.topicCode}</span><span>{practiceStyleLabels[question.style]}</span>{itemStatus === 'completed' ? <CheckCircle2 aria-label="Completed" size={16} /> : <CircleDashed aria-label={itemStatus === 'attempted' ? 'Attempted' : 'Unanswered'} size={16} />}</div>
               <h2>{question.title}</h2><p>{question.scenario}</p>
-              <div className="question-card__meta"><span>{question.level === 'sl' ? 'SL core · HL relevant' : 'HL only'}</span><span>{question.difficulty}</span><span>{question.marks} {question.marks === 1 ? 'mark' : 'marks'}</span><span>{itemStatus}{itemProgress ? ` · best ${itemProgress.bestScore}/${question.marks}` : ''}</span></div>
+              <div className="question-card__meta"><span>{question.level === 'sl' ? 'SL core · HL relevant' : 'HL only'}</span><span>{question.difficulty}</span>{question.skillFocus.slice(0, 2).map((focus) => <span key={focus}>{practiceSkillLabels[focus]}</span>)}<span>{question.marks} {question.marks === 1 ? 'mark' : 'marks'}</span><span>{itemStatus}{itemProgress ? ` · best ${itemProgress.bestScore}/${question.marks}` : ''}</span></div>
               <ArrowRight className="question-card__arrow" aria-hidden="true" size={16} />
             </Link>
           })}

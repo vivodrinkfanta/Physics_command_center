@@ -1,6 +1,6 @@
 import { curriculumRelationships, getCurriculumRelationships } from './curriculumRelationships'
 import { ibPhysicsTopics } from './ibPhysicsCurriculum'
-import type { IbPracticeQuestion, PracticeAssessmentStyle } from '../types/ibPractice'
+import type { IbPracticeQuestion, PracticeAssessmentStyle, PracticeSkillFocus } from '../types/ibPractice'
 
 function rotateChoices(correct: string, distractors: string[], correctIndex: number) {
   const labels = distractors.slice(0, 3)
@@ -23,10 +23,11 @@ function choiceQuestion(
   distractors: string[],
   correctIndex: number,
   relationshipIds: string[] = [],
+  skillFocus: PracticeSkillFocus[] = ['conceptual', 'model-selection'],
 ): IbPracticeQuestion {
   const answerSet = rotateChoices(correct, distractors, correctIndex)
   return {
-    id, topicCode, level, style, difficulty: 'standard', title, scenario, prompt,
+    id, topicCode, level, style, difficulty: 'standard', skillFocus, title, scenario, prompt,
     choices: answerSet.choices,
     answer: { kind: 'choice', correctChoiceId: answerSet.correctChoiceId }, marks: 1,
     hints: ['Identify which model state or assumption is actually described.', 'Eliminate options that contradict the stated evidence.'],
@@ -73,7 +74,7 @@ export const ibPracticeExtensions: readonly IbPracticeQuestion[] = ibPhysicsTopi
         `${topic.slug}-${relationship.id}-assumption`, topic.code, level, 'paper-1a',
         `Check ${relationship.name}`, `The relationship ${relationship.expression} is proposed for an investigation.`,
         'Which condition must be checked before applying it as stated?', relationship.assumption,
-        distractorSet.map((candidate) => candidate.assumption), (topicIndex + relationshipIndex + 2) % 4, [relationship.id],
+        distractorSet.map((candidate) => candidate.assumption), (topicIndex + relationshipIndex + 2) % 4, [relationship.id], ['assumptions', 'model-selection'],
       ),
     ]
   })
@@ -83,7 +84,7 @@ export const ibPracticeExtensions: readonly IbPracticeQuestion[] = ibPhysicsTopi
     return [concept, ...parts]
   })
   const synthesisQuestion: IbPracticeQuestion = {
-    id: `${topic.slug}-model-synthesis`, topicCode: topic.code, level, style: 'paper-2-short', difficulty: 'challenge',
+    id: `${topic.slug}-model-synthesis`, topicCode: topic.code, level, style: 'paper-2-short', difficulty: 'challenge', skillFocus: ['assumptions', 'evaluation'],
     title: `${topic.code} model synthesis`, scenario: topic.inquiry.prompt,
     prompt: `Use ${topic.concepts.slice(0, 3).join(', ')} to answer: ${topic.inquiry.analysisQuestion}`,
     answer: { kind: 'text', requiredGroups: conceptGroups }, marks: conceptGroups.length,

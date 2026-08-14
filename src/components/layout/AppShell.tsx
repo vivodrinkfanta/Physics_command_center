@@ -81,7 +81,7 @@ export function AppShell() {
     setIsNavigationOpen(false)
     document.title =
       location.pathname === '/'
-        ? 'Physics Lab · Interactive Mechanics'
+        ? 'Physics Lab · Interactive IB-aligned Physics'
         : `${pageName} · Physics Lab`
 
     if (hasMounted.current) document.getElementById('main-content')?.focus()
