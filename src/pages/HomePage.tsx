@@ -34,13 +34,15 @@ export function HomePage() {
           <p className="home-kicker"><Atom aria-hidden="true" size={14} /> IB-aligned interactive physics</p>
           <h1 id="home-title">Explore physical<br /><span>relationships.</span></h1>
           <p className="home-hero__intro">Move beyond memorising equations. Choose an IB syllabus module, change the variables, observe the system, and see the mathematics respond.</p>
-          <form className="physics-search" onSubmit={submitSearch} role="search">
-            <Search aria-hidden="true" className="physics-search__icon" size={20} strokeWidth={1.7} />
-            <label className="sr-only" htmlFor="physics-search-input">Search mechanics formula inspectors</label>
-            <input autoComplete="off" id="physics-search-input" onChange={(event) => setQuery(event.target.value)} placeholder="Search mechanics formula inspectors…" ref={inputRef} type="search" value={query} />
-            <kbd>Enter</kbd>
-            {query.trim() && <div className="search-results" aria-label="Search suggestions">{results.length ? results.map((result) => <button key={result.name} onClick={() => navigate(`/formulas?q=${encodeURIComponent(result.name)}`)} type="button"><FormulaExpression className="search-results__formula" expression={result.expression} /><span className="search-results__copy"><strong>{result.name}</strong><small>{result.description}</small></span><span className="search-results__topic">{result.subtopic}</span><ArrowRight aria-hidden="true" size={15} /></button>) : <p>No matching mechanics formula inspector.</p>}</div>}
-          </form>
+          <div className="physics-search-stack">
+            <form className="physics-search" onSubmit={submitSearch} role="search">
+              <Search aria-hidden="true" className="physics-search__icon" size={20} strokeWidth={1.7} />
+              <label className="sr-only" htmlFor="physics-search-input">Search mechanics formula inspectors</label>
+              <input autoComplete="off" id="physics-search-input" onChange={(event) => setQuery(event.target.value)} placeholder="Search mechanics formula inspectors…" ref={inputRef} type="search" value={query} />
+              <kbd>Enter</kbd>
+            </form>
+            {query.trim() && <div className="search-results" aria-label="Search suggestions" aria-live="polite">{results.length ? results.map((result) => <button key={result.name} onClick={() => navigate(`/formulas?q=${encodeURIComponent(result.name)}`)} type="button"><FormulaExpression className="search-results__formula" expression={result.expression} /><span className="search-results__copy"><strong>{result.name}</strong><small>{result.description}</small></span><span className="search-results__topic">{result.subtopic}</span><ArrowRight aria-hidden="true" size={15} /></button>) : <p>No matching mechanics formula inspector.</p>}</div>}
+          </div>
           <div className="search-examples" aria-label="Example searches"><span>Try</span>{['force', 'kinetic energy', 'v = u + at'].map((example) => <button key={example} onClick={() => setQuery(example)} type="button">{example}</button>)}</div>
           <Link className="home-study-cta" to={lastTopic && isCurriculumTopicReleased(lastTopic.code) ? `/curriculum/${lastTopic.slug}` : '/curriculum'}><BookOpenCheck aria-hidden="true" size={17} /><span><strong>{lastTopic && isCurriculumTopicReleased(lastTopic.code) ? `Continue ${lastTopic.code} ${lastTopic.title}` : 'Open the IB Study Map'}</strong><small>{lastTopic && isCurriculumTopicReleased(lastTopic.code) ? 'Resume from your last visited syllabus module.' : 'Choose SL, HL, or All and start with an official module code.'}</small></span><ArrowRight aria-hidden="true" size={16} /></Link>
         </div>
