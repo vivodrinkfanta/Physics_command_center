@@ -12,6 +12,7 @@ export type PracticeSkillFocus =
   | 'assumptions'
   | 'conceptual'
   | 'data-analysis'
+  | 'experimental'
   | 'evaluation'
   | 'graph-interpretation'
   | 'model-selection'

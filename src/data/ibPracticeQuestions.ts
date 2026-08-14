@@ -1,6 +1,7 @@
 import type { IbPracticeQuestion } from '../types/ibPractice'
 import { ibModulePracticeQuestions } from './ibModulePractice'
 import { ibPracticeExtensions } from './ibPracticeExtensions'
+import { ibQuantitativePracticeQuestions } from './ibQuantitativePractice'
 
 const mechanicsPracticeQuestions: readonly IbPracticeQuestion[] = [
   {
@@ -19,7 +20,7 @@ const mechanicsPracticeQuestions: readonly IbPracticeQuestion[] = [
     tags: ['graph', 'velocity', 'displacement', 'area'],
   },
   {
-    id: 'a1-trolley-data', topicCode: 'A.1', level: 'sl', style: 'paper-1b', difficulty: 'standard', skillFocus: ['data-analysis', 'graph-interpretation'],
+    id: 'a1-trolley-data', topicCode: 'A.1', level: 'sl', style: 'paper-1b', difficulty: 'standard', skillFocus: ['data-analysis', 'experimental', 'graph-interpretation'],
     title: 'Estimate acceleration from data',
     scenario: 'A motion sensor records a trolley moving in one dimension. Treat the uncertainty in time as negligible.',
     prompt: 'Use the first and last readings to calculate the trolley’s average acceleration in m s⁻².',
@@ -52,7 +53,7 @@ const mechanicsPracticeQuestions: readonly IbPracticeQuestion[] = [
     formulaIds: ['average-acceleration'], simulationHref: '/formulas/average-acceleration', tags: ['formula', 'acceleration', 'recall'],
   },
   {
-    id: 'a1-speed-uncertainty', topicCode: 'A.1', level: 'sl', style: 'paper-1b', difficulty: 'challenge', skillFocus: ['data-analysis', 'units-uncertainty'],
+    id: 'a1-speed-uncertainty', topicCode: 'A.1', level: 'sl', style: 'paper-1b', difficulty: 'challenge', skillFocus: ['data-analysis', 'experimental', 'units-uncertainty'],
     title: 'Propagate measurement uncertainty',
     scenario: 'A student calculates average speed from d = (2.40 ± 0.03) m and t = (1.20 ± 0.02) s. Treat the stated uncertainties as absolute uncertainties.',
     prompt: 'Using the maximum fractional-uncertainty method for a quotient, calculate the percentage uncertainty in the speed.',
@@ -81,6 +82,7 @@ const mechanicsPracticeQuestions: readonly IbPracticeQuestion[] = [
     title: 'Shared velocity after collision',
     scenario: 'A 0.40 kg cart moving at +6.0 m s⁻¹ collides with a 0.60 kg cart moving at −1.0 m s⁻¹. They stick together. External impulse is negligible.',
     prompt: 'Calculate their shared velocity in m s⁻¹, including its sign.',
+    data: [{ label: 'Cart 1', value: 'm₁ = 0.40 kg, u₁ = +6.0 m s⁻¹' }, { label: 'Cart 2', value: 'm₂ = 0.60 kg, u₂ = −1.0 m s⁻¹' }],
     answer: { kind: 'numeric', expected: 1.8, tolerance: 0.02, unit: 'm s⁻¹' }, marks: 3,
     hints: ['Choose the two carts as one isolated system.', 'Set total momentum before equal to total momentum after.'],
     markscheme: ['Initial momentum = 0.40(6.0) + 0.60(−1.0) = 1.8 kg m s⁻¹. [1]', 'Total mass = 1.00 kg. [1]', 'Shared velocity = +1.8 m s⁻¹. [1]'],
@@ -153,6 +155,7 @@ export const ibPracticeQuestions: readonly IbPracticeQuestion[] = [
   ...mechanicsPracticeQuestions,
   ...ibModulePracticeQuestions,
   ...ibPracticeExtensions,
+  ...ibQuantitativePracticeQuestions,
 ]
 
 export const ibPracticeQuestionById = new Map(ibPracticeQuestions.map((question) => [question.id, question]))

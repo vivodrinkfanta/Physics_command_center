@@ -7,6 +7,7 @@ import { getCurriculumRelationships } from '../data/curriculumRelationships'
 import { evaluateIbPracticeAnswer, practiceSkillLabels, practiceStyleLabels } from '../utils/ibPractice'
 import { loadStudentProgress, recordQuestionResult, saveStudentProgress } from '../utils/studentProgress'
 import type { PracticeEvaluation } from '../types/ibPractice'
+import { QuestionDecoder } from '../components/practice/QuestionDecoder'
 
 export function IbPracticeQuestionPage() {
   const { questionId } = useParams()
@@ -42,6 +43,8 @@ export function IbPracticeQuestionPage() {
         <div><p className="eyebrow">{question.topicCode} · {practiceStyleLabels[question.style]}</p><h1>{question.title}</h1><p>{question.scenario}</p></div>
         <dl><div><dt>Level</dt><dd>{question.level === 'sl' ? 'SL core' : 'HL only'}</dd></div><div><dt>Difficulty</dt><dd>{question.difficulty}</dd></div><div><dt>Focus</dt><dd>{practiceSkillLabels[question.skillFocus[0]]}</dd></div><div><dt>Marks</dt><dd>{question.marks}</dd></div>{saved && <div><dt>Best</dt><dd>{saved.bestScore}/{question.marks}</dd></div>}</dl>
       </header>
+
+      <QuestionDecoder question={question} />
 
       <section className="question-workspace" aria-labelledby="question-prompt">
         <div className="question-prompt"><span>Question</span><h2 id="question-prompt">{question.prompt}</h2>{question.data && <dl className="question-data">{question.data.map((item) => <div key={item.label}><dt>{item.label}</dt><dd>{item.value}</dd></div>)}</dl>}</div>

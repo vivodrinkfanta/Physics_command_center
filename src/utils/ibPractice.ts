@@ -109,6 +109,7 @@ export const practiceSkillLabels: Record<PracticeSkillFocus, string> = {
   assumptions: 'Assumptions',
   conceptual: 'Conceptual understanding',
   'data-analysis': 'Data analysis',
+  experimental: 'Experimental reasoning',
   evaluation: 'Evaluation',
   'graph-interpretation': 'Graph interpretation',
   'model-selection': 'Model selection',

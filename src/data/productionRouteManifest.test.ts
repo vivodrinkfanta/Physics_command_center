@@ -12,7 +12,7 @@ describe('production route manifest', () => {
       formulasAndModes: mechanicsFormulas.length * inspectorModes.length,
       practice: ibPracticeQuestions.length,
       static: 6,
-      total: 462,
+      total: 483,
     })
     expect(productionRouteManifest).toHaveLength(productionRouteCounts.total)
     expect(new Set(productionRouteManifest).size).toBe(productionRouteManifest.length)

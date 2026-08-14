@@ -55,6 +55,26 @@ describe('IB-aligned practice registry', () => {
     }
   })
 
+  it('scores the registered answer specification for every question', () => {
+    for (const question of ibPracticeQuestions) {
+      if (question.answer.kind === 'choice') {
+        const correctChoiceId = question.answer.correctChoiceId
+        expect(evaluateIbPracticeAnswer(question, correctChoiceId)).toEqual(expect.objectContaining({ correct: true, score: question.marks }))
+        const wrongChoice = question.choices?.find((choice) => choice.id !== correctChoiceId)
+        expect(evaluateIbPracticeAnswer(question, wrongChoice?.id ?? '')).toEqual(expect.objectContaining({ correct: false, score: 0 }))
+      }
+      if (question.answer.kind === 'numeric') {
+        expect(evaluateIbPracticeAnswer(question, String(question.answer.expected))).toEqual(expect.objectContaining({ correct: true, score: question.marks }))
+        const miss = question.answer.expected + Math.max(question.answer.tolerance * 2, Math.abs(question.answer.expected) * 0.1, 1)
+        expect(evaluateIbPracticeAnswer(question, String(miss))).toEqual(expect.objectContaining({ correct: false, score: 0 }))
+      }
+      if (question.answer.kind === 'text') {
+        const completeResponse = question.answer.requiredGroups.map((group) => group[0]).join('. ')
+        expect(evaluateIbPracticeAnswer(question, completeResponse)).toEqual(expect.objectContaining({ correct: true, score: question.marks }))
+      }
+    }
+  })
+
   it('covers and filters every promised physics skill', () => {
     const progress = createEmptyStudentProgress()
     const representedSkills = new Set(ibPracticeQuestions.flatMap((question) => question.skillFocus))

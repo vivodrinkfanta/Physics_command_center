@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { mechanicsFormulas } from '../data/formulas'
+import { ibPracticeQuestions } from '../data/ibPracticeQuestions'
 import { commandPaletteItems, searchCommandPalette } from './commandPalette'
 
 describe('command palette registry', () => {
@@ -45,6 +46,15 @@ describe('command palette registry', () => {
     expect(simulationDestinations).toEqual(
       new Set(mechanicsFormulas.map((formula) => `/formulas/${formula.id}`)),
     )
+  })
+
+  it('provides a searchable command for every IB practice question', () => {
+    const questionDestinations = new Set(
+      commandPaletteItems
+        .filter((item) => item.id.startsWith('ib-question-'))
+        .map((item) => item.href),
+    )
+    expect(questionDestinations).toEqual(new Set(ibPracticeQuestions.map((question) => `/practice/${question.id}`)))
   })
 
   it('returns a concise suggested set for an empty query', () => {

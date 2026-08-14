@@ -52,8 +52,9 @@ describe('IB Physics curriculum registry', () => {
       const questionCount = ibPracticeQuestions.filter((question) => question.topicCode === topic.code).length
       expect(questionCount).toBeGreaterThanOrEqual(8)
       expect(questionCount).toBeLessThanOrEqual(12)
+      expect(ibPracticeQuestions.some((question) => question.topicCode === topic.code && question.answer.kind === 'numeric' && question.data?.length)).toBe(true)
     }
-    expect(ibPracticeQuestions).toHaveLength(243)
+    expect(ibPracticeQuestions).toHaveLength(264)
   })
 
   it('filters SL, HL, and themes correctly', () => {
