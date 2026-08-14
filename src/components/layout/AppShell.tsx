@@ -81,8 +81,8 @@ export function AppShell() {
     setIsNavigationOpen(false)
     document.title =
       location.pathname === '/'
-        ? 'Physics Lab · Interactive IB-aligned Physics'
-        : `${pageName} · Physics Lab`
+        ? 'Physics Center · Interactive IB-aligned Physics'
+        : `${pageName} · Physics Center`
 
     if (hasMounted.current) document.getElementById('main-content')?.focus()
     else hasMounted.current = true
@@ -128,7 +128,7 @@ export function AppShell() {
           </button>
 
           <div className="breadcrumb" aria-label="Current location">
-            <span>Physics Lab</span>
+            <span>Physics Center</span>
             <span className="breadcrumb__separator" aria-hidden="true">
               /
             </span>

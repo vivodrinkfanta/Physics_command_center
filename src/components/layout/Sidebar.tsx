@@ -44,13 +44,13 @@ export function Sidebar({ collapsed = false, onToggleCollapsed }: SidebarProps) 
     <div className={`sidebar${collapsed ? ' sidebar--collapsed' : ''}`}>
       <NavLink
         className="brand"
-        title={collapsed ? 'Physics Lab home' : undefined}
+        title={collapsed ? 'Physics Center home' : undefined}
         to="/"
-        aria-label="Physics Lab workspace"
+        aria-label="Physics Center workspace"
       >
         <LabMark />
         <span className="brand__copy">
-          <strong>Physics Lab</strong>
+          <strong>Physics Center</strong>
           <small>Command Center</small>
         </span>
       </NavLink>

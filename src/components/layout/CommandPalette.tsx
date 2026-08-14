@@ -131,7 +131,7 @@ export function CommandPalette({ onClose, onNavigate, open }: CommandPaletteProp
       <div className="command-palette__panel">
         <header className="command-palette__header">
           <div>
-            <p>Physics command center</p>
+            <p>Physics Center</p>
             <h2>Go anywhere. Find anything.</h2>
           </div>
           <button
