@@ -18,6 +18,32 @@ export interface CurriculumDestination {
   formulaId?: FormulaId
 }
 
+export interface CurriculumStudySection {
+  title: string
+  summary: string
+  takeaways: string[]
+}
+
+export interface CurriculumInquiryScenario {
+  label: string
+  setup: string
+  observation: string
+}
+
+export interface CurriculumInquiry {
+  title: string
+  prompt: string
+  analysisQuestion: string
+  scenarios: CurriculumInquiryScenario[]
+}
+
+export interface CurriculumWorkedExample {
+  title: string
+  given: string
+  reasoning: string
+  conclusion: string
+}
+
 export interface CurriculumTopic {
   code: CurriculumTopicCode
   slug: string
@@ -30,7 +56,12 @@ export interface CurriculumTopic {
   skills: string[]
   prerequisites: CurriculumTopicCode[]
   formulaIds: FormulaId[]
+  relationshipIds: string[]
   simulations: CurriculumDestination[]
+  studySections: CurriculumStudySection[]
+  inquiry: CurriculumInquiry
+  workedExample: CurriculumWorkedExample
+  examFocus: string[]
   coverage: CurriculumCoverage
   coverageNote: string
   practiceAvailable: boolean

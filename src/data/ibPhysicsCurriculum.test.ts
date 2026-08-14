@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import { mechanicsFormulas } from './formulas'
 import { ibPhysicsThemes, ibPhysicsTopics } from './ibPhysicsCurriculum'
+import { curriculumRelationshipById, curriculumRelationships } from './curriculumRelationships'
+import { ibPhysicsCoverageMatrix, officialFirstAssessment2025Topics, officialPhysicsSources } from './ibPhysicsCoverage'
+import { ibPracticeQuestions } from './ibPracticeQuestions'
+import { releasedCurriculumTopicCodes } from './ibPhysicsRelease'
 import { filterCurriculumTopics, getTopicsForTheme } from '../utils/curriculum'
 
 describe('IB Physics curriculum registry', () => {
@@ -9,6 +13,7 @@ describe('IB Physics curriculum registry', () => {
     const themeCodes = new Set(ibPhysicsThemes.map((theme) => theme.code))
     expect(new Set(codes).size).toBe(codes.length)
     expect(codes).toHaveLength(24)
+    expect(codes).toEqual(Object.keys(officialFirstAssessment2025Topics))
     expect(ibPhysicsTopics.every((topic) => themeCodes.has(topic.theme))).toBe(true)
   })
 
@@ -16,6 +21,7 @@ describe('IB Physics curriculum registry', () => {
     const validAvailability = new Set(['shared', 'shared-hl-extension', 'hl-only'])
     const codes = new Set(ibPhysicsTopics.map((topic) => topic.code))
     expect(ibPhysicsTopics.every((topic) => validAvailability.has(topic.availability))).toBe(true)
+    expect(ibPhysicsTopics.every((topic) => officialFirstAssessment2025Topics[topic.code] === topic.availability)).toBe(true)
     expect(ibPhysicsTopics.every((topic) => topic.prerequisites.every((code) => codes.has(code)))).toBe(true)
   })
 
@@ -28,11 +34,26 @@ describe('IB Physics curriculum registry', () => {
     }
   })
 
-  it('never presents an empty topic as complete', () => {
+  it('releases only topics that pass the course-content contract', () => {
     const complete = ibPhysicsTopics.filter((topic) => topic.coverage === 'complete')
-    expect(complete.length).toBeGreaterThan(0)
-    expect(complete.every((topic) => topic.formulaIds.length > 0 && topic.simulations.length > 0)).toBe(true)
-    expect(ibPhysicsTopics.filter((topic) => topic.coverage === 'planned').every((topic) => !topic.practiceAvailable)).toBe(true)
+    expect(complete).toHaveLength(24)
+    expect(ibPhysicsCoverageMatrix).toHaveLength(24)
+    expect(ibPhysicsCoverageMatrix.filter((row) => !row.releaseReady)).toEqual([])
+    expect(releasedCurriculumTopicCodes).toEqual(ibPhysicsCoverageMatrix.filter((row) => row.releaseReady).map((row) => row.code))
+    expect(complete.every((topic) => topic.practiceAvailable)).toBe(true)
+    expect(officialPhysicsSources.every((source) => source.href.startsWith('https://www.ibo.org/'))).toBe(true)
+  })
+
+  it('resolves every course relationship and supplies practice for every module', () => {
+    expect(new Set(curriculumRelationships.map((relationship) => relationship.id)).size).toBe(curriculumRelationships.length)
+    for (const topic of ibPhysicsTopics) {
+      expect(topic.relationshipIds.every((id) => curriculumRelationshipById.has(id))).toBe(true)
+      expect(topic.relationshipIds.every((id) => curriculumRelationshipById.get(id)?.topicCode === topic.code)).toBe(true)
+      const questionCount = ibPracticeQuestions.filter((question) => question.topicCode === topic.code).length
+      expect(questionCount).toBeGreaterThanOrEqual(8)
+      expect(questionCount).toBeLessThanOrEqual(12)
+    }
+    expect(ibPracticeQuestions).toHaveLength(243)
   })
 
   it('filters SL, HL, and themes correctly', () => {

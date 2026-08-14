@@ -1,4 +1,5 @@
 import { ibPhysicsThemes, ibPhysicsTopics } from '../data/ibPhysicsCurriculum'
+import { isCurriculumTopicReleased } from '../data/ibPhysicsRelease'
 import type {
   CurriculumLevelAvailability,
   CurriculumTopic,
@@ -7,9 +8,7 @@ import type {
 
 export type CurriculumLevelFilter = 'all' | 'sl' | 'hl'
 
-export const activeCurriculumTopics = ibPhysicsTopics.filter(
-  (topic) => topic.coverage !== 'planned',
-)
+export const activeCurriculumTopics = ibPhysicsTopics.filter((topic) => isCurriculumTopicReleased(topic.code))
 
 export function isTopicVisibleForLevel(
   availability: CurriculumLevelAvailability,
@@ -20,7 +19,7 @@ export function isTopicVisibleForLevel(
 }
 
 export function filterCurriculumTopics(level: CurriculumLevelFilter) {
-  return ibPhysicsTopics.filter((topic) => isTopicVisibleForLevel(topic.availability, level))
+  return activeCurriculumTopics.filter((topic) => isTopicVisibleForLevel(topic.availability, level))
 }
 
 export function getTopicsForTheme(themeCode: string, level: CurriculumLevelFilter = 'all') {

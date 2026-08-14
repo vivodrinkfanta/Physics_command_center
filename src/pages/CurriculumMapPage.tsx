@@ -2,6 +2,7 @@ import { ArrowRight, BookOpenCheck, RotateCcw, ShieldCheck } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { ibPhysicsThemes } from '../data/ibPhysicsCurriculum'
+import { ibPracticeQuestions } from '../data/ibPracticeQuestions'
 import { filterCurriculumTopics, formatAvailability, getTopicsForTheme, type CurriculumLevelFilter } from '../utils/curriculum'
 import { createEmptyStudentProgress, loadStudentProgress, saveStudentProgress } from '../utils/studentProgress'
 
@@ -16,7 +17,7 @@ export function CurriculumMapPage() {
   const [progress, setProgress] = useState(loadStudentProgress)
   const [confirmReset, setConfirmReset] = useState(false)
   const visibleTopics = useMemo(() => filterCurriculumTopics(level), [level])
-  const lastTopic = visibleTopics.find((topic) => topic.code === progress.lastVisitedModule && topic.coverage !== 'planned')
+  const lastTopic = visibleTopics.find((topic) => topic.code === progress.lastVisitedModule)
 
   const selectLevel = (nextLevel: CurriculumLevelFilter) => {
     const next = new URLSearchParams(searchParams)
@@ -44,7 +45,7 @@ export function CurriculumMapPage() {
         <dl aria-label="Curriculum coverage summary">
           <div><dt>Official themes</dt><dd>05</dd></div>
           <div><dt>Topics mapped</dt><dd>{String(visibleTopics.length).padStart(2, '0')}</dd></div>
-          <div><dt>Current focus</dt><dd>Mechanics</dd></div>
+          <div><dt>Released pathway</dt><dd>A–E</dd></div>
         </dl>
       </header>
 
@@ -86,6 +87,8 @@ export function CurriculumMapPage() {
               <div className="curriculum-topic-grid">
                 {topics.map((topic) => {
                   const completion = progress.moduleCompletion[topic.code] ?? 0
+                  const questionCount = ibPracticeQuestions.filter((question) => question.topicCode === topic.code).length
+                  const relationshipCount = topic.formulaIds.length + topic.relationshipIds.length
                   const content = (
                     <>
                       <div className="curriculum-topic__topline">
@@ -93,16 +96,12 @@ export function CurriculumMapPage() {
                         <span className={`coverage-badge coverage-badge--${topic.coverage}`}>{topic.coverage}</span>
                       </div>
                       <h3>{topic.title}</h3><p>{topic.summary}</p>
-                      <div className="curriculum-topic__meta"><span>{formatAvailability(topic.availability)}</span><span>{topic.formulaIds.length ? `${topic.formulaIds.length} linked formulae` : 'Content planned'}</span></div>
-                      {topic.coverage !== 'planned' && <div className="module-progress"><span><span>Question mastery</span><strong>{completion}%</strong></span><progress aria-label={`${topic.code} question mastery`} max="100" value={completion} /></div>}
+                      <div className="curriculum-topic__meta"><span>{formatAvailability(topic.availability)}</span><span>{relationshipCount} relationships</span><span>{questionCount} questions</span></div>
+                      <div className="module-progress"><span><span>Question mastery</span><strong>{completion}%</strong></span><progress aria-label={`${topic.code} question mastery`} max="100" value={completion} /></div>
                       <small>{topic.coverageNote}</small>
                     </>
                   )
-                  return topic.coverage === 'planned' ? (
-                    <article aria-disabled="true" className="curriculum-topic curriculum-topic--planned" key={topic.code}>{content}</article>
-                  ) : (
-                    <Link className="curriculum-topic" key={topic.code} to={`/curriculum/${topic.slug}`}>{content}<ArrowRight className="curriculum-topic__arrow" aria-hidden="true" size={16} /></Link>
-                  )
+                  return <Link className="curriculum-topic" key={topic.code} to={`/curriculum/${topic.slug}`}>{content}<ArrowRight className="curriculum-topic__arrow" aria-hidden="true" size={16} /></Link>
                 })}
               </div>
             </section>
@@ -112,7 +111,7 @@ export function CurriculumMapPage() {
 
       <footer className="curriculum-source-note">
         <ShieldCheck aria-hidden="true" size={18} />
-        <p><strong>Coverage is intentionally honest.</strong> Complete means a usable pathway exists in this release; Partial means relevant instruments are live but not every syllabus element is covered; Planned topics are visible only for orientation.</p>
+        <p><strong>Release contract enforced.</strong> Every visible module has guided study notes, documented relationships, an interactive evidence inquiry, and functional original practice. Unfinished modules are excluded from this map and its routes.</p>
         <a href="https://www.ibo.org/programmes/diploma-programme/curriculum/sciences/physics/" rel="noreferrer" target="_blank">Official IB Physics overview <ArrowRight aria-hidden="true" size={13} /></a>
       </footer>
     </div>

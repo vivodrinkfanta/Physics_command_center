@@ -35,6 +35,7 @@ export interface IbPracticeQuestion {
   hints: string[]
   markscheme: string[]
   formulaIds: FormulaId[]
+  relationshipIds?: string[]
   simulationHref?: string
   tags: string[]
 }

@@ -1,4 +1,5 @@
 import type { CurriculumTheme, CurriculumTopic, CurriculumTopicCode } from '../types/curriculum'
+import { ibTopicLearningContent } from './ibTopicLearningContent'
 
 export const ibPhysicsThemes: readonly CurriculumTheme[] = [
   { code: 'A', title: 'Space, time and motion', summary: 'Describe motion and connect interactions to changes in energy and momentum.' },
@@ -8,7 +9,12 @@ export const ibPhysicsThemes: readonly CurriculumTheme[] = [
   { code: 'E', title: 'Nuclear and quantum physics', summary: 'Investigate atomic structure, quantum behaviour, decay, fission, and stars.' },
 ]
 
-export const ibPhysicsTopics: readonly CurriculumTopic[] = [
+type CurriculumTopicScaffold = Omit<
+  CurriculumTopic,
+  'examFocus' | 'inquiry' | 'relationshipIds' | 'studySections' | 'workedExample'
+>
+
+const ibPhysicsTopicScaffold: readonly CurriculumTopicScaffold[] = [
   {
     code: 'A.1', slug: 'a-1', title: 'Kinematics', theme: 'A', availability: 'shared',
     summary: 'Represent one- and two-dimensional motion with vectors, graphs, and constant-acceleration models.',
@@ -159,6 +165,14 @@ export const ibPhysicsTopics: readonly CurriculumTopic[] = [
     summary: 'Connect nuclear fusion to stellar structure and evolution.', objectives: [], concepts: [], skills: [], prerequisites: ['E.1'], formulaIds: [], simulations: [], coverage: 'planned', coverageNote: 'Planned beyond the current mechanics release.', practiceAvailable: false,
   },
 ]
+
+export const ibPhysicsTopics: readonly CurriculumTopic[] = ibPhysicsTopicScaffold.map((topic) => ({
+  ...topic,
+  ...ibTopicLearningContent[topic.code],
+  coverage: 'complete',
+  coverageNote: 'Released learning pathway with study notes, relationship guidance, an evidence inquiry, and original practice.',
+  practiceAvailable: true,
+}))
 
 export const curriculumTopicByCode = new Map(ibPhysicsTopics.map((topic) => [topic.code, topic]))
 export const curriculumTopicBySlug = new Map(ibPhysicsTopics.map((topic) => [topic.slug, topic]))

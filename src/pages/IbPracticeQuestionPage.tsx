@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { findIbPracticeQuestion, ibPracticeQuestions } from '../data/ibPracticeQuestions'
 import { getFormulaById } from '../data/formulas'
+import { getCurriculumRelationships } from '../data/curriculumRelationships'
 import { evaluateIbPracticeAnswer, practiceStyleLabels } from '../utils/ibPractice'
 import { loadStudentProgress, recordQuestionResult, saveStudentProgress } from '../utils/studentProgress'
 import type { PracticeEvaluation } from '../types/ibPractice'
@@ -20,6 +21,7 @@ export function IbPracticeQuestionPage() {
   const currentIndex = sameTopicQuestions.findIndex((item) => item.id === question.id)
   const nextQuestion = sameTopicQuestions[(currentIndex + 1) % sameTopicQuestions.length]
   const saved = progress.questions[question.id]
+  const relationships = getCurriculumRelationships(question.relationshipIds ?? [])
 
   const checkAnswer = () => {
     const result = evaluateIbPracticeAnswer(question, response)
@@ -62,7 +64,7 @@ export function IbPracticeQuestionPage() {
         <div className="question-guidance"><header><BookOpen aria-hidden="true" size={17} /><div><span>Markscheme-style guidance</span><h2>{evaluation ? 'Compare each awarded idea.' : 'Available after your first check.'}</h2></div></header>{evaluation ? <ol>{question.markscheme.map((point) => <li key={point}>{point}</li>)}</ol> : <p>Submit an attempt before revealing the worked guidance.</p>}</div>
       </section>
 
-      <section className="question-connections"><div><span>Need to revisit the model?</span><h2>Move from question to explanation or simulation.</h2></div><div>{question.formulaIds.map((formulaId) => { const formula = getFormulaById(formulaId); return <Link key={formulaId} to={`/formulas/${formulaId}?tab=explain&from=${encodeURIComponent(question.topicCode)}`}>{formula.name}<ArrowRight aria-hidden="true" size={14} /></Link> })}{question.simulationHref && <Link to={`${question.simulationHref}${question.simulationHref.includes('?') ? '&' : '?'}from=${encodeURIComponent(question.topicCode)}`}>Open related simulation <ArrowRight aria-hidden="true" size={14} /></Link>}</div></section>
+      <section className="question-connections"><div><span>Need to revisit the model?</span><h2>Move from question to its module, relationship, or simulation.</h2></div><div><Link to={`/curriculum/${question.topicCode.toLowerCase().replace('.', '-')}#module-formulae-title`}>Open {question.topicCode} study module <ArrowRight aria-hidden="true" size={14} /></Link>{question.formulaIds.map((formulaId) => { const formula = getFormulaById(formulaId); return <Link key={formulaId} to={`/formulas/${formulaId}?tab=explain&from=${encodeURIComponent(question.topicCode)}`}>{formula.name}<ArrowRight aria-hidden="true" size={14} /></Link> })}{relationships.map((relationship) => <Link key={relationship.id} to={`/curriculum/${question.topicCode.toLowerCase().replace('.', '-')}#module-formulae-title`}>{relationship.name}<ArrowRight aria-hidden="true" size={14} /></Link>)}{question.simulationHref && <Link to={`${question.simulationHref}${question.simulationHref.includes('?') ? '&' : '?'}from=${encodeURIComponent(question.topicCode)}`}>Open related simulation <ArrowRight aria-hidden="true" size={14} /></Link>}</div></section>
 
       <nav className="question-next" aria-label="Question navigation"><button onClick={() => { setResponse(''); setEvaluation(null); setHintCount(0) }} type="button"><RotateCcw aria-hidden="true" size={14} /> Try again</button>{nextQuestion && nextQuestion.id !== question.id && <Link to={`/practice/${nextQuestion.id}`}>Next {question.topicCode} question <ArrowRight aria-hidden="true" size={15} /></Link>}</nav>
     </div>

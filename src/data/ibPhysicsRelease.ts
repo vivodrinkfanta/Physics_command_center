@@ -1,0 +1,15 @@
+import type { CurriculumTopicCode } from '../types/curriculum'
+
+export const releasedCurriculumTopicCodes = [
+  'A.1', 'A.2', 'A.3', 'A.4', 'A.5',
+  'B.1', 'B.2', 'B.3', 'B.4', 'B.5',
+  'C.1', 'C.2', 'C.3', 'C.4', 'C.5',
+  'D.1', 'D.2', 'D.3', 'D.4',
+  'E.1', 'E.2', 'E.3', 'E.4', 'E.5',
+] as const satisfies readonly CurriculumTopicCode[]
+
+const releasedCurriculumTopicCodeSet = new Set<CurriculumTopicCode>(releasedCurriculumTopicCodes)
+
+export function isCurriculumTopicReleased(code: CurriculumTopicCode) {
+  return releasedCurriculumTopicCodeSet.has(code)
+}

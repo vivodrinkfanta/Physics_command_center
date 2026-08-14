@@ -1,6 +1,8 @@
 import type { IbPracticeQuestion } from '../types/ibPractice'
+import { ibModulePracticeQuestions } from './ibModulePractice'
+import { ibPracticeExtensions } from './ibPracticeExtensions'
 
-export const ibPracticeQuestions: readonly IbPracticeQuestion[] = [
+const mechanicsPracticeQuestions: readonly IbPracticeQuestion[] = [
   {
     id: 'a1-velocity-area', topicCode: 'A.1', level: 'sl', style: 'paper-1a', difficulty: 'foundation',
     title: 'Reading a velocity–time graph',
@@ -145,6 +147,12 @@ export const ibPracticeQuestions: readonly IbPracticeQuestion[] = [
     markscheme: ['Eₖ = ½mv² = 1.35 × 10⁵ J. [1]'],
     formulaIds: ['kinetic-energy'], simulationHref: '/formulas/kinetic-energy', tags: ['formula', 'kinetic energy', 'recall'],
   },
+]
+
+export const ibPracticeQuestions: readonly IbPracticeQuestion[] = [
+  ...mechanicsPracticeQuestions,
+  ...ibModulePracticeQuestions,
+  ...ibPracticeExtensions,
 ]
 
 export const ibPracticeQuestionById = new Map(ibPracticeQuestions.map((question) => [question.id, question]))

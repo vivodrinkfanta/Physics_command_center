@@ -55,7 +55,7 @@ export function IbPracticePage() {
       <nav className="page-breadcrumbs" aria-label="Breadcrumb"><Link to="/curriculum">IB Study Map</Link><span>/</span><span>Practice</span></nav>
       <header className="practice-hero">
         <div><p className="eyebrow"><FlaskConical aria-hidden="true" size={14} /> Original IB-style practice</p><h1>Practise the skill the question actually tests.</h1><p>Filter by syllabus module, level, difficulty, assessment style, and local completion state. Every visible question has working answer logic, staged hints, and markscheme-style guidance.</p></div>
-        <dl><div><dt>Question bank</dt><dd>{String(filterIbPracticeQuestions({ query: '', topicCode: 'all', level: 'all', style: 'all', difficulty: 'all', status: 'all' }, progress).length).padStart(2, '0')}</dd></div><div><dt>Modules live</dt><dd>03</dd></div><div><dt>Source</dt><dd>Original</dd></div></dl>
+        <dl><div><dt>Question bank</dt><dd>{String(filterIbPracticeQuestions({ query: '', topicCode: 'all', level: 'all', style: 'all', difficulty: 'all', status: 'all' }, progress).length).padStart(2, '0')}</dd></div><div><dt>Modules live</dt><dd>{String(activeCurriculumTopics.length).padStart(2, '0')}</dd></div><div><dt>Source</dt><dd>Original</dd></div></dl>
       </header>
 
       <section className="practice-filters" aria-label="Practice filters">
